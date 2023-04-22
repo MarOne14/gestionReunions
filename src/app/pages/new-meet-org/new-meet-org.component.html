@@ -1,0 +1,104 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<body>
+
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+    <br><br><br>
+    <main>
+
+        <div class="form-container">
+            <h2>Organized Meeting</h2>
+            <form class="newMeet">
+                <div>
+                    <label class="titl">Title :</label>
+                    <label class="team">Team :</label><br>
+                    <input type="text" class="title1" placeholder="Meeting Title" required>
+                    <select class="title2" aria-placeholder="choose a team"></select>
+                    <button class="calend" matTooltip="Working Agenda" (click)="showForm()"><i
+                            class="fa fa-fw fa-calendar-day"></i></button>
+                </div>
+                <div class="modal" *ngIf="showPopup" (click)="hideForm()">
+                    <div class="modal-dialog" (click)="$event.stopPropagation()">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <full-calendar [options]="calendarOptions"></full-calendar>
+                            </div>
+                            <div class="modal-body">
+                                <!-- add your form elements here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div #allSlots>
+                    <div class="slot">
+                        <label class="slotlabel">Time Slot :</label>
+                        <input type="date" required>
+                        <input type="time" placeholder="Start Time" required>
+                        <input type="number" placeholder="Duration (in minutes)" required>
+                    </div>
+                    <div class="slot">
+                        <input type="date" required>
+                        <input type="time" placeholder="Start Time" required>
+                        <input type="number" placeholder="Duration (in minutes)" required>
+                    </div>
+                    <div #slot class="slot">
+                        <input type="date" required>
+                        <input type="time" placeholder="Start Time" required>
+                        <input type="number" placeholder="Duration (in minutes)" required>
+                    </div>
+                    <button class="user-button" (click)="addSlotItem()">
+                        <a class="user">
+                            <i class="fa fa-fw-solid fa-calendar-plus"></i>
+                        </a></button>
+                </div><br>
+                <div>
+                    <label>Objective :</label><br>
+                    <input type="text" class="title1" placeholder="Objective of the Meeting" required>
+                </div>
+                <div>
+                    <label>Attendees :</label><br>
+                    <input type="text" class="title1" placeholder="Attendees" required>
+                </div><br>
+                <div class="agenda">
+                    <h2>Agenda</h2>
+                    <br>
+                    <div #topic class="topic">
+                        <label>Topic :</label><br>
+                        <input type="text" class="aged" placeholder="Topic title" required>
+                        <input type="text" class="aged" placeholder="Enter  Prensenter">
+                        <input type="number" class="dur" placeholder="Duration (in minutes)" required>
+                        <br>
+                        <textarea class="aged" placeholder="Détails"></textarea>
+                        <input type="file" id="fileInput" style="display: none">
+                        <button class="attat-button" (click)="chooseFile()">
+                            <a class="user" matTooltip="add Attachment">
+                                <i class="fa fa-fw-regular fa-paperclip"></i>
+                            </a>
+                        </button>
+                        <label id="fileNameLabel"></label>
+                        <button class="attat-button">
+                            <a class="user" matTooltip="add Link">
+                                <i class="fa fa-fw-regular fa-link"></i>
+                            </a>
+                        </button>
+
+
+
+                    </div>
+                    <button class="user-button" (click)="addAgendaItem()">
+                        <a class="user" matTooltip="add Topic">
+                            <i class="fa fa-fw-solid fa-calendar-plus"></i>
+                        </a></button>
+                </div>
+                <button type="submit">Confirm</button>
+
+            </form>
+        </div>
+    </main>
+</body>

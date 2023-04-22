@@ -1,0 +1,123 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<body>
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+    <main>
+        <div class="title">
+            <p>My Profile</p>
+            <button matTooltip="Edit Profile">
+                <i class="fa fa-fw fa-pen"></i>
+            </button>
+        </div>
+        <div class="showbar">
+            <div class="meet-task">
+                <button class="team" (click)="showInfo()" [class.active]="Info">Personal Information</button>
+                <button class="team" (click)="hideInfo()" [class.active]="Achiv">Achievements</button>
+            </div>
+            <hr>
+        </div>
+        <div *ngIf=Info>
+            <div class="content">
+                <div class="header">
+                    <h1>
+                        Invite New Members
+                    </h1>
+                </div>
+                <div class="body">
+                    <label>
+                        First Name
+                    </label>
+                    <Input type="text" placeholder="First Name">
+                    <br>
+                    <label>
+                        Last Name 
+                    </label>
+                    <Input type="text" placeholder="Last Name">
+                    <br>
+                    <label>
+                        Email
+                    </label>
+                    <Input type="text" placeholder="Email">
+                    <br>
+                    <label>Phone Number</label>
+                    <input type="tel" placeholder="phone Number">
+                    <br>
+                    <label>Company Role</label>
+                    <input type="tel" placeholder="Company role">
+                    <br>
+                    <button class="btnlft">Close</button>
+                    <button class="btn">Update</button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf=Achiv>
+            
+
+        </div>
+
+    </main>
+    <!--
+        <main>
+    <div class="title">
+        <p>My Profile</p>
+        <button matTooltip="Edit Profile" (click)="editProfile()">
+            <i class="fa fa-fw fa-pen"></i>
+        </button>
+    </div>
+    <div class="showbar">
+        <div class="meet-task">
+            <button class="team" (click)="showInfo()" [class.active]="Info">Personal Information</button>
+            <button class="team" (click)="hideInfo()" [class.active]="Achiv">Achievements</button>
+        </div>
+        <hr>
+    </div>
+    <div *ngIf=Info>
+        <div class="content">
+            <div class="header">
+                <h1>
+                    Invite New Members
+                </h1>
+            </div>
+            <div class="body">
+                <label>
+                    First Name
+                </label>
+                <output>{{ user.firstName }}</output>
+                <br>
+                <label>
+                    Last Name
+                </label>
+                <output>{{ user.lastName }}</output>
+                <br>
+                <label>
+                    Email
+                </label>
+                <output>{{ user.email }}</output>
+                <br>
+                <label>Phone Number</label>
+                <output>{{ user.phoneNumber }}</output>
+                <br>
+                <label>Company Role</label>
+                <output>{{ user.companyRole }}</output>
+                <br>
+                <button class="btnlft" (click)="closeInfo()">Close</button>
+                <button class="btn" (click)="editProfile()">Edit</button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf=Achiv>
+        
+
+    </div>
+
+</main>
+
+    -->
+    
+</body>

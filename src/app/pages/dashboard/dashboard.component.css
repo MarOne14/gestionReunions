@@ -1,0 +1,57 @@
+body {
+    background-color: #DEE2E9;
+}
+
+main {
+    padding-left: 225px;
+    margin-top: 0px;
+    padding-top: 4%;
+    flex: 1;
+}
+
+
+.showbar {
+    position: fixed;
+    background-color: rgb(255, 255, 255);
+    padding-top: 15px;
+    height:7%;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+}
+.meet-task {
+    display: inline-block;
+    position: relative;
+}
+
+
+button {
+    text-align: center;
+    text-decoration: none;
+    color: #555555;
+    font-weight: 600;
+    font-size: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: transparent;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.meet {
+    margin-right: 20px;
+}
+
+.task {
+    margin-right: 400px;
+}
+
+button.active {
+    text-decoration: underline;
+    text-decoration-color: rgb(187, 28, 28);
+    text-underline-offset: 5px;
+    font-weight: bolder;
+    cursor: auto;
+}
+
+/******************Search Bar*************/

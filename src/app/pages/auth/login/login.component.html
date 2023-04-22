@@ -1,0 +1,43 @@
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form id="login-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                <h2>Login here</h2>
+                <div class="emaa">
+                    <input (keyup)="onKeyUp($event)" type="email" name="email" formControlName="email"
+                        placeholder="Email">
+                </div>
+                <div *ngIf="form.get('email').invalid && (form.get('email').dirty || form.get('email').touched)">
+                    {{ getErrorMessage('email') }}
+                </div>
+                <div class="emaa">
+                    <input (keyup)="onKeyUp($event)" type="password" name="password" formControlName="password"
+                        placeholder="Password">
+                </div>
+                <div
+                    *ngIf="form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)">
+                    {{ getErrorMessage('password') }}
+                </div>
+                <p id="text" [hidden]="!capsLockWarning" style="color: #03A9B0;"> Caps lock is ON.</p>
+                <button type="submit">Login</button>
+                <br><br>
+                <h2>Don't have an account? <a class="link" routerLink="/sign-up">sign-up here</a></h2>
+            </form>
+        </div>
+        <div class="image-container">
+        </div>
+        <!-- Alert message -->
+        <div class="popup" *ngIf="showPopup">
+            <div class="popup-content">
+              <span class="close" (click)="showPopup = false">&times;</span>
+              <p>Invalid email or password</p>
+            </div>
+        </div>
+        <div class="popup" *ngIf="showPopup1">
+            <div class="popup-content">
+              <span class="close" (click)="showPopup1 = false">&times;</span>
+              <p>Fill all the inputs in the correct format please</p>
+            </div>
+        </div>
+    </div>
+</body>

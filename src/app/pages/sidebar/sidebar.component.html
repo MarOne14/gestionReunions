@@ -1,0 +1,38 @@
+<div id="mySidepanel" class="sidebar" [style.width]="isOpen ? '225px' : '0'">
+    <a class="routes" routerLink="/menu"><i class="fa fa-fw fa-home"></i> Home</a>
+    <a class="routes"><i class="fa fa-fw fa-history"></i> History</a>
+    <a class="routes"><i class="fa fa-bar-chart"></i> Statistics</a>
+    <hr>
+    <div class="team">
+        <i class="fa fa-fw fa-group"></i>
+        Teams
+        <a (click)="showForm()"><i class="fa fa-plus-circle"></i></a>
+    </div>
+    <hr>
+</div>
+
+<div class="modal" *ngIf="showPopup" (click)="hideForm()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>New Team</h2>
+            </div>
+            <div class="modal-body">
+                <form #form="ngForm">
+                    <div class="row">
+                        <input type="text" placeholder="Team Title">
+                        <input type="text" placeholder="Speciality">
+                    </div>
+                    <div class="row row-1">
+                        <label>Invite Teammates</label>
+                        <input type="email" placeholder="Enter an Email">
+                    </div>
+                    <div class="row">
+                        <button class="btn-cancel">Cancel</button>
+                        <button type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

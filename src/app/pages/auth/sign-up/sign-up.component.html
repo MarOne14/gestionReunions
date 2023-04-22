@@ -1,0 +1,78 @@
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form id="signup-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                <h2>Create Account</h2>
+                <div>
+                    <input (keyup)="onKeyUp($event)" type="text" name="prenom" formControlName="prenom"
+                        placeholder="First Name">
+                    <div *ngIf="form.get('prenom').invalid && (form.get('prenom').dirty || form.get('prenom').touched)">
+                        {{ getErrorMessage('prenom') }}
+                    </div>
+                </div>
+                <div>
+                    <input (keyup)="onKeyUp($event)" type="text" name="nom" formControlName="nom"
+                        placeholder="Last Name">
+                    <div *ngIf="form.get('nom').invalid && (form.get('nom').dirty || form.get('nom').touched)">
+                        {{ getErrorMessage('nom') }}
+                    </div>
+                </div>
+                <div>
+                    <input (keyup)="onKeyUp($event)" type="text" name="telephone" formControlName="telephone"
+                        placeholder="phone number">
+                    <div
+                        *ngIf="form.get('telephone').invalid && (form.get('telephone').dirty || form.get('telephone').touched)">
+                        {{ getErrorMessage('telephone') }}
+                    </div>
+                </div>
+                <div>
+                    <input (keyup)="onKeyUp($event)" type="email" name="email" formControlName="email"
+                        placeholder="E-mail">
+                    <div *ngIf="form.get('email').invalid && (form.get('email').dirty || form.get('email').touched)">
+                        {{ getErrorMessage('email') }}
+                    </div>
+                </div>
+                <div>
+                    <input (keyup)="onKeyUp($event)" type="password" name="password" formControlName="password"
+                        placeholder="password" matTooltip="paswword must contain at least 1 CapLetter and 1 number">
+                    <div
+                        *ngIf="form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)">
+                        {{ getErrorMessage('password') }}
+                    </div>
+                </div>
+                <div>
+                    <input (keyup)="onKeyUp($event)" type="password" name="confirmPassword"
+                        formControlName="confirmPassword" placeholder="repeat your password">
+                    <div
+                        *ngIf="form.get('confirmPassword').invalid && (form.get('confirmPassword').dirty || form.get('confirmPassword').touched)">
+                        {{ getErrorMessage('confirmPassword') }}
+                    </div>
+                </div>
+                <p id="text" [hidden]="!capsLockWarning" style="color: #03A9B0;"> Caps lock is ON.</p>
+                <button type="submit">Sign Up</button>
+                <br>
+                <h2>Already have an account? <a class="link" routerLink="/login">Login here</a></h2>
+            </form>
+        </div>
+        <div class="image-container">
+        </div>
+        <div class="popup" *ngIf="showPopup">
+            <div class="popup-content">
+              <span class="close" (click)="showPopup = false">&times;</span>
+              <p>Email allready exists , Change it please</p>
+            </div>
+        </div>
+        <div class="popup" *ngIf="showPopup1">
+            <div class="popup-content">
+              <span class="close" (click)="showPopup1 = false">&times;</span>
+              <p>Fill all the inputs in the correct format please</p>
+            </div>
+        </div>
+        <div class="popup" *ngIf="passwordsMatch">
+            <div class="popup-content">
+              <span class="close" (click)="passwordsMatch = false">&times;</span>
+              <p>Passwords do not match. Please try again.</p>
+            </div>
+          </div>          
+    </div>
+</body>

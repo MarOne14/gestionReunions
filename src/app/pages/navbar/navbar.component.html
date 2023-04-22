@@ -1,0 +1,83 @@
+<div class="navbar">
+    
+    <div *ngIf="hide1()">
+        <button class="list" (click)="sideBar.toggle()"><a class="list1" href="javascript:void(0)"><i
+                    class="fa fa-solid fa-list"></i></a></button>
+    </div>
+    <a routerLink="/menu" class="logo">
+        <img src="favicon.ico">
+            <p class="logo1">Meet</p>
+            <p class="logo2">Wise</p>
+    </a>
+    <div class="topnav-middle" *ngIf="!hide()">
+        <button class="button" (click)="showForm()">New Meeting</button>
+    </div>
+
+    <div class="topnav-right">
+        <div class="icon-group">
+            <button *ngIf="hide1()" class="icon" matTooltip="Check Attendees" (click)="showForm1()"><i
+                    class="fa fa-fw fa-user-check"></i></button>
+        </div>
+        
+        <a class="icon" matTooltip="Notifications"><i class="fa fa-fw fa-bell"></i></a>
+            <div class="dropdown">
+                <button class="icon" [matMenuTriggerFor]="menu">
+                    <a class="icon"><i class="fa fa-fw fa-user-cog"></i></a>
+                </button>
+                <mat-menu class="drop" #menu="matMenu">
+                    <button mat-menu-item>
+                        <a class="user-button" routerLink="/profile">
+                            <i class="fa fa-fw fa-user"></i>
+                            <span class="word">My Profile</span>
+                        </a>
+                    </button>
+                    <button mat-menu-item>
+                        <a class="user-button" routerLink="/settings">
+                            <i class="fa fa-fw fa-cog"></i>
+                            <span class="word">Settings</span>
+                        </a>
+                    </button>
+                    <button mat-menu-item (click)="logout()">
+                        <a class="user-button" >
+                            <i class="fa fa-fw-solid fa-power-off"></i>
+                            <span class="word">Logout</span>
+                        </a>
+                    </button>
+                </mat-menu>
+            </div>
+    </div>
+
+</div>
+<div class="modal" *ngIf="showPopup" (click)="hideForm()">
+    <div class="form-popup" (click)="$event.stopPropagation()">
+        <form #form="ngForm">
+            <div class="choice-container">
+                <input type="radio" name="offer" value="offer1" [(ngModel)]="selectedOffer" id="offer1">
+                <label for="offer1">Urgent Meeting</label>
+            </div>
+            <div class="choice-container">
+                <input type="radio" name="offer" value="offer2" [(ngModel)]="selectedOffer" id="offer2">
+                <label for="offer2">Organised Meeting</label>
+            </div>
+        </form>
+
+        <button class="close-button" (click)="hideForm()">Close</button>
+        <button class="btn" (click)="onSubmit()" type="submit" [disabled]="!form.valid">Submit</button>
+    </div>
+</div>
+
+
+<div class="modal" *ngIf="showPopup1" (click)="hideForm1()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Attendee List</h5>
+                <button type="button" class="close" (click)="hideForm1()">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>

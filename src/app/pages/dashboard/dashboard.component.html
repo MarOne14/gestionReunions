@@ -1,0 +1,29 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<body>
+
+    
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+    <main>
+        <div class="showbar">
+            <div class="meet-task">
+                <button class="meet" (click)="showMeet()" [class.active]="Meet">Meetings</button>
+                <button class="task" (click)="hideMeet()" [class.active]="Task">Tasks</button>
+            </div>
+
+        </div>
+        <br><br><br><br><br><br><br><br>
+        <div *ngIf=Meet>
+            <app-show-meet></app-show-meet>
+        </div>
+        <div *ngIf=Task>
+            <app-show-task></app-show-task>
+        </div>
+    </main>
+</body>

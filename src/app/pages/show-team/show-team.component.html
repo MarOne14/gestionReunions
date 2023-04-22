@@ -1,0 +1,45 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+
+<body>
+    Members :
+    <br>......
+    <br>......
+    <br>......
+    <br>......
+    <br>......
+    <br>
+    <button>
+        <a class="user" matTooltip="Add Member" (click)="showForm()">
+            <i class="fa fa-fw fa-solid fa-user-plus"></i></a>
+    </button>
+
+
+
+
+
+
+
+    <div class="modal" *ngIf="showPopup" (click)="hideForm()">
+        <div class="modal-dialog" (click)="$event.stopPropagation()">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1>
+                        Invite New Members
+                    </h1>
+                </div>
+                <div class="modal-body">
+                    <div><input type="text" placeholder="Enter Name or Email"></div>
+                    <button class="btnlft" (click)="hideForm()">Close</button>
+                    <button class="btn">Invite</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

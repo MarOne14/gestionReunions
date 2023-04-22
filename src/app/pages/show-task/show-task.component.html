@@ -1,0 +1,95 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+<div class="page">
+    <div class="todo">
+        <div class="head">
+            <h2> To-Do Tasks</h2>
+        </div>
+        <div class="affichage">
+            <h3>Meeting Title</h3>
+            <button><a class="user" matTooltip="Delete Meeting"><i class="fa fa-fw fa-solid fa-trash"></i></a></button>
+            <button><a class="user" matTooltip="Edit Meeting"><i class="fa fa-fw fa-solid fa-pen"></i></a></button>
+            <button><a class="user" matTooltip="Meeting Agenda" (click)="showForm()">
+                    <i class="fa fa-fw fa-solid fa-clipboard-list"></i></a></button>
+            <button><a class="user" matTooltip="More Info"><i class="fa fa-fw fa-solid fa-info-circle"></i></a></button>
+        </div>
+        <br>
+        <div class="affichage">
+            <h3>Meeting Title</h3>
+            <button><a class="user" matTooltip="Delete Meeting"><i class="fa fa-fw fa-solid fa-trash"></i></a></button>
+            <button><a class="user" matTooltip="Edit Meeting"><i class="fa fa-fw fa-solid fa-pen"></i></a></button>
+            <button><a class="user" matTooltip="Meeting Agenda" (click)="showForm()">
+                    <i class="fa fa-fw fa-solid fa-clipboard-list"></i></a></button>
+            <button><a class="user" matTooltip="More Info"><i class="fa fa-fw fa-solid fa-info-circle"></i></a></button>
+        </div>
+        <br>
+        <div class="affichage">
+            <h3>Meeting Title</h3>
+            <button><a class="user" matTooltip="Delete Meeting"><i class="fa fa-fw fa-solid fa-trash"></i></a></button>
+            <button><a class="user" matTooltip="Edit Meeting"><i class="fa fa-fw fa-solid fa-pen"></i></a></button>
+            <button><a class="user" matTooltip="Meeting Agenda" (click)="showForm()">
+                    <i class="fa fa-fw fa-solid fa-clipboard-list"></i></a></button>
+            <button><a class="user" matTooltip="More Info"><i class="fa fa-fw fa-solid fa-info-circle"></i></a></button>
+        </div>
+    </div>
+    <div class="completed">
+        <div class="head">
+            <h2> Completed Tasks</h2>
+        </div>
+        <div class="affichage">
+            <h3>Meeting Title</h3>
+            <button><a class="user" matTooltip="Delete Meeting"><i class="fa fa-fw fa-solid fa-trash"></i></a></button>
+            <button><a class="user" matTooltip="Edit Meeting"><i class="fa fa-fw fa-solid fa-pen"></i></a></button>
+            <button><a class="user" matTooltip="Meeting Agenda" (click)="showForm()">
+                    <i class="fa fa-fw fa-solid fa-clipboard-list"></i></a></button>
+            <button><a class="user" matTooltip="More Info"><i class="fa fa-fw fa-solid fa-info-circle"></i></a></button>
+        </div>
+        <br>
+        <div class="affichage">
+            <h3>Meeting Title</h3>
+            <button><a class="user" matTooltip="Delete Meeting"><i class="fa fa-fw fa-solid fa-trash"></i></a></button>
+            <button><a class="user" matTooltip="Edit Meeting"><i class="fa fa-fw fa-solid fa-pen"></i></a></button>
+            <button><a class="user" matTooltip="Meeting Agenda" (click)="showForm()">
+                    <i class="fa fa-fw fa-solid fa-clipboard-list"></i></a></button>
+            <button><a class="user" matTooltip="More Info"><i class="fa fa-fw fa-solid fa-info-circle"></i></a></button>
+        </div>
+        <br>
+        <div class="affichage">
+            <h3>Meeting Title</h3>
+            <button><a class="user" matTooltip="Delete Meeting"><i class="fa fa-fw fa-solid fa-trash"></i></a></button>
+            <button><a class="user" matTooltip="Edit Meeting"><i class="fa fa-fw fa-solid fa-pen"></i></a></button>
+            <button><a class="user" matTooltip="Meeting Agenda" (click)="showForm()">
+                    <i class="fa fa-fw fa-solid fa-clipboard-list"></i></a></button>
+            <button><a class="user" matTooltip="More Info"><i class="fa fa-fw fa-solid fa-info-circle"></i></a></button>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal" *ngIf="showPopup" (click)="hideForm()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>
+                    Meeting Agenda
+                </h1>
+            </div>
+            <hr>
+            <div class="modal-body">
+                <h1>Title</h1>
+                <div>Date : taw9iiit</div>
+                <div>Time : waaa9t</div>
+                <div>Leader : chkoounooo</div>
+                <div>Attendees : chkooun jeeey</div>
+                <div>Topics : bch nahkiiiiw ala</div>
+                <button (click)="hideForm()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+body {
+    padding: 15px;
+}
+
+button {
+    font-size: 25px;
+    color: #03A9B0;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+/*****************Popup Menu********************/
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* ajouter un fond semi-transparent */
+    z-index: 100;
+    /* assurer que la popup est en premier plan */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-dialog {
+    width: 70%;
+    /* modifier la largeur de la popup selon vos besoins */
+    max-width: 600px;
+    /* ajouter une largeur maximale pour les petits écrans */
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.btn,
+.btnlft {
+    margin: 15px;
+    font-weight: 600;
+    color: #03A9B0;
+}
+
+.btn {
+    float: right;
+}
+
+input {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    font-size: 16px;
+    font-family: "Helvetica Neue", sans-serif;
+    color: #555;
+    box-shadow: 0 0 0 2px #f2f2f2 inset;
+    margin: 13px;
+    width: 50%;
+}

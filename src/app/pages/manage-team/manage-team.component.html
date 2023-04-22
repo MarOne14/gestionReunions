@@ -1,0 +1,51 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<body>
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+    <main>
+        <div class="title">
+            <p>Team Title</p>
+            <button matTooltip="Edit Team" (click)="showForm()">
+                <i class="fa fa-fw fa-pen"></i>
+            </button>
+        </div>
+        <div class="showbar">
+            <div class="meet-task">
+                <button class="team" (click)="showTeam()" [class.active]="Team">Members</button>
+                <button class="team" (click)="hideTeam()" [class.active]="Achivement">Achievements</button>
+            </div>
+            <hr>
+        </div>
+        <div>
+            <div *ngIf=Team>
+                <app-show-team></app-show-team>
+            </div>
+            <div *ngIf=Achivement>
+                <app-show-achiv></app-show-achiv>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal" *ngIf="showPopup" (click)="hideForm()">
+        <div class="modal-dialog" (click)="$event.stopPropagation()">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1>
+                        Edit Team Title
+                    </h1>
+                </div>
+                <div class="modal-body">
+                    <div><input type="text" placeholder="New Name"></div>
+                    <button class="btnlft" (click)="hideForm()">Close</button>
+                    <button class="btn">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

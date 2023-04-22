@@ -1,0 +1,270 @@
+main{
+    margin: 0;
+    padding-left: 7%;
+    padding-right: 1%;
+    padding-bottom: 2%;
+}
+
+.form-container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-right: 10px;
+    margin-top: 50px;
+
+}
+
+.form-container h2 {
+    margin-top: 0;
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+}
+
+/******************************title and teams**********************/
+
+
+.title1,
+.title2 {
+    padding: 10px;
+    width: 35%;
+    font-size: 16px;
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: #333;
+    transition: border-color 0.3s ease-in-out;
+    outline: none;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.title1:focus {
+    border: none;
+    border-bottom: 2px solid #F58F29;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.title2:focus {
+    border: none;
+    border-bottom: 2px solid #F58F29;
+    transition: border-color 0.3s ease-in-out;
+}
+
+label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px
+}
+
+.team {
+    margin-left:34%;
+}
+
+/*****************Popup Menu********************/
+
+.calend {
+    background-color: transparent;
+    justify-content: center;
+    color: #03A9B0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: xx-large;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* ajouter un fond semi-transparent */
+    z-index: 100;
+    /* assurer que la popup est en premier plan */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-dialog {
+    width: 70%;
+    /* modifier la largeur de la popup selon vos besoins */
+    max-width: 600px;
+    /* ajouter une largeur maximale pour les petits écrans */
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: #aaa;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-content {
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+
+/*************************Slot*************************/
+
+.user {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #03A9B0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    height: 20px;
+    width: 20px;
+    font-size: x-large;
+}
+
+.user-button {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    margin: 10px
+}
+
+input[type="date"],
+input[type="time"],
+input[type="number"] {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    font-size: 16px;
+    font-family: "Helvetica Neue", sans-serif;
+    color: #555;
+    box-shadow: 0 0 0 2px #f2f2f2 inset;
+    margin: 13px;
+    width: 20%;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="number"] :hover {
+    border: none;
+    border-bottom: 2px solid #d1cecc;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.slotlabel {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+/*****************topics**********************/
+.agenda {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+}
+.topic{
+    padding: 15px;
+}
+
+.agenda h2 {
+    padding: 10px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    background-color: #f8e4e4;
+}
+
+.aged {
+    padding: 10px;
+    font-size: 16px;
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: #333;
+    transition: border-color 0.3s ease-in-out;
+    outline: none;
+    margin-right: 15px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    width: 30%;
+}
+
+.aged:focus {
+    border: none;
+    border-bottom: 2px solid #F58F29;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.dur {
+
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    font-size: 16px;
+    font-family: "Helvetica Neue", sans-serif;
+    color: #555;
+    box-shadow: 0 0 0 2px #f2f2f2 inset;
+    margin-left: 15px;
+    width: 20%;
+}
+
+.attat-button {
+    background-color: transparent;
+    border: none;
+    margin-left: 13px;
+    padding-top: 10px;
+}
+
+/*****************Submit button******************/
+
+button[type="submit"] {
+    background-color: #F58F29;
+    font-style: italic;
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #b95d01;
+}
