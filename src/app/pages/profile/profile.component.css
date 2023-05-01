@@ -4,18 +4,20 @@ body {
 
 main {
     padding-left: 255px;
-    padding-top: 60px;
+    padding-top: 5%;
     padding-right: 20px;
 }
-
 .title {
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .title p {
     margin-top: 40px;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 23px;
+    font-weight: bolder;
+    font-size: 30px;
+    color: #555;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
 }
 
 .title p,
@@ -38,37 +40,52 @@ hr {
     margin-right: 20px;
     margin-bottom: 20px;
 }
-
 .team {
     margin-right: 25px;
 }
 
 button {
+    position: relative;
+    z-index: 1;
     text-align: center;
     text-decoration: none;
-    color: #555555;
-    font-weight: 600;
+    color: #555;
+    font-weight: bold;
     font-size: 20px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: transparent;
     margin-top: 10px;
+    margin-right: 25px;
+    padding: 10px;
     border: none;
     cursor: pointer;
-}
-
-button.active {
-    text-decoration: underline;
-    text-decoration-color: rgb(187, 28, 28);
-    text-underline-offset: 12px;
-    font-weight: bolder;
-    cursor: auto;
-}
-
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Styles for the active button */
+  button.active {
+    text-decoration: none;
+    background-color: transparent;
+    color: #b51c1c;
+    transform: scale(1.1);
+    z-index: 2;
+  }
 /*****************/
+  
+  .body label {
+    display: inline-block;
+    width: 15%;
+  }
+  
+  .body input {
+    display: inline-block;
+    width: 60%;
+  }
+  
 .content {
     width: 70%;
     margin-left: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     background-color: #DEE2E9;
@@ -84,8 +101,34 @@ button.active {
 .btn,
 .btnlft {
     margin: 15px;
-    font-weight: 600;
+    font-weight: bold;
     color: #03A9B0;
+    background-color: transparent;
+    border: 2px solid #03A9B0;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.btn:hover,
+.btnlft:hover {
+    background-color: #03A9B0;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn:disabled,
+.btnlft:disabled {
+    background-color: #ccc;
+    border: 2px solid #ccc;
+    color: #555;
+    cursor: default;
+}
+
+.btn:disabled:hover,
+.btnlft:disabled:hover {
+    background-color: #ccc;
+    color: #555;
 }
 
 .btn {
@@ -105,54 +148,17 @@ input {
     box-shadow: 0 0 0 2px #f2f2f2 inset;
     margin: 13px;
     width: 50%;
+    
 }
 
-/**************/
-.dropdown {
-    position: relative;
-}
-
-.user {
-    border: none;
-    background-color: transparent;
-    padding: 0;
-    margin: 0;
-}
-
-.user i {
-    font-size: 1.5rem;
-}
-
-.user-button {
+.content {
     display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #555;
-    padding: 0.5rem 1rem;
+    flex-direction: column;
 }
 
-.user-button:hover {
-    background-color: #f5f5f5;
+.content label {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    margin-right: 5%;    
 }
-
-.word {
-    margin-left: 1rem;
-}
-
-.drop {
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    padding: 0.5rem 0;
-}
-
-.mat-menu-item {
-    margin: 0;
-    padding: 0;
-    min-width: 200px;
-}
-
-.mat-menu-item:hover {
-    background-color: #f5f5f5;
-}
+/**************/

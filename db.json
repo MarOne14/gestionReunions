@@ -1,45 +1,89 @@
 {
   "users": [
     {
-      "nom": "feki",
-      "prenom": "marwen",
+      "nom": "Feki",
+      "prenom": "Marwen",
       "telephone": "52423987",
       "email": "marwenfeki214@gmail.com",
-      "password": "MarwenFeki26",
-      "confirmPassword": "MarwenFeki26",
       "id": 1
     },
     {
-      "nom": "mplz",
-      "prenom": "mapl",
-      "telephone": "52423987",
-      "email": "Salimaabdeddaim6@gmail.com",
-      "password": "mpmpmpM7",
+      "nom": "Challouf",
+      "prenom": "Ameni",
+      "telephone": "54651932",
+      "email": "amenichallouf34@gmail.com",
       "id": 2
-    },
-    {
-      "nom": "marwen",
-      "prenom": "poaz",
-      "telephone": "52423987",
-      "email": "marwen.feki26@gmail.com",
-      "password": "azertyQ4",
-      "id": 3
-    },
-    {
-      "nom": "Chargeur",
-      "prenom": "fgsdgsdfg",
-      "telephone": "52423987",
-      "email": "marwenfeki2@gmail.com",
-      "password": "pmolikM4",
-      "id": 4
-    },
-    {
-      "nom": "Chargeur",
-      "prenom": "poaz",
-      "telephone": "52423987",
-      "email": "makni2804@gmail.com",
-      "password": "pmolpmolM4",
-      "id": 5
     }
+  ],
+  "teams": [
+    {
+      "title": "Marketing",
+      "speciality": "Digital Marketing",
+      "members": [
+        {
+          "nom": "feki",
+          "prenom": "marwen",
+          "telephone": "52423987",
+          "email": "marwenfeki214@gmail.com",
+          "password": "MarwenFeki26",
+          "confirmPassword": "MarwenFeki26",
+          "id": 1
+        },
+        {
+          "nom": "mplz",
+          "prenom": "mapl",
+          "telephone": "52423987",
+          "email": "Salimaabdeddaim6@gmail.com",
+          "password": "mpmpmpM7",
+          "id": 2
+        }
+      ]
+    },
+    {
+      "title": "Development",
+      "speciality": "Web Development",
+      "members": [
+        {
+          "nom": "qqqqq",
+          "prenom": "qqqqqq",
+          "telephone": "52423987",
+          "email": "marwen.feki26@gmail.com",
+          "password": "azertyA1",
+          "id": 3
+        },
+        {
+          "nom": "aaaaa",
+          "prenom": "poaz",
+          "telephone": "52423987",
+          "email": "makni2804@gmail.com",
+          "password": "azazazA2",
+          "role": "Participant",
+          "id": 4
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "username": "marwenfeki214@gmail.com",
+      "password": "MarwenFeki26",
+      "role": "participant",
+      "id": 1
+    },
+    {
+      "username": "amenichallouf34@gmail.com",
+      "password": "AmeniCh19",
+      "role": "participant",
+      "id": 2
+    }
+  ],
+  "meetings":[
+
+  ],
+  "topics": [
+
+  ],
+  "slots": [
+    
   ]
 }

@@ -2,9 +2,10 @@ import { FormStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/model/user';
+import { Account, RoleType } from 'src/app/model/account';
+import { AccountService } from 'src/app/services/account.service';
 
 
 @Component({
@@ -20,12 +21,13 @@ export class SignUpComponent implements OnInit {
   email: string;
   password: string;
   confirmPassword: string;
+  role : RoleType;
   form: FormGroup;
   showPopup : boolean = false;
   showPopup1 : boolean = false;
   passwordsMatch :boolean = false;
 
-  constructor(private authService: AuthService,private userService : UserService, private router: Router, private fb: FormBuilder) {
+  constructor(private aacService: AccountService,private userService : UserService, private router: Router, private fb: FormBuilder ) {
     this.form = new FormGroup({
       nom: new FormControl(),
       prenom: new FormControl(),
@@ -98,17 +100,21 @@ export class SignUpComponent implements OnInit {
             return;
           }
           else{
-          // create new user
+            localStorage.setItem('userId', email);
+          // create new user and account
           const user: User = {
             nom: this.form.get('nom').value,
             prenom: this.form.get('prenom').value,
             telephone: this.form.get('telephone').value,
-            email: this.form.get('email').value,
-            password: this.form.get('password').value};
-          this.userService.createUser(user).subscribe(
+            email: this.form.get('email').value
+          };
+          const account: Account = {
+            username: this.form.get('email').value,
+            password: this.form.get('password').value,
+            role: RoleType.PART
+          };
+          this.userService.createUser(user,account).subscribe(
             () => {
-              // set flag to indicate that the user is signed in
-              /* this.authService.signup();*/
               // navigate to the menu page after successful signup
               this.router.navigate(['/menu']);
             },
@@ -117,7 +123,7 @@ export class SignUpComponent implements OnInit {
             }
           );
         }
-    }
+        }
     });
     }
     else
@@ -128,13 +134,8 @@ export class SignUpComponent implements OnInit {
   capsLockWarning: boolean = false;
   
   onKeyUp(event: KeyboardEvent) {
-    if (event instanceof KeyboardEvent) {
-      if (event.getModifierState('CapsLock')) 
-      this.capsLockWarning = true;
-    } else {
-      this.capsLockWarning = false;
-    }
-  }
+    
+  }  
   
  
 

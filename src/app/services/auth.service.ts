@@ -1,80 +1,46 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs';
-import { User } from '../model/user';
+import { BehaviorSubject, Observable, map} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private baseUrl ='http://localhost:3000/users';
+  private baseUrl ='http://localhost:3000/accounts';
 
   /* npx json-server --watch db.json */
 
-  private token: string;
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  public isLoggedIn$: Observable<boolean> = this.isLoggedInSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private router: Router) {
+    // Check localStorage for authentication status on page load
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    this.isLoggedInSubject.next(isAuthenticated);
+  }
 
-  login(email: string, password: string): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const body = { email, password };
-
-    return this.http.post<any>(`${this.baseUrl}/auth/login`, body, { headers }).pipe(
-      catchError(error => {
-        console.log('Login error:', error);
-        return of(false);
-      })
+  authenticate(email: string, password: string): Observable<boolean> {
+    const url = `${this.baseUrl}?username=${email}&password=${password}`;
+    return this.http.get(url).pipe(
+      map((users: any) => users.length > 0),
     );
   }
 
-  logout(): void {
-    localStorage.removeItem('currentUser');
-}
-
-isAuthenticated(): boolean {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    return currentUser !== null;
-}
-
-getCurrentUser(): Observable<User> {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-    if (currentUser) {
-        return of(currentUser);
-    } else {
-        return this.http.get<User>(`${this.baseUrl}/users/me`).pipe(
-            tap(user => {
-                localStorage.setItem('currentUser', JSON.stringify(user));
-            }),
-            catchError(error => {
-                console.log('Error getting current user:', error);
-                return of(null);
-            })
-        );
-    }
-}
-
-
-  getToken(): string {
-    if (!this.token) {
-      this.token = localStorage.getItem('token');
-    }
-    return this.token;
+  login() {
+    // Set isAuthenticated to true and store in localStorage
+    localStorage.setItem('isAuthenticated', 'true');
+    this.isLoggedInSubject.next(true);
+    this.router.navigate(['/menu']);
   }
 
-
-  setToken(token: string): void {
-    localStorage.setItem('token', token);
-  }
-  removeToken(): void {
-    localStorage.removeItem('token');
-  }
-
-  isLoggedIn(): boolean {
-    const token = this.getToken();
-    return token != null;
+  logout() {
+    // Set isAuthenticated to false and remove from localStorage
+    localStorage.removeItem('isAuthenticated');
+    this.isLoggedInSubject.next(false);
+    localStorage.setItem('userId', null);
+    this.router.navigate(['/login']);
   }
   
 }

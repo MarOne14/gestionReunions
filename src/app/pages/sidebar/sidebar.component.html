@@ -6,30 +6,37 @@
     <div class="team">
         <i class="fa fa-fw fa-group"></i>
         Teams
-        <a (click)="showForm()"><i class="fa fa-plus-circle"></i></a>
+        <a (click)="showForm()"><i class="fa fa-plus-circle" matTooltip="Add Team"></i></a>
     </div>
     <hr>
+    <div class="allteams">
+        <ul>
+          <li *ngFor="let team of teams">
+            <a routerLink="/teams/{{team.title}}">{{team.title}}</a>
+          </li>
+        </ul>
+      </div>
 </div>
 
-<div class="modal" *ngIf="showPopup" (click)="hideForm()">
+<div class="modal" *ngIf="showPopup" >
     <div class="modal-dialog" (click)="$event.stopPropagation()">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>New Team</h2>
             </div>
             <div class="modal-body">
-                <form #form="ngForm">
+                <form [formGroup]="form">
                     <div class="row">
-                        <input type="text" placeholder="Team Title">
-                        <input type="text" placeholder="Speciality">
+                        <input type="text" placeholder="Team Title" formControlName="title">
+                        <input type="text" placeholder="Speciality" formControlName="specia">
                     </div>
                     <div class="row row-1">
                         <label>Invite Teammates</label>
-                        <input type="email" placeholder="Enter an Email">
+                        <input type="email" placeholder="Enter an Email" formControlName="email">
                     </div>
                     <div class="row">
-                        <button class="btn-cancel">Cancel</button>
-                        <button type="submit">Create</button>
+                        <button class="btnlft" (click)="hideForm()">Cancel</button>
+                        <button class="btn" type="submit" (click)="onSubmit()">Create</button>
                     </div>
                 </form>
             </div>

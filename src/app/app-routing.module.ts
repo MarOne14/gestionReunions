@@ -8,19 +8,20 @@ import { NewMeetUrgComponent } from './pages/new-meet-urg/new-meet-urg.component
 import { ManageMeetComponent } from './pages/manage-meet/manage-meet.component';
 import { ManageTeamComponent } from './pages/manage-team/manage-team.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { AuthGuard } from './helpers/auth.guard';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
-  { path: 'menu', component: DashboardComponent , canActivate: [AuthGuard] },
+  { path: 'menu', component: DashboardComponent },
   { path: 'menu1', component: NewMeetUrgComponent },
   { path: 'menu2', component: NewMeetOrgComponent },
   { path: 'menu2', component: NewMeetOrgComponent },
   { path: 'menu3', component: ManageMeetComponent },
-  { path: 'menu4', component: ManageTeamComponent },
+  { path: 'teams/:title', component: ManageTeamComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'Settings', component: SettingsComponent },
   { path: '**', redirectTo: '' }
 ];
 

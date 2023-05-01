@@ -4,18 +4,21 @@ body {
 
 main {
     padding-left: 255px;
-    padding-top: 60px;
-
+    padding-top: 5%;
+    padding-right: 20px;
 }
-
+************************
 .title {
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .title p {
     margin-top: 40px;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 23px;
+    font-weight: bolder;
+    font-size: 30px;
+    color: #555;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
 }
 
 .title p,
@@ -36,6 +39,12 @@ main {
 
 hr {
     margin-right: 20px;
+    margin-bottom: 20px;
+}
+h1{
+    font-family: monospace;
+    font-weight: 600;
+    color: #3b6363;
 }
 
 .team {
@@ -43,28 +52,31 @@ hr {
 }
 
 button {
+    position: relative;
+    z-index: 1;
     text-align: center;
     text-decoration: none;
-    color: #555555;
-    font-weight: 600;
+    color: #555;
+    font-weight: bold;
     font-size: 20px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: transparent;
     margin-top: 10px;
+    margin-right: 25px;
+    padding: 10px;
     border: none;
     cursor: pointer;
-}
-
-
-
-button.active {
-    text-decoration: underline;
-    text-decoration-color: rgb(187, 28, 28);
-    text-underline-offset: 12px;
-    font-weight: bolder;
-    cursor: auto;
-}
-
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Styles for the active button */
+  button.active {
+    text-decoration: none;
+    background-color: transparent;
+    color: #b51c1c;
+    transform: scale(1.1);
+    z-index: 2;
+  }
 /*****************Popup Menu********************/
 .modal {
     position: fixed;

@@ -1,44 +1,44 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { User } from '../model/user';
-import { AuthService } from './auth.service';
+import { Account } from '../model/account';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl ='http://localhost:3000/users';
+  private baseUrl ='http://localhost:3000';
 
   /* npx json-server --watch db.json */
   error: string;
 
-  constructor(private http: HttpClient , private authService : AuthService) { }
+  constructor(private http: HttpClient ) { }
   
 
-  
   getAllUsers(): Observable<User[]> {
-    const token = this.authService.getToken();
-    const headers = { Authorization: `Bearer ${token}` };
-    return this.http.get<User[]>(`${this.baseUrl}`, { headers });
+    return this.http.get<User[]>(`${this.baseUrl}/users`);
   }
-
+  
   getUserByEmail(email: string): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/${email}`);
+    return this.http.get<User[]>(`${this.baseUrl}/users`).pipe(
+      map(users => users.find(user => user.email === email))
+    );
   }
 
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.baseUrl}`, user);
-    
+
+  createUser(user: User, account: Account): Observable<any> {
+    return this.http.post(`${this.baseUrl}/users`, user).pipe(
+      switchMap(() => this.http.post(`${this.baseUrl}/accounts`, account))
+    );
   }
 
   updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}/${user.nom}`, user);
-    
+    return this.http.put<User>(`${this.baseUrl}/users`, user);
   }
 
   deleteUser(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+    return this.http.delete(`${this.baseUrl}/users`);
   }
 
 }

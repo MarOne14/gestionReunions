@@ -1,0 +1,63 @@
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+<body>
+    <main>
+        <div class="title">
+          <p>Manage your Company</p>
+        </div>
+        <div class="showbar">
+          <div class="meet-task">
+            <button class="team" (click)="showInfo()" [class.active]="list">Teams</button>
+            <button class="team" (click)="showusers()" [class.active]="pers">Users</button>
+            <button class="team" (click)="hideInfo()" [class.active]="calend">Calendrier</button>
+            <button (click)="showForm()" *ngIf="calend" matTooltip="Manage Calendrier" >
+              <i class="fa fa-fw fa-cog"></i>
+          </button>
+          </div>
+          <hr>
+        </div>
+        <div  *ngIf="list" [class.show]="list">
+          <div class="team-list">
+            <div class="team-card" *ngFor="let team of teams">
+              <h2><a routerLink="/teams/{{team.title}}">{{ team.title }}</a></h2>
+            </div>
+          </div>          
+        </div>
+        <div *ngIf="calend" [class.show]="calend">
+          <app-calendar></app-calendar>
+        </div>
+      </main>
+</body>
+
+<div class="modal" *ngIf="showPopup" >
+  <div class="modal-dialog" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+          <div class="modal-header">
+            <div class="choice-container">
+              <input type="radio" name="offer" value="offer1" [(ngModel)]="selectedOffer" id="offer1">
+              <label for="offer1">Working Days</label>
+          </div>
+          <div class="choice-container">
+              <input type="radio" name="offer" value="offer2" [(ngModel)]="selectedOffer" id="offer2">
+              <label for="offer2">Public Holidays</label>
+          </div>
+          </div>
+          <div class="modal-body">
+            <input type="date" [(ngModel)]="selectedDate" name="selectedDate" matTooltip="Day of Choice" required>
+              
+           </div>
+           <div class="modal-footer">
+            <button class="btnlft" (click)="cancel()" >Cancel</button>
+            <button class="btn" [disabled]="!selectedDate" (click)="update()">Update</button>
+           </div>
+       </div>
+  </div>
+</div>

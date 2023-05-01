@@ -18,14 +18,23 @@ export class DashboardComponent {
 
   Meet = true;
   Task = false;
+  Calendar = false;
 
   showMeet() {
     this.Meet = true;
     this.Task = false;
+    this.Calendar = false;
   }
   hideMeet() {
     this.Meet = false;
     this.Task = true;
+    this.Calendar = false;
+  }
+
+  showCalendar() {
+    this.Meet = false;
+    this.Task = false;
+    this.Calendar = true;
   }
 
 }

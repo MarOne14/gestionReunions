@@ -10,8 +10,8 @@
     <app-sidebar></app-sidebar>
     <main>
         <div class="title">
-            <p>Team Title</p>
-            <button matTooltip="Edit Team" (click)="showForm()">
+            <p>{{t1}} </p>
+            <button matTooltip="Edit Profile" (click)="showForm()">
                 <i class="fa fa-fw fa-pen"></i>
             </button>
         </div>
@@ -32,20 +32,22 @@
         </div>
     </main>
 
-    <div class="modal" *ngIf="showPopup" (click)="hideForm()">
-        <div class="modal-dialog" (click)="$event.stopPropagation()">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1>
-                        Edit Team Title
-                    </h1>
-                </div>
-                <div class="modal-body">
-                    <div><input type="text" placeholder="New Name"></div>
-                    <button class="btnlft" (click)="hideForm()">Close</button>
-                    <button class="btn">Save</button>
-                </div>
+    
+</body>
+
+<div class="modal" *ngIf="showPopup" (click)="hideForm()">
+    <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>
+                    Edit Team Title
+                </h1>
+            </div>
+            <div class="modal-body">
+                <div><input type="text" placeholder="New Name"></div>
+                <button class="btnlft" (click)="hideForm()">Close</button>
+                <button class="btn">Save</button>
             </div>
         </div>
     </div>
-</body>
+</div>

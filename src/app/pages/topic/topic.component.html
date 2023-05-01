@@ -1,0 +1,21 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<div class="topic" cdkDrag>
+    <div>
+    <i class="fa fa-fw fa-grip-vertical" matTooltip="Move Topic"></i>&nbsp;&nbsp;
+    <label >Topic :</label>
+    </div>
+    <input type="text" class="aged" placeholder="Topic title" required [(ngModel)]="topic.title">
+    <input type="text" class="aged" placeholder="Enter Presenter" [(ngModel)]="topic.presenter">
+    <input type="number" class="dur" placeholder="Duration (in minutes)" required [(ngModel)]="topic.duration">
+    <br>
+    <textarea class="aged" placeholder="Details" [(ngModel)]="topic.details"></textarea>
+    <i class="fa fa-fw fa-trash" matTooltip="Delete Topic"></i>
+</div>
+<hr>
+  

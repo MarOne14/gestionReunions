@@ -1,11 +1,17 @@
-export class Account {
-    email: string;
-    password: string;
-    role: 'administrateur' | 'organisateur' | 'participant';
+export enum RoleType {
+    PART = 'participant',
+    ORG = 'organisatuer',
+    ADM = 'administrateur'
+  }
 
-    constructor(email: string, password: string, role : string) 
+export class Account {
+    username: string;
+    password: string;
+    role: RoleType;
+
+    constructor(username: string, password: string, role : RoleType) 
     {
-        this.email = email;
+        this.username = username;
         this.password = password;
         this.role = role;
     }

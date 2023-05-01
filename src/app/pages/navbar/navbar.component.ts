@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { User } from 'src/app/model/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -10,7 +12,15 @@ import { SidebarService } from 'src/app/services/sidebar.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  constructor(private authService : AuthService, private router: Router, public sideBar: SidebarService) { }
+  Currentuser: User = null;
+  email : string ;
+  
+  constructor(private userService : UserService, private authService : AuthService, private router: Router, public sideBar: SidebarService) {
+    this.email = localStorage.getItem('userId');
+    this.userService.getUserByEmail(this.email).subscribe(user => {
+      this.Currentuser = user;
+    });
+  }
 
   toggleSidebar() {
     this.sideBar.toggle();
@@ -26,12 +36,14 @@ export class NavbarComponent {
 
   /*******************New Meeting*************/
   showPopup = false;
+  show : boolean = true;
 
   showForm() {
     this.showPopup = true;
   }
   hideForm() {
     this.showPopup = false;
+    this.selectedOffer = null;
   }
   selectedOffer: string;
 
@@ -55,7 +67,6 @@ export class NavbarComponent {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/login']);
   }
   
 }

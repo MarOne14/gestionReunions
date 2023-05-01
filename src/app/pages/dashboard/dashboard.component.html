@@ -15,15 +15,26 @@
             <div class="meet-task">
                 <button class="meet" (click)="showMeet()" [class.active]="Meet">Meetings</button>
                 <button class="task" (click)="hideMeet()" [class.active]="Task">Tasks</button>
+                <button class="calendar" (click)="showCalendar()" [class.active]="Calendar">Calendar</button>
             </div>
-
+            <div class="search-bar" >
+                <input type="text" (click)="showForm()" placeholder="Search meetings...">
+                <button><i class="fa fa-search"></i></button>
+            </div>
         </div>
-        <br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
         <div *ngIf=Meet>
             <app-show-meet></app-show-meet>
         </div>
         <div *ngIf=Task>
             <app-show-task></app-show-task>
         </div>
+        <div *ngIf="Calendar">
+            <app-calendar></app-calendar>
+          </div>
     </main>
+    <div *ngIf="showPopup" (click)="hideForm()">
+        <app-welcome></app-welcome>
+    </div>
+    
 </body>

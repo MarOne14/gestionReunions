@@ -7,24 +7,16 @@
 
 
 
-<body>
-    Members :
-    <br>......
-    <br>......
-    <br>......
-    <br>......
-    <br>......
+<body>      
+      <div class="members" *ngFor="let member of members">
+        <h2>{{member.nom}}</h2>
+      </div>
+    <br>
     <br>
     <button>
         <a class="user" matTooltip="Add Member" (click)="showForm()">
             <i class="fa fa-fw fa-solid fa-user-plus"></i></a>
     </button>
-
-
-
-
-
-
 
     <div class="modal" *ngIf="showPopup" (click)="hideForm()">
         <div class="modal-dialog" (click)="$event.stopPropagation()">

@@ -8,7 +8,7 @@ import { LoginComponent } from './pages/auth/login/login.component';
 import { SignUpComponent } from './pages/auth/sign-up/sign-up.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { SidebarComponent } from './pages/sidebar/sidebar.component';
@@ -25,13 +25,20 @@ import { ShowTeamComponent } from './pages/show-team/show-team.component';
 import { ShowAchivComponent } from './pages/show-achiv/show-achiv.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AuthService } from './services/auth.service';
-import { TokenInterceptor } from './helpers/token-interceptor';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { TopicComponent } from './pages/topic/topic.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { CalendarComponent } from './pages/calendar/calendar.component';
+import { WelcomeComponent } from './pages/welcome/welcome.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    LoginComponent, 
     SignUpComponent,
     DashboardComponent,
     NavbarComponent,
@@ -44,7 +51,11 @@ import { TokenInterceptor } from './helpers/token-interceptor';
     ManageTeamComponent,
     ShowTeamComponent,
     ShowAchivComponent,
-    ProfileComponent
+    ProfileComponent,
+    SettingsComponent,
+    TopicComponent,
+    CalendarComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,11 +66,15 @@ import { TokenInterceptor } from './helpers/token-interceptor';
     MatMenuModule,
     MatTooltipModule,
     FullCalendarModule,
-    HttpClientModule
+    HttpClientModule,
+    FullCalendarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    DragDropModule
   ],
   providers: [
-    AuthService,
-   { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+    AuthService
    
   ],
   bootstrap: [AppComponent]

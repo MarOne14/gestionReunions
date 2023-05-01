@@ -3,14 +3,12 @@ export class User {
     prenom: string;
     telephone: number;
     email: string;
-    password: string;
 
-    constructor(nom: string, prenom: string, telephone: number, email: string, password: string) 
+    constructor(nom: string, prenom: string, telephone: number, email: string) 
     {
         this.nom = nom;
         this.prenom = prenom;
         this.telephone = telephone;
         this.email = email;
-        this.password = password;
     }
 }

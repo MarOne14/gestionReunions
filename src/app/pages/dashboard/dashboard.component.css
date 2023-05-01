@@ -4,54 +4,120 @@ body {
 
 main {
     padding-left: 225px;
-    margin-top: 0px;
-    padding-top: 4%;
+    padding-top: 4.5%;
     flex: 1;
 }
-
 
 .showbar {
     position: fixed;
     background-color: rgb(255, 255, 255);
     padding-top: 15px;
-    height:7%;
+    height: 7%;
     width: 100%;
     text-align: center;
     align-items: center;
-}
-.meet-task {
+    display: flex;
+    justify-content: center;
+  }
+  .meet {
+    margin-right: 20px;
+    margin-left: 350px;
+  }
+  .meet-task {
     display: inline-block;
     position: relative;
-}
-
-
-button {
+  }
+  
+  button {
+    position: relative;
+    z-index: 1;
     text-align: center;
     text-decoration: none;
-    color: #555555;
-    font-weight: 600;
-    font-size: 20px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #555;
+    font-weight: bold;
+    font-size: 25px;
+    font-family: monospace;
     background-color: transparent;
     margin-top: 10px;
+    margin-right: 25px;
+    padding: 10px;
     border: none;
     cursor: pointer;
-}
-
-.meet {
+    transition: all 0.3s ease-in-out;
+    color: #555555;
+    margin-top: 10px;
+  }
+  
+  
+  
+  .task {
     margin-right: 20px;
-}
-
-.task {
-    margin-right: 400px;
-}
-
-button.active {
-    text-decoration: underline;
-    text-decoration-color: rgb(187, 28, 28);
-    text-underline-offset: 5px;
-    font-weight: bolder;
-    cursor: auto;
-}
-
-/******************Search Bar*************/
+  }
+  
+  .calendar {
+    margin-right: 40px;
+  }
+  
+  button.active {
+    text-decoration: none;
+    background-color: transparent;
+    color: #b51c1c;
+    transform: scale(1.1);
+    z-index: 2;
+  }
+  
+  /*******************************/
+  .search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-right: 0;
+    margin-left: 20%;
+  }
+  
+  
+  .search-bar input[type="text"] {
+    height: 40px;
+    width: 250px;
+    padding: 0px 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f2f2f2;
+    color: #333;
+    margin-right: 10px;
+  }
+  
+  .search-bar button {
+    margin-bottom: 10px;
+    height: 40px;
+    width: 40px;
+    border: none;
+    border-radius: 20px;
+    background-color: #b51c1c;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .search-bar button:hover {
+    background-color: #333;
+  }
+  
+  .search-bar i {
+    font-size: 20px;
+  }
+  
+  /* Position the search bar to the right */
+  .search-bar.right {
+    position: absolute;
+    right: 20px;
+  }
+  
+  /* Position the search bar to the left */
+  .search-bar.left {
+    position: absolute;
+    left: 20px;
+  }
+  

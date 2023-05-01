@@ -1,0 +1,75 @@
+
+/*****************topics**********************/
+.agenda {
+    
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+}
+.topic{
+    padding: 15px;
+}
+.agenda h2 {
+    padding: 10px;
+    margin-bottom: 0;
+    padding-bottom: 10;
+    background-color: #f8e4e4;
+}
+label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+
+.aged {
+    padding: 10px;
+    font-size: 16px;
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: #333;
+    transition: border-color 0.3s ease-in-out;
+    outline: none;
+    margin-right: 15px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    width: 30%;
+}
+
+.aged:focus {
+    border: none;
+    border-bottom: 2px solid #A993D1;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.dur {
+
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    font-size: 16px;
+    font-family: "Helvetica Neue", sans-serif;
+    color: #555;
+    box-shadow: 0 0 0 2px #f2f2f2 inset;
+    margin-left: 15px;
+    width: 20%;
+}
+
+.fa-grip-vertical{
+    font-size: 18px;
+    cursor : grab;
+    color: #03A9B0;
+}
+
+.fa-trash{
+    font-size: 23px;
+    cursor : pointer;
+    color: #03A9B0;
+    float: right;
+}

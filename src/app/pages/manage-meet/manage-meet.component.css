@@ -1,113 +1,122 @@
-body {
+main{
     margin: 0;
-    width: 100%;
-    background-color: #faf2f2;
-    padding-top: 5%;
+    padding-right: 3%;
+    padding-bottom: 3%;
+    
 }
+:host {
+    position: relative;
+    z-index: 1;
+  }  
 
-
-
-
-h2 {
-    margin-top: 0;
-    font-size: 30px;
-    text-align: center;
-    color: rgb(187, 28, 28);
-    font-weight: bolder;
-    font-style: italic;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
-
-h1 {
-    margin-top: 10px;
-    font-size: 24px;
-    color: #333;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
-
-.details label,
-.details p {
-    display: inline-block;
-    margin-right: 10px;
-    font-weight: bold;
-}
-
-.details {
-    margin-bottom: 20px;
-}
-
-.topics {
-    padding: 10px;
-    margin-top: 20px;
-}
-
-.topics h1 {
-    margin-bottom: 10px;
-}
-
-.topic {
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: #ccc;
-}
-
-.topic label.title {
-    display: inline-block;
-    width: 100px;
-    font-weight: bold;
-}
-
-.topic a.user {
-    margin-left: 20px;
-    color: #999;
-    font-size: 20px;
-}
-
-.topic label {
-    display: inline-block;
-    margin-right: 10px;
-}
-
-.topic textarea.det {
-    width: 90%;
-    height: 80px;
-    margin-top: 10px;
+.form-container {
+    width: 94%;
+    margin: auto;
+    padding: 25px;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    resize: none;
-    padding: 5px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
+    background-color: transparent;
+    margin-right: 10px;
+    margin-top: 50px;
 }
 
-hr {
-    margin: 20px 0;
-    border: none;
-    border-top: 1px solid #ccc;
+.form-container h2 {
+    margin-top: 0;
+    font-size: 26px;
+    text-align: center;
+    color: #BB1C1C;
+    font-family: monospace;
+    font-weight: 800;
+    font-style: oblique;
 }
+.agenda h2{
+    color: #646262;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: normal;
+}
+label {
+    margin-top: 10px;
+    font-size: 22px;
+    color: #555;
+    font-weight: 600;
+    margin-right: 15px;
+}
+
+
+/*****************topics**********************/
+.agenda {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.topic{
+    padding: 20px;
+    border-bottom: 2px solid #8a8888;
+    display: block;
+}
+
+.agenda h2 {
+    padding-bottom: 10;
+    background-color: #f8e4e4;
+    padding: 15px;
+    margin-bottom: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.topic .title {
+    font-size: 22px;
+    color: #555;
+    font-weight: 600;
+    margin-right: 15px;
+  }
+  
+  .topic .user {
+    font-size: 24px;
+    color: #555;
+    margin-right: 15px;
+  }
+
+.det{
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    font-family: "Helvetica Neue", sans-serif;
+    color: #555;
+    box-shadow: 0 0 0 2px #f2f2f2 inset;
+    margin: 15px;
+    margin-left: 0;
+    width: 80%;
+}
+
+  .attachment {
+    font-size: 16px;
+    color: #999;
+    margin: 10px 0;
+  }
+
+/*****************Submit button******************/
 
 button[type="submit"] {
-    background-color: #49B150;
+    background-color: #A993D1;
     font-style: italic;
+    font-family: monospace;
     color: #fff;
     padding: 12px 24px;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
     float: right;
-    margin-right: 10px;
+    margin-top: 10px;
 }
 
 button[type="submit"]:hover {
-    background-color: #49B150;
+    background-color: #8358d3;
 }
-
-
-.user :hover {
-    color: #333;
-}
+  
