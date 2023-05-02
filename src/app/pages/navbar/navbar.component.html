@@ -15,14 +15,14 @@
 
     <div class="topnav-right">
         <div class="icon-group">
-            <button *ngIf="hide1()" class="icon" matTooltip="Check Attendees" (click)="showForm1()"><i
-                    class="fa fa-fw fa-user-check"></i></button>
+            <button *ngIf="hide1()" class="icon" matTooltip="Check Attendees" (click)="showForm1()">
+                <i class="fa fa-fw fa-user-check"></i></button>
         </div>
         
         <a class="icon" matTooltip="Notifications"><i class="fa fa-fw fa-bell"></i></a>
             <div class="dropdown">
                 <button class="icon" [matMenuTriggerFor]="menu">
-                    <a class="icon" matTooltip="{{Currentuser.prenom}}&nbsp;{{Currentuser.nom}}"><i class="fa fa-fw fa-user-cog"></i></a>
+                    <a class="icon" matTooltip="{{Currentuser.prenom}}&nbsp;{{Currentuser.nom}}"><i class="fa fa-fw fa-user-tie"></i></a>
                 </button>
                 <mat-menu class="drop" #menu="matMenu">
                     <button mat-menu-item>

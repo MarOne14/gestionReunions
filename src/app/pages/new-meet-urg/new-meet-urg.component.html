@@ -33,13 +33,7 @@
                 <div class="modal" *ngIf="showPopup" (click)="hideForm()">
                     <div class="modal-dialog" (click)="$event.stopPropagation()">
                         <div class="modal-content">
-                            <div class="modal-header">
-                               
-                            </div>
-                            <div class="modal-body">
-                                <!-- add your form elements here -->
-                                <full-calendar [options]="calendarOptions"  ></full-calendar>
-                                  </div>
+                            <app-calendar></app-calendar>
                             </div>
                     </div>
                 </div>

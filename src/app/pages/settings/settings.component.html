@@ -31,7 +31,7 @@
             </div>
           </div>          
         </div>
-        <div *ngIf="calend" [class.show]="calend">
+        <div class="cld" *ngIf="calend" [class.show]="calend">
           <app-calendar></app-calendar>
         </div>
       </main>
@@ -52,7 +52,7 @@
           </div>
           <div class="modal-body">
             <input type="date" [(ngModel)]="selectedDate" name="selectedDate" matTooltip="Day of Choice" required>
-              
+            <input  type="text" [(ngModel)]="title" name="title" placeholder="event title" required>
            </div>
            <div class="modal-footer">
             <button class="btnlft" (click)="cancel()" >Cancel</button>

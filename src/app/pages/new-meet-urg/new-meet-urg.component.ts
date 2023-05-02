@@ -1,7 +1,9 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { MeetingState, MeetingType } from 'src/app/model/meeting';
 import { Team } from 'src/app/model/team';
 import { Topic } from 'src/app/model/topic';
 import { TeamService } from 'src/app/services/team.service';
@@ -13,7 +15,19 @@ import { TeamService } from 'src/app/services/team.service';
   templateUrl: './new-meet-urg.component.html',
   styleUrls: ['./new-meet-urg.component.css']
 })
-export class NewMeetUrgComponent {
+export class NewMeetUrgComponent implements OnInit {
+
+  title: string;
+  objective: string;
+  
+  password: string;
+  confirmPassword: string;
+  etat : MeetingState;
+  type : MeetingType;
+  form: FormGroup;
+  passwordsMatch :boolean = false;
+
+
 
   /*************************team selection**************** */
   teams : Team[] = [];

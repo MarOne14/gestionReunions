@@ -1,4 +1,3 @@
-import { FormStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -129,13 +128,13 @@ export class SignUpComponent implements OnInit {
     else
     this.showPopup1 = true;
   }
-  
 
   capsLockWarning: boolean = false;
   
   onKeyUp(event: KeyboardEvent) {
-    
-  }  
+    const capsOn = event.getModifierState('CapsLock');
+    this.capsLockWarning = capsOn;
+  }
   
  
 

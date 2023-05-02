@@ -49,9 +49,9 @@ export class NavbarComponent {
 
   onSubmit() {
     if (this.selectedOffer === "offer1") {
-      this.router.navigate(['menu1']);
+      this.router.navigate(['plan/urgent']);
     } else {
-      this.router.navigate(['menu2']);
+      this.router.navigate(['plan/schedule']);
     }
   }
 

@@ -6,16 +6,34 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <div class="topic" cdkDrag>
+    <form id="topic-form" [formGroup]="form" >
     <div>
     <i class="fa fa-fw fa-grip-vertical" matTooltip="Move Topic"></i>&nbsp;&nbsp;
     <label >Topic :</label>
     </div>
-    <input type="text" class="aged" placeholder="Topic title" required [(ngModel)]="topic.title">
-    <input type="text" class="aged" placeholder="Enter Presenter" [(ngModel)]="topic.presenter">
-    <input type="number" class="dur" placeholder="Duration (in minutes)" required [(ngModel)]="topic.duration">
+    <div>
+        <input (keyup)="onKeyUp($event)" type="text" class="aged" name="title" formControlName="title" placeholder="Topic title" [(ngModel)]="topic.title">
+        <span *ngIf="form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)">
+            {{ getErrorMessage('title') }}
+        </span>
+        <input (keyup)="onKeyUp($event)" type="email" class="aged" name="email" formControlName="email" placeholder="Enter Presenter" [(ngModel)]="topic.presenter">
+        <div *ngIf="form.get('email').invalid && (form.get('email').dirty || form.get('email').touched)">
+            {{ getErrorMessage('email') }}
+        </div>
+        <input (keyup)="onKeyUp($event)" type="number" class="dur" name="dur" formControlName="dur"  placeholder="Duration (in minutes)" required [(ngModel)]="topic.duration">
+        <div
+            *ngIf="form.get('dur').invalid && (form.get('dur').dirty || form.get('dur').touched)">
+            {{ getErrorMessage('dur') }}
+        </div>
     <br>
-    <textarea class="aged" placeholder="Details" [(ngModel)]="topic.details"></textarea>
+        <textarea (keyup)="onKeyUp($event)" type="text" class="aged" name="det" formControlName="det"  placeholder="Details" [(ngModel)]="topic.details"></textarea>
+        <div *ngIf="form.get('det').invalid && (form.get('det').dirty || form.get('det').touched)">
+            {{ getErrorMessage('det') }}
+        </div>
+    </div>
+    <p id="text" [hidden]="!capsLockWarning" style="color: #03A9B0;"> Caps lock is ON.</p>
     <i class="fa fa-fw fa-trash" matTooltip="Delete Topic"></i>
+    </form>
 </div>
 <hr>
   

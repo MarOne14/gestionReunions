@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Team } from 'src/app/model/team';
@@ -68,12 +69,12 @@ export class SettingsComponent {
     this.selectedDate=null;
     this.selectedOffer=null;
   }
-  isDisabled : boolean = true;
+  offshow : boolean = true;
+  title : string;
   selectedOffer: string;
   selectedDate: string;
   show : boolean = true;
 
-  
 }
 
 
