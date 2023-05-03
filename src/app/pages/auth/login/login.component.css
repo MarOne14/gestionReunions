@@ -73,6 +73,22 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.emaa {
+  position: relative;
+}
+
+.emaa input[type="password"] {
+  padding-right: 40px; /* adjust this value based on the icon's width */
+}
+
+.emaa i {
+  position: absolute;
+  top: 35%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 17px;
+}
 
 .form-container button {
     width: 100%;
@@ -168,4 +184,4 @@ body {
   .close:hover {
     color: #f00;
   }
-  
+ 

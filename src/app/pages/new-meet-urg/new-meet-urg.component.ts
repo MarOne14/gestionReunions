@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { MeetingState, MeetingType } from 'src/app/model/meeting';
+import { Meeting, MeetingState, MeetingType } from 'src/app/model/meeting';
 import { Team } from 'src/app/model/team';
 import { Topic } from 'src/app/model/topic';
+import { MeetService } from 'src/app/services/meet.service';
 import { TeamService } from 'src/app/services/team.service';
+import { TopicService } from 'src/app/services/topic.service';
 
 
 
@@ -19,9 +21,8 @@ export class NewMeetUrgComponent implements OnInit {
 
   title: string;
   objective: string;
-  
-  password: string;
-  confirmPassword: string;
+  selectedTeam1: Team;
+  teams1: Team[];
   etat : MeetingState;
   type : MeetingType;
   form: FormGroup;
@@ -34,12 +35,17 @@ export class NewMeetUrgComponent implements OnInit {
   selectedTeam: Team;
 
   constructor(
-    private teamService: TeamService
+    private teamService: TeamService ,
+    private topicService: TopicService,
+    private meetService: MeetService
     ) {}
 
  ngOnInit() {
   this.teamService.getAllTeams().subscribe(teams => {
     this.teams = teams;
+  });
+  this.topicService.getTopics().subscribe((topics) => {
+    this.topics = topics;
   });
 }
 teamSelected(): void {
@@ -133,7 +139,7 @@ onDateChange() {
     this.showPopup = false;
   }
 
-  /*******************************add tnew topic */
+  /*******************************manage Agendaa*******************/
 
   topics = [];
 
@@ -142,12 +148,44 @@ onDateChange() {
       title: '',
       presenter: '',
       duration: null,
-      details: ''
+      details: '',
+      order: this.topics.length
     });
   }
+
   drop(event: CdkDragDrop<Topic[]>) {
+    // update the order of the affected topics
+    const movedTopic = this.topics[event.previousIndex];
+    this.topics[event.previousIndex].order = event.currentIndex;
+    if (event.previousIndex < event.currentIndex) {
+      for (let i = event.previousIndex + 1; i <= event.currentIndex; i++) {
+        this.topics[i].order--;
+      }
+    } else {
+      for (let i = event.currentIndex; i < event.previousIndex; i++) {
+        this.topics[i].order++;
+      }
+    }
+    movedTopic.order = event.currentIndex;
     moveItemInArray(this.topics, event.previousIndex, event.currentIndex);
   }
+
+  saveTopics() {
+    this.topicService.saveTopics(this.topics).subscribe((savedTopics) => {
+      this.topics = savedTopics;
+    });
+  }
   
+  
+  deleteTopic(topic: Topic) {
+    this.topics = this.topics.filter((t) => t !== topic);
+  }
+
+  saveMeeting() {
+    // sort the topics by order
+    const sortedTopics = this.topics.sort((a, b) => a.order - b.order);
+    // create the meeting with the sorted topics
+    
+  }
  
 }

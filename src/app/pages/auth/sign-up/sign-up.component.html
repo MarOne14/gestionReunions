@@ -1,3 +1,11 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
 <body>
     <div class="container">
         <div class="form-container">
@@ -32,22 +40,22 @@
                         {{ getErrorMessage('email') }}
                     </div>
                 </div>
-                <div>
-                    <input (keyup)="onKeyUp($event)" type="password" name="password" formControlName="password"
-                        placeholder="password" matTooltip="paswword must contain at least 1 CapLetter and 1 number">
-                    <div
-                        *ngIf="form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)">
+                <div class="emaa">
+                    <input (keyup)="onKeyUp($event)" [type]="!showPassword ? 'password' : 'text'" name="password" formControlName="password" placeholder="password" matTooltip="paswword must contain at least 1 CapLetter and 1 number">
+                        <i class="fa fa-fw fa-eye-slash" (click)="togglePasswordVisibility()"></i>
+                </div>
+                <div  *ngIf="form.get('password').invalid && (form.get('password').dirty || form.get('password').touched)">
                         {{ getErrorMessage('password') }}
-                    </div>
                 </div>
-                <div>
-                    <input (keyup)="onKeyUp($event)" type="password" name="confirmPassword"
-                        formControlName="confirmPassword" placeholder="repeat your password">
-                    <div
-                        *ngIf="form.get('confirmPassword').invalid && (form.get('confirmPassword').dirty || form.get('confirmPassword').touched)">
+                
+                <div class="emaa">
+                    <input (keyup)="onKeyUp($event)" [type]="!showPassword ? 'password' : 'text'" name="confirmPassword"  formControlName="confirmPassword" placeholder="repeat your password">
+                        <i class="fa fa-fw fa-eye-slash" (click)="togglePasswordVisibility()"></i>
+                </div>
+                <div *ngIf="form.get('confirmPassword').invalid && (form.get('confirmPassword').dirty || form.get('confirmPassword').touched)">
                         {{ getErrorMessage('confirmPassword') }}
-                    </div>
                 </div>
+                
                 <p id="text" [hidden]="!capsLockWarning" style="color: #03A9B0;"> Caps lock is ON.</p>
                 <button type="submit">Sign Up</button>
                 <br>

@@ -15,6 +15,7 @@ export class LoginComponent {
   capsLockWarning: boolean = false;
   showPopup : boolean = false;
   showPopup1 : boolean = false;
+  showPassword: boolean = false;
   form: FormGroup;
 
 
@@ -36,7 +37,7 @@ export class LoginComponent {
         [
           Validators.required,
         ]),
-    })
+    });
   }
   
   onSubmit() {
@@ -71,6 +72,10 @@ export class LoginComponent {
     this.capsLockWarning = capsOn;
   }
   
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
 
   getErrorMessage(formControlName: string) {
     const formControl = this.form.get(formControlName);

@@ -32,7 +32,7 @@
         </div>
     </div>
     <p id="text" [hidden]="!capsLockWarning" style="color: #03A9B0;"> Caps lock is ON.</p>
-    <i class="fa fa-fw fa-trash" matTooltip="Delete Topic"></i>
+    <i class="fa fa-fw fa-trash" (click)="deleteTopic()" matTooltip="Delete Topic"></i>
     </form>
 </div>
 <hr>

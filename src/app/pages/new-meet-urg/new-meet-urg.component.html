@@ -1,6 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fontawesome.com/icons">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Delicious+Handrawn&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -26,8 +26,8 @@
                           </mat-option>
                         </mat-select>
                       </mat-form-field>    
-                    <button class="calend" matTooltip="Working Agenda" (click)="showForm()"><i
-                            class="fa fa-fw fa-calendar-day"></i></button>
+                    <button class="calend" matTooltip="Working Agenda" (click)="showForm()">
+                        <i class="fa fa-fw fa-calendar-day"></i></button>
                             
                 </div>
                 <div class="modal" *ngIf="showPopup" (click)="hideForm()">
@@ -66,7 +66,7 @@
                     <br>
                     <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
                         <div *ngFor="let topic of topics">
-                            <app-topic [topic]="topic"></app-topic>
+                            <app-topic [topic]="topic" (onDelete)="deleteTopic($event)"></app-topic>
                         </div>
                     </div>
                     <button class="user-button" (click)="addAgendaItem()">
@@ -74,8 +74,13 @@
                             <i class="fa fa-fw-solid fa-calendar-plus"></i>
                         </a>
                     </button>
+                    <button class="user-button" (click)="saveTopics()">
+                    <a class="user" matTooltip="Save Topics">
+                         <i class="fa fa-fw-solid fa-save"></i>
+                    </a>
+                    </button>
                 </div>
-                <button type="submit">Confirm</button>
+                <button type="submit" (click)="saveMeeting()">Confirm</button>
 
             </form>
         </div>

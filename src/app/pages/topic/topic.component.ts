@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Topic } from 'src/app/model/topic';
@@ -11,7 +11,13 @@ import { TopicService } from 'src/app/services/topic.service';
 })
 export class TopicComponent implements OnInit {
   @Input() topic: Topic;
+  @Output() onDelete: EventEmitter<Topic> = new EventEmitter<Topic>();
 
+
+  deleteTopic() {
+    this.onDelete.emit(this.topic);
+  }
+  
   title: string;
   email: string;
   dur: number;

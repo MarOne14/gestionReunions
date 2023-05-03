@@ -12,12 +12,16 @@ export class TopicService {
 
   constructor(private http: HttpClient ) { }
 
-  getMeetings(): Observable<Topic[]> {
+  getTopics(): Observable<Topic[]> {
     return this.http.get<Topic[]>(this.baseUrl);
   }
 
-  addMeeting(topic: Topic): Observable<Topic> {
+  addTopic(topic: Topic): Observable<Topic> {
     return this.http.post<Topic>(this.baseUrl, topic);
   }
 
+  saveTopics(topics: Topic[]): Observable<Topic[]> {
+    const options = { headers: { 'Content-Type': 'application/json' } };
+    return this.http.put<Topic[]>(`${this.baseUrl}/save`, topics, options);
+  }
 }

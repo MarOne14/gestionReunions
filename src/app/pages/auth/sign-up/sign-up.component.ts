@@ -25,6 +25,7 @@ export class SignUpComponent implements OnInit {
   showPopup : boolean = false;
   showPopup1 : boolean = false;
   passwordsMatch :boolean = false;
+  showPassword : boolean = false;
 
   constructor(private aacService: AccountService,private userService : UserService, private router: Router, private fb: FormBuilder ) {
     this.form = new FormGroup({
@@ -136,7 +137,9 @@ export class SignUpComponent implements OnInit {
     this.capsLockWarning = capsOn;
   }
   
- 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   getErrorMessage(formControlName: string) {
     const formControl = this.form.get(formControlName);

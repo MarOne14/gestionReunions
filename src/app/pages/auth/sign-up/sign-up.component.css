@@ -12,6 +12,25 @@ body {
     align-items: center;
 }
 
+.emaa {
+  position: relative;
+}
+
+.emaa input[type="password"] {
+  padding-right: 40px; /* adjust this value based on the icon's width */
+  width: 90%;
+}
+
+.emaa i {
+  position: absolute;
+  top: 35%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 17px;
+}
+
+
 .container {
     height: 100vh;
     display: flex;
