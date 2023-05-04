@@ -1,3 +1,5 @@
+import { Time } from "@angular/common";
+import { Slot } from "./slot";
 import { Team } from "./team";
 import { Topic } from "./topic";
 
@@ -16,6 +18,8 @@ export class Meeting {
   objective: string;
   type: MeetingType;
   team: Team;
+  slot : Slot;
+  duration : Time ;
   topics:Topic[];
   state: MeetingState;
 
@@ -27,4 +31,5 @@ export class Meeting {
     this.topics = topics;
     this.state = state;
   }
+
 }

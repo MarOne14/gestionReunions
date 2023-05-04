@@ -158,7 +158,7 @@ label {
 
 .slot input[type="date"],
 .slot input[type="time"],
-.slot input[type="number"] {
+.slot input[type="text"] {
     appearance: none;
     -webkit-appearance: none;
     border: none;

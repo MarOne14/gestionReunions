@@ -1,8 +1,9 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
+import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { Event } from 'src/app/model/event';
 import { Meeting, MeetingState, MeetingType } from 'src/app/model/meeting';
 import { Team } from 'src/app/model/team';
 import { Topic } from 'src/app/model/topic';
@@ -52,15 +53,13 @@ teamSelected(): void {
   console.log('Selected team:', this.selectedTeam);
 }
 
-/**************************************Slots choice */
+/**************************************Slots choice ******************/
 selectedSlot: any = null;
 message : string ="";
 
-calendarOptions: CalendarOptions = {
-  initialView: 'dayGridMonth',
-  plugins: [dayGridPlugin],
-  eventSources: [this.getSelectedSlotEventSource()],
-};
+events : Event[];
+
+
   
   selectedDate: string;
   selectedStartTime: string;
@@ -113,8 +112,6 @@ addSlotItem() {
   // replace the selected slot with the new one
   this.selectedSlots = [newSlot];
 
-  // update the calendar events with the selected slot
-  this.calendarOptions.events = this.selectedSlots;
 
   // clear the selected inputs
   this.selectedDate = null;
@@ -123,13 +120,10 @@ addSlotItem() {
 }
 
 
-onDateChange() {
-  this.calendarOptions.eventSources = [this.getSelectedSlotEventSource()];
-}
 
 
 
-/*************************************popup calendar */
+/*************************************popup calendar **********/
   showPopup = false;
 
   showForm() {

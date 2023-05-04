@@ -42,12 +42,7 @@
                         <label class="slotlabel">Time Slot :</label>
                         <input type="date" [(ngModel)]="selectedDate" name="selectedDate" matTooltip="Day of Choice" required>
                         <input type="time" [(ngModel)]="selectedStartTime" name="selectedStartTime" matTooltip="Time of Start" required>
-                        <input type="number" [(ngModel)]="selectedDuration" name="selectedDuration" placeholder="Duration (in minutes)" required>
-                        <button matTooltip="Add Slot" class="user-button" (click)="addSlotItem()">
-                            <a class="user">
-                                <i class="fa fa-fw-solid fa-calendar-plus"></i>
-                            </a>
-                        </button>
+                        <input type="text" [(ngModel)]="selectedDuration" disabled="true" name="selectedDuration" placeholder="Duration estimated (in minutes)" required>
                     </div>
                 </div><br>
                 <div class="popup" *ngIf="showPopup1">
