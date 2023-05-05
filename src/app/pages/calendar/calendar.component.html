@@ -2,7 +2,7 @@
 <div class="body">
     <div class="modal-body">
         <!-- add your form elements here -->
-        <full-calendar [options]="calendarOptions"  ></full-calendar>
+        <full-calendar [options]="calendarOptions"  (eventDrop)="handleEventDrop($event)"></full-calendar>
     </div>
 </div>
 </body>

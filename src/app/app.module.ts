@@ -33,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ShowUsersComponent } from './pages/show-users/show-users.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TopicComponent,
     CalendarComponent,
     WelcomeComponent,
+    ShowUsersComponent,
   ],
   imports: [
     BrowserModule,

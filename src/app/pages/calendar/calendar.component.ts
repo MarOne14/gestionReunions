@@ -36,6 +36,11 @@ export class CalendarComponent implements OnInit {
       endTime: '18:00', // End time
     };
   }
+  handleEventDrop(event: any): void {
+    // Update the date of the event in the database
+    const updatedEvent = new Event(event.event.start, event.event.title, event.event.extendedProps.type);
+    this.calendarService.saveEvent(updatedEvent).subscribe();
+  }
 
   ngOnInit(): void {
     // Update the events array in the calendar config with the latest events
@@ -50,7 +55,7 @@ export class CalendarComponent implements OnInit {
           title: event.title,
           start: event.dateFr,
           allDay: true,
-          backgroundColor: this.getEventBackgroundColor(event.type)
+          backgroundColor: '#5bc0de'
         };
       });
     });
@@ -67,13 +72,6 @@ export class CalendarComponent implements OnInit {
         return '#777'; // Gray color for other events
     }
   }
-
-  handleEventDrop(event: any): void {
-    // Update the date of the event in the database
-    const updatedEvent = new Event(event.event.start, event.event.title, event.event.extendedProps.type);
-    this.calendarService.saveEvent(updatedEvent).subscribe();
-  }
-  
   
 
 

@@ -31,6 +31,11 @@
             </div>
           </div>          
         </div>
+        <div  *ngIf="pers" [class.show]="pers">
+          <div class="team-list">
+            <app-show-users></app-show-users>
+          </div>          
+        </div>
         <div class="cld" *ngIf="calend" [class.show]="calend">
           <app-calendar></app-calendar>
         </div>

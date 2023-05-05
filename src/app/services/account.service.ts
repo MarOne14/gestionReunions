@@ -23,7 +23,6 @@ export class AccountService {
     );
   }
 
-
   updateaAcount(user: Account): Observable<Account> {
     return this.http.put<Account>(`${this.baseUrl}`, user);
   }
