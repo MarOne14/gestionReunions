@@ -8,7 +8,7 @@ import { Account } from '../model/account';
 })
 export class AccountService {
 
-  private baseUrl ='http://localhost:3000/accounts';
+  private baseUrl ='http://localhost:3000/account';
 
   constructor(private http: HttpClient) { }
 
@@ -17,14 +17,20 @@ export class AccountService {
     return this.http.get<Account[]>(`${this.baseUrl}`);
   }
   
-  getUserByEmail(email: string): Observable<Account> {
-    return this.http.get<Account[]>(this.baseUrl).pipe(
-      map(users => users.find(user => user.username === email))
-    );
+  getAccountByUsername(email: string): Observable<Account> {
+    return this.http.get<Account>(`${this.baseUrl}/${email}`);
   }
 
-  updateaAcount(user: Account): Observable<Account> {
+  createUser(user: Account): Observable<any> {
+    return this.http.post(`${this.baseUrl}`, user );
+  }
+
+  updateUser(user: Account): Observable<Account> {
     return this.http.put<Account>(`${this.baseUrl}`, user);
+  }
+
+  deleteUser(email : string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}${email}`);
   }
 
 }
