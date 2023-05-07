@@ -31,7 +31,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CalendarComponent } from './pages/calendar/calendar.component';
-import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ShowUsersComponent } from './pages/show-users/show-users.component';
 
@@ -56,7 +55,6 @@ import { ShowUsersComponent } from './pages/show-users/show-users.component';
     SettingsComponent,
     TopicComponent,
     CalendarComponent,
-    WelcomeComponent,
     ShowUsersComponent,
   ],
   imports: [
