@@ -113,6 +113,7 @@ export class SignUpComponent implements OnInit {
             this.accountService.createAccount(newAccount).subscribe(() => {
               localStorage.setItem('userId', email);
               this.authService.login();
+              this.authService.signup();
               this.router.navigate(['/menu']);
             });
           });

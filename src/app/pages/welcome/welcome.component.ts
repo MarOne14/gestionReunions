@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
@@ -14,7 +13,7 @@ export class WelcomeComponent {
   CurrentUser: User = null;
   email : string ;
   
-  constructor(private userService : UserService, private authService : AuthService, public sideBar: SidebarService) {
+  constructor(private userService : UserService, public sideBar: SidebarService) {
     this.email = localStorage.getItem('userId');
     this.userService.getUserByEmail(this.email).subscribe(response => {
       if (response && response.date.length > 0 ) {

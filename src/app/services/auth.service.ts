@@ -8,6 +8,7 @@ export class AuthService {
 
   private isAuthenticatedSubject: BehaviorSubject<boolean>;
   public isAuthenticated$: Observable<boolean>;
+  public isNewUserSignedUp: boolean = false;
 
   constructor() {
     this.isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
@@ -29,6 +30,10 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('userId');
     this.isAuthenticatedSubject.next(false);
+  }
+
+  signup() : void{
+    this.isNewUserSignedUp = true;
   }
   
 }
