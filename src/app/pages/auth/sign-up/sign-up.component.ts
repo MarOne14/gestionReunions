@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/model/user';
 import { Account, RoleType } from 'src/app/model/account';
 import { AccountService } from 'src/app/services/account.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class SignUpComponent implements OnInit {
   passwordsMatch :boolean = false;
   showPassword : boolean = false;
 
-  constructor(private aacService: AccountService,private userService : UserService, private router: Router, private fb: FormBuilder ) {
+  constructor(private accountService: AccountService,private userService : UserService,private authService : AuthService ,private router: Router ) {
     this.form = new FormGroup({
       nom: new FormControl(),
       prenom: new FormControl(),
@@ -85,55 +86,50 @@ export class SignUpComponent implements OnInit {
   
   onSubmit() {
     if (this.form.valid) {
+      const prenom = this.form.get('prenom').value;
+      const nom = this.form.get('nom').value;
+      const telephone = this.form.get('telephone').value;
       const email = this.form.get('email').value;
+      const password = this.form.get('password').value;
   
-      this.userService.getAllUsers().subscribe(users => {
-        const userExists = users.some(u => u.email === email);
-        
-        if (userExists) {
-          // show error message
-          this.showPopup = true;
-        } 
-        else {
-          if (this.form.get('password').value !== this.form.get('confirmPassword').value) {
-            this.passwordsMatch = true;
-            return;
-          }
-          else{
-            localStorage.setItem('userId', email);
-          // create new user and account
-          const user: User = {
-            nom: this.form.get('nom').value,
-            prenom: this.form.get('prenom').value,
-            telephone: this.form.get('telephone').value,
-            email: this.form.get('email').value
+      this.userService.getUserByEmail(email).subscribe((user) => {
+        if (user === null) {
+          this.showPopup = true; // User already exists
+        } else {
+          const newUser: User = {
+            prenom: prenom,
+            nom: nom,
+            telephone: telephone,
+            email: email,
           };
-          const account: Account = {
-            username: this.form.get('email').value,
-            password: this.form.get('password').value,
-            role: RoleType.PART
-          };
-          this.userService.createUser(user,account).subscribe(
-            () => {
-              // navigate to the menu page after successful signup
+  
+          this.userService.createUser(newUser).subscribe(() => {
+            const newAccount: Account = {
+              username: email,
+              password: password,
+              role: RoleType.PART,
+            };
+  
+            this.accountService.createAccount(newAccount).subscribe(() => {
+              localStorage.setItem('userId', email);
+              this.authService.login();
               this.router.navigate(['/menu']);
-            },
-            error => {
-              console.error(error);
-            }
-          );
+            });
+          });
         }
-        }
-    });
+      });
+    } else {
+      this.showPopup1 = true; // Form validation error
     }
-    else
-    this.showPopup1 = true;
   }
+  
+  
+  
 
   capsLockWarning: boolean = false;
   
   onKeyUp(event: KeyboardEvent) {
-    const capsOn = event.getModifierState('CapsLock');
+    const capsOn = event.getModifierState && event.getModifierState('CapsLock');
     this.capsLockWarning = capsOn;
   }
   

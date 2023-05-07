@@ -23,43 +23,56 @@
         </div>
         <div class="switch" *ngIf=Info>
             <div class="content">
+            <form id="signup-form" [formGroup]="form" (ngSubmit)="update()" >
                 <div class="body">
-                    <label>
-                        First Name :
-                    </label>
-                    <Input type="text" [disabled]="appear" placeholder="{{Currentuser.prenom}}">
-                        
+                    <label> First Name : </label>
+                    <input type="text"  placeholder="{{CurrentUser.prenom}}" formControlName="prenom">
+                    <mat-error *ngIf="form.get('prenom').invalid && form.get('prenom').touched">
+                        {{ getErrorMessage('prenom') }}
+                      </mat-error>
                     <br>
-                    <label>
-                        Last Name :
-                    </label>
-                    <Input type="text" [disabled]="appear" placeholder="{{Currentuser.nom}}">
+                    <label> Last Name : </label>
+                    <input type="text" placeholder="{{CurrentUser.nom}}" formControlName="nom">
+                    <mat-error *ngIf="form.get('nom').invalid && form.get('nom').touched">
+                        {{ getErrorMessage('nom') }}
+                      </mat-error>
                     <br>
-                    <label>
-                        Email :
-                    </label>
-                    <Input type="text" [disabled]="appear" placeholder="{{Currentuser.email}}" >
+                    <label> Email : </label>
+                    <input type="text" placeholder="{{CurrentUser.email}}" formControlName="email">
+                    <mat-error *ngIf="form.get('email').invalid && form.get('email').touched">
+                        {{ getErrorMessage('email') }}
+                      </mat-error>
                     <br>
-                    <label>Phone Number : </label>
-                    <input type="tel" [disabled]="appear" placeholder="{{Currentuser.telephone}}">
+                    <label *ngIf="!appear"> Password : </label>
+                    <input type="password" *ngIf="!appear"  formControlName="password">
+                    <mat-error *ngIf="form.get('password').invalid && form.get('password').touched">
+                        {{ getErrorMessage('password') }}
+                      </mat-error>
+                    <br *ngIf="!appear">
+                    <label> Phone Number : </label>
+                    <input type="tel" placeholder="{{CurrentUser.telephone}}" formControlName="telephone">
+                    <mat-error *ngIf="form.get('telephone').invalid && form.get('telephone').touched">
+                        {{ getErrorMessage('telephone') }}
+                      </mat-error>
                     <br>
-                    <label>Role in Company :</label>
-                    <input type="tel" [disabled]="true" placeholder="ss">
+                    <label> Role in Company :</label>
+                    <input type="tel" [disabled]="true" placeholder="{{role}}">
                     <br>
                     <button class="btnlft" *ngIf="!appear" (click)="cancel()" >Cancel</button>
-                    <button class="btn" *ngIf="!appear" (click)="update()">Update</button>
+                    <button type="submit" class="btn" *ngIf="!appear" >Update</button>
                 </div>
+            </form>
             </div>
         </div>
         <div class="switch" *ngIf=Achiv>
             
-
         </div>
 
     </main>
-    <!--
-        
-
-    -->
-    
+    <div class="popup" *ngIf="showPopup">
+        <div class="popup-content">
+          <span class="close" (click)="showPopup = false">&times;</span>
+          <p>Email allready exists , Change it please</p>
+        </div>
+    </div>
 </body>

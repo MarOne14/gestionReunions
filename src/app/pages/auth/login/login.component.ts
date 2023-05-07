@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { AccountService } from 'src/app/services/account.service';
+import { Account } from 'src/app/model/account';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class LoginComponent {
   showPopup1 : boolean = false;
   showPassword: boolean = false;
   form: FormGroup;
+  user : Account;
 
 
   constructor(
@@ -44,33 +46,31 @@ export class LoginComponent {
     if (this.form.valid) {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;
-
-      this.accountService.getAllAccounts().subscribe(users => 
-        {
-          console.log('All users:', users);
-          const user = users.find(u => u.username === email && u.password === password);
-          console.log('Matching user:', user); 
-
-          if (user) {
-            localStorage.setItem('userId', user.username);
-            this.authService.authenticate(email, password).subscribe((result: boolean) => {
-              if (result) {
-                this.authService.login();
-              }
-            });
-          } else {
-            this.showPopup = true;
-          }
-         })
+  
+    this.accountService.getAccountByUsername(email).subscribe(response => {
+      console.log('Response:', response);
+    
+      if (response && response.date.length > 0 && response.date[0].password === password) {
+        const account = response.date[0];
+        localStorage.setItem('userId', account.username);
+        this.authService.login();
+        this.router.navigate(['/menu']); // Navigate to the menu page
+      } else {
+        this.showPopup = true;
       }
-      else {
-        this.showPopup1 = true;
-      }
+    });    
+    } else {
+      this.showPopup1 = true;
     }
+  }  
+  
+  
+
   onKeyUp(event: KeyboardEvent) {
-    const capsOn = event.getModifierState('CapsLock');
+    const capsOn = event.getModifierState && event.getModifierState('CapsLock');
     this.capsLockWarning = capsOn;
   }
+  
   
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;

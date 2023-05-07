@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Account } from '../model/account';
 
 @Injectable({
@@ -17,19 +17,19 @@ export class AccountService {
     return this.http.get<Account[]>(`${this.baseUrl}`);
   }
   
-  getAccountByUsername(email: string): Observable<Account> {
-    return this.http.get<Account>(`${this.baseUrl}/${email}`);
+  getAccountByUsername(email: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${email}`);
   }
 
-  createUser(user: Account): Observable<any> {
+  createAccount(user: Account): Observable<any> {
     return this.http.post(`${this.baseUrl}`, user );
   }
 
-  updateUser(user: Account): Observable<Account> {
+  updateAccount(user: Account): Observable<Account> {
     return this.http.put<Account>(`${this.baseUrl}`, user);
   }
 
-  deleteUser(email : string): Observable<any> {
+  deleteAccount(email : string): Observable<any> {
     return this.http.delete(`${this.baseUrl}${email}`);
   }
 

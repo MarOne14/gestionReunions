@@ -11,13 +11,15 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./welcome.component.css']
 })
 export class WelcomeComponent {
-  Currentuser: User = null;
+  CurrentUser: User = null;
   email : string ;
   
-  constructor(private userService : UserService, private authService : AuthService, private router: Router, public sideBar: SidebarService) {
+  constructor(private userService : UserService, private authService : AuthService, public sideBar: SidebarService) {
     this.email = localStorage.getItem('userId');
-    this.userService.getUserByEmail(this.email).subscribe(user => {
-      this.Currentuser = user;
+    this.userService.getUserByEmail(this.email).subscribe(response => {
+      if (response && response.date.length > 0 ) {
+        this.CurrentUser = response.date[0];
+      }
     });
   }
   

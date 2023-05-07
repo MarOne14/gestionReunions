@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router} from '@angular/router';
 import { User } from 'src/app/model/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
@@ -12,13 +12,16 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  Currentuser: User = null;
+  CurrentUser: User = null;
   email : string ;
+
   
   constructor(private userService : UserService, private authService : AuthService, private router: Router, public sideBar: SidebarService) {
     this.email = localStorage.getItem('userId');
-    this.userService.getUserByEmail(this.email).subscribe(user => {
-      this.Currentuser = user;
+    this.userService.getUserByEmail(this.email).subscribe(response => {
+      if (response && response.date.length > 0 ) {
+        this.CurrentUser = response.date[0];
+      }
     });
   }
 
@@ -67,6 +70,7 @@ export class NavbarComponent {
 
   logout() {
     this.authService.logout();
+    this.router.navigate(['/login']);
   }
   
 }
