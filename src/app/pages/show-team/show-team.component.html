@@ -8,11 +8,20 @@
 
 
 <body>      
-      <div class="members" *ngFor="let member of members">
-        <h2>{{member.nom}}</h2>
-      </div>
+    <ul class="member-list">
+        <li *ngFor="let member of members" class="member-item">
+          <div class="avatar" [style.background-color]="getColor(member)">
+            <span class="initial">{{ member.charAt(0) }}</span>
+          </div>
+          <div class="member-details">
+            <h2 class="member-name">{{ member }}</h2>
+          </div>
+        </li>
+      </ul>         
+      
     <br>
     <br>
+    
     <button>
         <a class="user" matTooltip="Add Member" (click)="showForm()">
             <i class="fa fa-fw fa-solid fa-user-plus"></i></a>

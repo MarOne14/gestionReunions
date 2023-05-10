@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Team } from 'src/app/model/team';
+import { User } from 'src/app/model/user';
 import { SidebarService } from 'src/app/services/sidebar.service';
 import { TeamService } from 'src/app/services/team.service';
 
@@ -11,7 +12,7 @@ import { TeamService } from 'src/app/services/team.service';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
-  teams: Team[];
+  teams: any[]=[];
   isOpen = true;
   form: FormGroup;
 
@@ -22,11 +23,20 @@ export class SidebarComponent {
   }
 
   ngOnInit(): void {
-    this.teamService.getAllTeams().subscribe((teams: Team[]) => {
-      this.teams = teams;
-    });
+    this.loadTeams();
   }
-  
+
+  loadTeams(): void {
+    this.teamService.getAllTeams().subscribe(
+      (response) => {
+        this.teams = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   /*******************/
 
   hide(): boolean {

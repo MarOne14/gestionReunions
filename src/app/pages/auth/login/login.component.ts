@@ -42,7 +42,7 @@ export class LoginComponent {
     });
   }
   
-  onSubmit() {
+  onSubmita() {
     if (this.form.valid) {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;
@@ -53,7 +53,7 @@ export class LoginComponent {
       if (response && response.date.length > 0 && response.date[0].password === password) {
         const account = response.date[0];
         localStorage.setItem('userId', account.username);
-        this.authService.login();
+        //this.authService.login();
         this.router.navigate(['/menu']); // Navigate to the menu page
       } else {
         this.showPopup = true;
@@ -63,6 +63,30 @@ export class LoginComponent {
       this.showPopup1 = true;
     }
   }  
+
+  onSubmit() {
+    if (this.form.valid) {
+      const email = this.form.get('email').value;
+      const password = this.form.get('password').value;
+  
+      localStorage.setItem('userId', email);
+      this.authService.login(email, password).subscribe(
+        (response) => {
+          // Authentication successful
+          // Redirect to the desired page or perform any necessary actions
+          this.router.navigate(['/menu']);
+        },
+        (error) => {
+          // Authentication failed
+          console.log(error); 
+          // Display an error message or perform any necessary actions
+          this.showPopup = true;
+        }
+      );
+    } else {
+      this.showPopup1 = true;
+    }
+  }
   
   
 

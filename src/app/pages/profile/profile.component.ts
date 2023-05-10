@@ -139,7 +139,7 @@ export class ProfileComponent implements OnInit {
             });
           });
         }
-      
+        
   }
 
   cancel(){

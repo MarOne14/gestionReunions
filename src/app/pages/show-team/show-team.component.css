@@ -1,6 +1,42 @@
 body {
     padding: 15px;
 }
+.member-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .member-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #fff;
+    margin-right: 10px;
+  }
+  
+  .initial {
+    font-weight: bold;
+  }
+  
+  .member-name {
+    font-size: 20px;
+    margin-top: 7px;
+    font-family: monospace;
+    font-weight: 700;
+    color: #555;
+  }
+  
+  
 
 button {
     font-size: 25px;

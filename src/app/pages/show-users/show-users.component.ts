@@ -11,22 +11,44 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ShowUsersComponent implements OnInit {
 
+  users: any[] = [];
+  accounts: any[] = [];
+
   constructor(private accountService : AccountService , private userService : UserService){
-
   }
 
-  users: User[] = [];
-  accounts: Account[] = [];
+  
 
-  ngOnInit(): void {
-    this.userService.getAllUsers().subscribe(users => {
-      this.users = users;
-    });
-
-    this.accountService.getAllAccounts().subscribe(accounts => {
-      this.accounts = accounts;
-    });
+  ngOnInit() {
+    this.fetchAllAccounts();
+    this.fetchAllUsers();
   }
+
+  fetchAllAccounts(): void {
+    this.accountService.getAllAccounts().subscribe(
+      (response: any) => {
+        this.accounts = response.data;
+      //  console.log(this.accounts);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  fetchAllUsers(): void {
+    this.userService.getAllUsers().subscribe(
+      (response: any) => {
+        console.log(response); // Log the response here
+        this.users = response.data;
+        console.log(this.users);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  
 
   getUserAccount(user: User): { nom: string, prenom: string, email: string, role: string } {
     const account = this.accounts.find(acc => acc.username === user.email);
@@ -41,6 +63,13 @@ export class ShowUsersComponent implements OnInit {
       return null;
     }
   }
+
+  
+/*
+  getUserAccount(user: User): Account | null {
+    const account = this.accounts.find(acc => acc.username === user.email);
+    return account ? account : null;
+  }*/
 
   getColor(str: string): string {
     // A simple hash function to generate a color based on the input string

@@ -1,11 +1,11 @@
 <ul class="user-list">
     <li *ngFor="let user of users" class="user-card" [class.selected]="user === selectedUser">
-      <div class="avatar" [style.background-color]="getColor(user.prenom + ' ' + user.nom)"
+      <div class="avatar" [style.background-color]="getColor(user?.prenom + ' ' + user?.nom)"
            (click)="selectUser(user)">
-        {{ user.prenom.charAt(0) + user.nom.charAt(0) }}
+        {{ user.prenom.charAt(0) + user?.nom.charAt(0) }}
       </div>
       <div class="user-details">
-        <div class="name">{{ user.prenom }} {{ user.nom }}</div>
+        <div class="name">{{ user?.prenom }} {{ user?.nom }}</div>
         <div class="role">{{ getUserAccount(user)?.role }}</div>
       </div>
     </li>

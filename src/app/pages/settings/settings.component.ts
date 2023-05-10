@@ -13,16 +13,28 @@ import { TeamService } from 'src/app/services/team.service';
 })
 export class SettingsComponent {
   /*********************************team selection*****************/
-  teams : Team[] = [];
+  teams: any[]=[];
   team: Team;
 
   constructor(private teamService: TeamService) {}
 
- ngOnInit() {
-  this.teamService.getAllTeams().subscribe(teams => {
-    this.teams = teams;
-  });
-}
+  ngOnInit(): void {
+    this.loadTeams();
+  }
+
+  loadTeams(): void {
+    this.teamService.getAllTeams().subscribe(
+      (response) => {
+        this.teams = response.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+
+
 /*****************************Calendar *************************/
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
