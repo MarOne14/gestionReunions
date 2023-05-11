@@ -39,13 +39,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1>
-                    Edit Team Title
+                    Edit Team
                 </h1>
             </div>
             <div class="modal-body">
-                <div><input type="text" placeholder="New Name"></div>
+                <div>
+                    <input type="text" placeholder="New Name" [(ngModel)]="newTitle">
+                    <input type="text" placeholder="New Speciality" [(ngModel)]="newSpeciality">
+                </div>
                 <button class="btnlft" (click)="hideForm()">Close</button>
-                <button class="btn">Save</button>
+                <button class="btn" (click)="saveTeamTitle()">Save</button>
             </div>
         </div>
     </div>

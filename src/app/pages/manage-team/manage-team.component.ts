@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { Team } from 'src/app/model/team';
 import { TeamService } from 'src/app/services/team.service';
 
@@ -10,34 +10,73 @@ import { TeamService } from 'src/app/services/team.service';
 })
 export class ManageTeamComponent {
   t1 : string;
-  team: any;
+  team: Team;
   Team = true;
   Achivement = false;
+  newTitle : string;
+  newSpeciality : string;
   teamMembers: any[] = [];
   teamsWithMembers: any[] = [];
   
   
-  constructor(private route: ActivatedRoute, private teamService: TeamService) { 
+  constructor(private route: ActivatedRoute , private teamService: TeamService) { 
     this.t1 = this.route.snapshot.paramMap.get('title');
-    this.teamService.getTeamByTitle(this.t1).subscribe(team => this.team = team);
     this.teamService.setTeamTitle(this.t1);
   }
 
   setTeamTitle(title: string): void {
     this.teamService.setTeamTitle(title);
   }
-  
-  getTeamMembers(title: string): void {
-    this.teamService.getTeamMembers(title).subscribe(
-      (response) => {
-        console.log(response.message);
-        this.teamMembers = response.data;
+
+
+  getTeamIdByTitle(teamTitle: string): void {
+    this.teamService.getTeamIdByTitle(teamTitle).subscribe(
+      (response: any) => {
+        if (response.data) {
+          const teamId = response.data;
+          // Call the method to update the team with the retrieved team ID
+          this.updateTeamTitle(teamId, this.newTitle,this.newSpeciality);
+        } else {
+          console.log('Team not found');
+        }
       },
       (error) => {
         console.log(error);
       }
     );
   }
+
+  updateTeamTitle(teamId: number, newTitle: string, newSpeciality: string): void {
+    
+  
+    this.teamService.updateTeam(teamId, newTitle, newSpeciality).subscribe(
+      (response: any) => {
+        console.log(response.message);
+        // Handle success or perform any necessary actions
+
+        // Close the popup
+      this.showPopup = false;
+
+      },
+      (error) => {
+        console.log(error);
+        // Handle error or display an error message
+      }
+    );
+    
+  }
+  
+
+  saveTeamTitle(): void {
+    if (this.newTitle) {
+      this.getTeamIdByTitle(this.t1);
+    } else {
+      console.log('New title is required');
+    }
+  }
+  
+  
+  
 
 
   showTeam() {

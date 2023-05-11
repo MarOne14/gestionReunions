@@ -23,13 +23,19 @@
           </div>
           <hr>
         </div>
-        <div  *ngIf="list" [class.show]="list">
+        <div *ngIf="list" [class.show]="list">
           <div class="team-list">
             <div class="team-card" *ngFor="let team of teams">
-              <h2><a routerLink="/teams/{{team.title}}">{{ team.title }}</a></h2>
+              <h2>
+                <a routerLink="/teams/{{ team.title }}">{{ team.title }}</a>
+              </h2>
+                <a class="user" matTooltip="Delete this Team" >
+                    <i class="fa fa-trash-alt" (click)="deleteTeamConfirmation(team.title)"></i>
+                  </a>
             </div>
-          </div>          
+          </div>
         </div>
+
         <div  *ngIf="pers" [class.show]="pers">
           <div class="team-list">
             <app-show-users></app-show-users>
@@ -41,27 +47,68 @@
       </main>
 </body>
 
-<div class="modal" *ngIf="showPopup" >
+<div class="modal" *ngIf="showPopup">
   <div class="modal-dialog" (click)="$event.stopPropagation()">
-      <div class="modal-content">
-          <div class="modal-header">
-            <div class="choice-container">
-              <input type="radio" name="offer" value="offer1" [(ngModel)]="selectedOffer" id="offer1">
-              <label for="offer1">Working Days</label>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="choice-container">
+          <input type="radio" name="offer" value="offer1" [(ngModel)]="selectedOffer" id="offer1">
+          <label for="offer1">Working Days</label>
+        </div>
+        <div class="choice-container">
+          <input type="radio" name="offer" value="offer2" [(ngModel)]="selectedOffer" id="offer2">
+          <label for="offer2">Public Holidays</label>
+        </div>
+      </div>
+      <div class="modal-body" *ngIf="selectedOffer === 'offer2'">
+        <input type="date" [(ngModel)]="selectedDate" name="selectedDate" matTooltip="Day of Choice" required>
+        <input type="text" [(ngModel)]="title" name="title" placeholder="Event title" required>
+      </div>
+      <div class="modal-body" *ngIf="selectedOffer === 'offer1'">
+        <div class="working-days">
+          <label>Working Days:</label>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.monday" name="monday">Monday
+            </label>
           </div>
-          <div class="choice-container">
-              <input type="radio" name="offer" value="offer2" [(ngModel)]="selectedOffer" id="offer2">
-              <label for="offer2">Public Holidays</label>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.tuesday" name="tuesday">Tuesday
+            </label>
           </div>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.wednesday" name="wednesday">Wednesday
+            </label>
           </div>
-          <div class="modal-body">
-            <input type="date" [(ngModel)]="selectedDate" name="selectedDate" matTooltip="Day of Choice" required>
-            <input  type="text" [(ngModel)]="title" name="title" placeholder="event title" required>
-           </div>
-           <div class="modal-footer">
-            <button class="btnlft" (click)="cancel()" >Cancel</button>
-            <button class="btn" [disabled]="!selectedDate" (click)="update()">Update</button>
-           </div>
-       </div>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.thursday" name="thursday">Thursday
+            </label>
+          </div>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.friday" name="friday">Friday
+            </label>
+          </div>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.saturday" name="saturday">Saturday
+            </label>
+          </div>
+        </div>
+        <div class="time-inputs">
+          <label>Start Time:</label>
+          <input type="time" [(ngModel)]="startTime" name="startTime" required>
+          <label>End Time:</label>
+          <input type="time" [(ngModel)]="endTime" name="endTime" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btnlft" (click)="cancel()">Cancel</button>
+        <button class="btn" [disabled]="!selectedDate && !isAtLeastOneDaySelected()" (click)="update()">Update</button>
+      </div>
+    </div>
   </div>
 </div>

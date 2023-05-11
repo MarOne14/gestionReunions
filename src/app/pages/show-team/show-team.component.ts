@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs';
 import { Team } from 'src/app/model/team';
-import { User } from 'src/app/model/user';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
@@ -48,7 +46,7 @@ export class ShowTeamComponent {
     this.teamService.getTeamMembersByTeamId(teamId).subscribe(
       (response: { message: string, data: string[] }) => {
         this.members = response.data; // Assign the team members to the members array
-        console.log(this.members);
+        //console.log(this.members);
         // Do something with the team members (e.g., display them in the template)
       },
       (error) => {
@@ -66,34 +64,6 @@ export class ShowTeamComponent {
     }
     const color = Math.abs(hash % 16777215).toString(16);
     return '#' + '0'.repeat(6 - color.length) + color;
-  }
-  
-  getTeamIdAndMembers() {
-    this.teamService.getTeamIdByTitle(this.teamTitle).subscribe(
-      (response) => {
-        this.id = response.data;
-        console.log('Team ID:', this.id);
-        this.getTeamMembers(this.id);
-      },
-      (error) => {
-        console.log('Error:', error);
-        // Handle the error appropriately
-      }
-    );
-  }
-  
-  getTeamMembers(teamId: number) {
-    this.teamService.getTeamMembersByTeamId(teamId).subscribe(
-      (response) => {
-        this.members = response.data;
-        console.log('Team Members:', this.members);
-        // Perform any necessary actions with the team members
-      },
-      (error) => {
-        console.log('Error:', error);
-        // Handle the error appropriately
-      }
-    );
   }
   
 

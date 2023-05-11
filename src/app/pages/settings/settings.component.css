@@ -7,6 +7,14 @@ main {
     padding-top: 5%;
     padding-right: 20px;
 }
+.user {
+  font-size: 25px;
+  color: #03A9B0;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+}
 
 .title p {
     margin-top: 40px;
@@ -245,6 +253,76 @@ input[type="text"]{
     margin-left: 30%;
     display: inline-block;
 }
+
+.working-days {
+  margin-bottom: 20px;
+}
+
+.day-checkbox {
+  margin-bottom: 10px;
+}
+
+.day-checkbox label {
+  display: flex;
+  align-items: center;
+}
+
+.day-checkbox input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  position: relative;
+  background-color: #f1f1f1;
+  color: #666;
+  top: 5px;
+  height: 20px;
+  width: 20px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: none;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.day-checkbox input[type="checkbox"]:checked::before {
+  position: absolute;
+  content: "";
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  top: 5px;
+  left: 5px;
+  background-color: #03A9B0;
+}
+
+.time-inputs {
+  margin-bottom: 20px;
+}
+
+.time-inputs label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.time-inputs input[type="time"] {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  border-radius: 8px;
+  background-color: #f2f2f2;
+  padding: 10px;
+  font-size: 16px;
+  font-family: "Helvetica Neue", sans-serif;
+  color: #555;
+  box-shadow: 0 0 0 2px #f2f2f2 inset;
+  width: 35%;
+  display: inline-block;
+  margin-left: 30%;
+  margin-bottom: 10px;
+}
+
 
 .btn,
 .btnlft {

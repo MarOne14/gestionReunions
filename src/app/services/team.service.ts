@@ -49,19 +49,7 @@ export class TeamService {
   getTeamMembers(title: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${title}/members`);
   }
-  getTeamMembersByTitle(teamTitle: string): Observable<User[]> {
-    return this.http.get<any>(`${this.baseUrl}/${teamTitle}/members`).pipe(
-      switchMap((emails: string[]) => {
-        // Retrieve users based on the emails
-        const getUserObservables: Observable<User>[] = emails.map(email => this.userService.getUserByEmail(email));
-        return forkJoin(getUserObservables);
-      }),
-      catchError((error) => {
-        console.log(error);
-        return [];
-      })
-    );
-  }
+
 
   createTeam(team: Team): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}`, team).pipe(
@@ -70,24 +58,28 @@ export class TeamService {
         return [];
       })
     );
-  }
+  }  
 
-  updateTeam(teamTitle: string, team: Team): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/${teamTitle}`, team).pipe(
+  updateTeam(teamId: number, title: string, speciality: string): Observable<any> {
+    const body = { title, speciality };
+  
+    return this.http.put<any>(`${this.baseUrl}/${teamId}`, body).pipe(
       catchError((error) => {
         console.log(error);
         return [];
       })
     );
   }
+  
 
-  deleteTeam(teamTitle: string): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/${teamTitle}`).pipe(
+  deleteTeam(teamId: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/${teamId}`).pipe(
       catchError((error) => {
         console.log(error);
         return [];
       })
     );
   }
+  
 
 } 
