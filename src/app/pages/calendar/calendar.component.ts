@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BusinessHoursInput, CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { Event, EventType } from 'src/app/model/event';
+import { Holiday } from 'src/app/model/holiday';
 import { CalendarService } from 'src/app/services/calendar.service';
+import { DayService } from 'src/app/services/day.service';
 
 
 @Component({
@@ -14,20 +15,23 @@ export class CalendarComponent implements OnInit {
 
   holidays: [];
 
-  constructor(private calendarService: CalendarService) {
+  constructor(private calendarService: CalendarService,private dayService : DayService) {
     this.calendarService.getAllEvents().subscribe((events: []) => {
       this.holidays = events;
     });
   }
   
-  
+  ngOnInit(): void {
+    this.loadHolidays();
+  }
 
   calendarOptions: CalendarOptions = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin],
     businessHours: this.getBusinessHours(),
     events: []
-  };
+  }
+
 
   private getBusinessHours(): BusinessHoursInput {
     return {
@@ -36,6 +40,28 @@ export class CalendarComponent implements OnInit {
       endTime: '18:00', // End time
     };
   }
+
+
+  private loadHolidays(): void {
+    this.dayService.getAllHolidays().subscribe(
+      holidays => {
+        this.calendarOptions.events = this.mapHolidaysToEvents(holidays);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  private mapHolidaysToEvents(holidays: Holiday[]): EventInput[] {
+    return holidays.map(holiday => ({
+      title: holiday.title,
+      start: holiday.date,
+      allDay: true
+    }));
+  }
+
+  /*
   handleEventDrop(event: any): void {
     // Update the date of the event in the database
     const updatedEvent = new Event(event.event.start, event.event.title, event.event.extendedProps.type);
@@ -73,6 +99,6 @@ export class CalendarComponent implements OnInit {
     }
   }
   
-
+*/
 
 }

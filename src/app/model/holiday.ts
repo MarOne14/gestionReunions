@@ -1,4 +1,3 @@
-
 export class Holiday{
     date : Date;
     title : string;

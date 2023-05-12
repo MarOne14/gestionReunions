@@ -97,6 +97,8 @@ export class SettingsComponent {
   showPopup = false;
   offshow : boolean = true;
   show : boolean = true;
+  selectedOffer: string;
+  selectedDate: Date;
   title: string; 
   startTime : Time;
   endTime : Time;
@@ -109,6 +111,10 @@ export class SettingsComponent {
   }
   hideForm() {
     this.showPopup = false;
+  }
+
+  add(){
+    
   }
 
   update(){
