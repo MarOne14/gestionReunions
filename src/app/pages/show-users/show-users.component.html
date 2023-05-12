@@ -12,9 +12,16 @@
   </ul>
   
   <div *ngIf="selectedUser" class="selected-user">
+    <span class="close" (click)="selectedUser = null">&times;</span>
     <h2>{{ selectedUser.prenom }} {{ selectedUser.nom }}</h2>
     <div>{{ getUserAccount(selectedUser)?.email }}</div>
     <div>{{ getUserAccount(selectedUser)?.role }}</div>
-    <button class="modify-button">Modify</button>
+    <button class="btnlft" (click)="modifyRole(selectedUser)">
+      {{ getRoleActionText(selectedUser) }}
+    </button>
+    <button class="btn">
+      <a  matTooltip="Delete User" (click)="deleteUser(getUserAccount(selectedUser)?.email)">
+          <i class="fa fa-fw fa-solid fa-trash"></i></a>
+    </button>
   </div>
   

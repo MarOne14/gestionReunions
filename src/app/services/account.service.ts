@@ -30,7 +30,7 @@ export class AccountService {
   }
 
   deleteAccount(email : string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}${email}`);
+    return this.http.delete(`${this.baseUrl}/${email}`);
   }
 
 }

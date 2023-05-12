@@ -146,21 +146,6 @@
       transform: translateY(0);
     }
   }
-  .modify-button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-  }
-  
-  .modify-button:hover {
-    background-color: #0069d9;
-  }
-  
   .selected-user {
     position: fixed;
     top: 50%;
@@ -179,10 +164,6 @@
     margin-top: 2rem;
   }
   
-  .modify-button {
-    margin-top: 1rem;
-  }
-  
   @media screen and (max-width: 768px) {
     .selected-user {
       width: 90%;
@@ -190,4 +171,60 @@
       margin-top: 1rem;
     }
   }
-  
+
+
+  .btn{
+    margin: 15px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 25px;
+    color: #03A9B0;
+    background-color: transparent;
+    border: none;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    cursor: pointer;
+  }
+
+.btnlft {
+  margin: 15px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #03A9B0;
+  background-color: transparent;
+  border: 2px solid #03A9B0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.btnlft:hover {
+  background-color: #03A9B0;
+  color: #fff;
+  cursor: pointer;
+}
+
+
+
+.btnlft {
+  float: left;
+}
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 5px 10px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.close:hover {
+  opacity: 3;
+}
+.close:hover {
+  color: #f00;
+}

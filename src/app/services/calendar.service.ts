@@ -10,8 +10,7 @@ import { Event, EventType } from 'src/app/model/event';
 })
 export class CalendarService {
 
-  private baseUrlE = 'http://localhost:3000/events';
-  private baseUrlC = 'http://localhost:3000/calendrier';
+  private baseUrlE = 'http://localhost:3000';
 
   // Configuration object for working days and hours
   calendarConfig: CalendarOptions = {
@@ -24,6 +23,7 @@ export class CalendarService {
     },
     events: []
   };
+  
 
   constructor(private http: HttpClient) { }
 

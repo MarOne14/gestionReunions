@@ -144,7 +144,7 @@ full-calendar{
   text-decoration: none;
 }
 
-/**********************Showpup***************/
+/**********************Showpup****************/
 
 .modal {
   position: fixed;
@@ -153,9 +153,7 @@ full-calendar{
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  /* ajouter un fond semi-transparent */
   z-index: 100;
-  /* assurer que la popup est en premier plan */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,28 +161,11 @@ full-calendar{
 
 .modal-dialog {
   width: 70%;
-  /* modifier la largeur de la popup selon vos besoins */
   max-width: 600px;
-  /* ajouter une largeur maximale pour les petits écrans */
   background-color: #fff;
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-  color: #aaa;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.modal-content {
-  position: relative;
 }
 
 .modal-header {
@@ -194,118 +175,27 @@ full-calendar{
   margin-bottom: 20px;
 }
 
-.choice-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.choice-container label {
-  font-size: 16px;
-  margin-left: 10px;
+.modal-header h2 {
+  font-size: 20px;
   font-weight: bold;
+  text-align: center;
+  flex-grow: 1;
 }
 
-.choice-container input[type="radio"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  display: inline-block;
-  position: relative;
-  background-color: #f1f1f1;
-  color: #666;
-  top: 5px;
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.choice-container input[type="radio"]:checked::before {
-  position: absolute;
-  content: "";
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-  top: 5px;
-  left: 5px;
-  background-color: #03A9B0;
-}
-
-input[type="date"],
-input[type="text"]{
-    appearance: none;
-    -webkit-appearance: none;
-    border: none;
-    border-radius: 8px;
-    background-color: #f2f2f2;
-    padding: 10px;
-    font-size: 16px;
-    font-family: "Helvetica Neue", sans-serif;
-    color: #555;
-    box-shadow: 0 0 0 2px #f2f2f2 inset;
-    margin: 13px;
-    width: 35%;
-    margin-left: 30%;
-    display: inline-block;
-}
-
-.working-days {
+.modal-body {
   margin-bottom: 20px;
 }
 
-.day-checkbox {
-  margin-bottom: 10px;
+.date-inputs {
+  margin-top: 20px;
 }
 
-.day-checkbox label {
-  display: flex;
-  align-items: center;
-}
-
-.day-checkbox input[type="checkbox"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  display: inline-block;
-  position: relative;
-  background-color: #f1f1f1;
-  color: #666;
-  top: 5px;
-  height: 20px;
-  width: 20px;
-  border-radius: 3px;
-  cursor: pointer;
-  border: none;
-  margin-right: 10px;
-  transition: background-color 0.3s ease;
-}
-
-.day-checkbox input[type="checkbox"]:checked::before {
-  position: absolute;
-  content: "";
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-  top: 5px;
-  left: 5px;
-  background-color: #03A9B0;
-}
-
-.time-inputs {
-  margin-bottom: 20px;
-}
-
-.time-inputs label {
+.date-inputs label {
   display: block;
-  font-size: 16px;
   margin-bottom: 5px;
 }
 
+.date-inputs input[type="date"],
 .time-inputs input[type="time"] {
   appearance: none;
   -webkit-appearance: none;
@@ -317,48 +207,60 @@ input[type="text"]{
   font-family: "Helvetica Neue", sans-serif;
   color: #555;
   box-shadow: 0 0 0 2px #f2f2f2 inset;
-  width: 35%;
-  display: inline-block;
-  margin-left: 30%;
+  width: 60%;
+  margin: 0 auto;
   margin-bottom: 10px;
 }
 
+.time-inputs label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+}
 
 .btn,
 .btnlft {
-    margin: 15px;
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 20px;
-    color: #03A9B0;
-    background-color: transparent;
-    border: 2px solid #03A9B0;
-    padding: 10px 20px;
-    border-radius: 8px;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  margin: 15px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #03A9B0;
+  background-color: transparent;
+  border: 2px solid #03A9B0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .btn:hover,
 .btnlft:hover {
-    background-color: #03A9B0;
-    color: #fff;
-    cursor: pointer;
+  background-color: #03A9B0;
+  color: #fff;
+  cursor: pointer;
 }
 
 .btn:disabled,
 .btnlft:disabled {
-    background-color: #ccc;
-    border: 2px solid #ccc;
-    color: #555;
-    cursor: default;
+  background-color: #ccc;
+  border: 2px solid #ccc;
+  color: #555;
+  cursor: default;
 }
 
 .btn:disabled:hover,
 .btnlft:disabled:hover {
-    background-color: #ccc;
-    color: #555;
+  background-color: #ccc;
+  color: #555;
+}
+
+.btnlft {
+  float: left;
 }
 
 .btn {
-    float: right;
+  float: right;
 }

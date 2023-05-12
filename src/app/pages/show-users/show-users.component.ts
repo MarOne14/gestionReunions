@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Account } from 'src/app/model/account';
+import { Account, RoleType } from 'src/app/model/account';
 import { User } from 'src/app/model/user';
 import { AccountService } from 'src/app/services/account.service';
 import { UserService } from 'src/app/services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-show-users',
@@ -14,8 +15,11 @@ export class ShowUsersComponent implements OnInit {
   users: any[] = [];
   accounts: any[] = [];
 
-  constructor(private accountService : AccountService , private userService : UserService){
-  }
+  constructor(
+    private accountService : AccountService , 
+    private userService : UserService,
+    private snackBar: MatSnackBar
+    ){}
 
   
 
@@ -64,13 +68,6 @@ export class ShowUsersComponent implements OnInit {
     }
   }
 
-  
-/*
-  getUserAccount(user: User): Account | null {
-    const account = this.accounts.find(acc => acc.username === user.email);
-    return account ? account : null;
-  }*/
-
   getColor(str: string): string {
     // A simple hash function to generate a color based on the input string
     let hash = 0;
@@ -87,4 +84,44 @@ export class ShowUsersComponent implements OnInit {
     this.selectedUser = user;
   }
 
+  deleteUser(email: string): void {
+    this.accountService.deleteAccount(email).subscribe(
+      () => {
+        this.userService.deleteUser(email).subscribe(
+          () => {
+            this.showSnackBar('User deleted successfully.');
+          },
+          error => {
+            console.log(error);
+            this.showSnackBar('Error deleting user from the personne table.');
+          }
+        );
+      },
+      error => {
+        console.log(error);
+        this.showSnackBar('Error deleting user from the account table.');
+      }
+    );
+  }
+
+  private showSnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', { duration: 3000 });
+  }
+
+  modifyRole(user: any): void {
+    // Add your logic here to modify the user's role
+  }
+
+  getRoleActionText(user: any): string {
+    switch (this.getUserAccount(user)?.role) {
+      case RoleType.ADM:
+        return 'Demote';
+      case RoleType.ORG:
+        return 'Promote/Demote';
+      case RoleType.PART:
+        return 'Promote';
+      default:
+        return '';
+    }
+  }
 }

@@ -51,63 +51,26 @@
   <div class="modal-dialog" (click)="$event.stopPropagation()">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="choice-container">
-          <input type="radio" name="offer" value="offer1" [(ngModel)]="selectedOffer" id="offer1">
-          <label for="offer1">Working Days</label>
-        </div>
-        <div class="choice-container">
-          <input type="radio" name="offer" value="offer2" [(ngModel)]="selectedOffer" id="offer2">
-          <label for="offer2">Public Holidays</label>
-        </div>
+        <h2>Change Working Days</h2>
       </div>
-      <div class="modal-body" *ngIf="selectedOffer === 'offer2'">
-        <input type="date" [(ngModel)]="selectedDate" name="selectedDate" matTooltip="Day of Choice" required>
-        <input type="text" [(ngModel)]="title" name="title" placeholder="Event title" required>
-      </div>
-      <div class="modal-body" *ngIf="selectedOffer === 'offer1'">
-        <div class="working-days">
-          <label>Working Days:</label>
-          <div class="day-checkbox">
-            <label>
-              <input type="checkbox" [(ngModel)]="workingDays.monday" name="monday">Monday
-            </label>
-          </div>
-          <div class="day-checkbox">
-            <label>
-              <input type="checkbox" [(ngModel)]="workingDays.tuesday" name="tuesday">Tuesday
-            </label>
-          </div>
-          <div class="day-checkbox">
-            <label>
-              <input type="checkbox" [(ngModel)]="workingDays.wednesday" name="wednesday">Wednesday
-            </label>
-          </div>
-          <div class="day-checkbox">
-            <label>
-              <input type="checkbox" [(ngModel)]="workingDays.thursday" name="thursday">Thursday
-            </label>
-          </div>
-          <div class="day-checkbox">
-            <label>
-              <input type="checkbox" [(ngModel)]="workingDays.friday" name="friday">Friday
-            </label>
-          </div>
-          <div class="day-checkbox">
-            <label>
-              <input type="checkbox" [(ngModel)]="workingDays.saturday" name="saturday">Saturday
-            </label>
-          </div>
+      <div class="modal-body">
+        <div class="date-inputs">
+          <label>From:</label>
+          <input type="date" [(ngModel)]="startDate" name="startDate" required>
+          <br>
+          <label>To:</label>
+          <input type="date" [(ngModel)]="endDate" name="endDate" required>
         </div>
         <div class="time-inputs">
           <label>Start Time:</label>
-          <input type="time" [(ngModel)]="startTime" name="startTime" required>
+          <input type="time" [(ngModel)]="startTime" name="startTime" required><br>
           <label>End Time:</label>
           <input type="time" [(ngModel)]="endTime" name="endTime" required>
         </div>
       </div>
       <div class="modal-footer">
         <button class="btnlft" (click)="cancel()">Cancel</button>
-        <button class="btn" [disabled]="!selectedDate && !isAtLeastOneDaySelected()" (click)="update()">Update</button>
+        <button class="btn" [disabled]="!startDate || !endDate || !startTime || !endTime" (click)="update()">Update</button>
       </div>
     </div>
   </div>

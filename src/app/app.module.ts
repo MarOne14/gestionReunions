@@ -33,6 +33,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ShowUsersComponent } from './pages/show-users/show-users.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 
 @NgModule({
@@ -71,7 +73,8 @@ import { ShowUsersComponent } from './pages/show-users/show-users.component';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    DragDropModule
+    DragDropModule,
+    MatSnackBarModule
   ],
   providers: [
     AuthService

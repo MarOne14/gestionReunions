@@ -97,26 +97,11 @@ export class SettingsComponent {
   showPopup = false;
   offshow : boolean = true;
   show : boolean = true;
-  selectedOffer: string; 
-  selectedDate: string; 
   title: string; 
-  selectedWeek: string;
   startTime : Time;
   endTime : Time;
-  workingDays: 
-  { 
-  monday: boolean,
-  tuesday: boolean,
-  wednesday : boolean,
-  thursday : boolean,
-  friday : boolean,
-  saturday : boolean
-  }
-
-  isAtLeastOneDaySelected(): boolean {
-    // Check if at least one weekday is selected
-    return Object.values(this.workingDays).some(day => day);
-  }
+  startDate : Date;
+  endDate : Date;
 
 
   showForm() {
@@ -132,8 +117,10 @@ export class SettingsComponent {
 
   cancel(){
     this.hideForm();
-    this.selectedDate=null;
-    this.selectedOffer=null;
+    this.startDate=null;
+    this.endDate=null;
+    this.startTime = null;
+    this.endTime=null;
   }
   
 
