@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from 'src/app/model/user';
+import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,9 +28,9 @@ export class DashboardComponent {
   CurrentUser: User = null;
   email : string ;
 
-  constructor(private userService : UserService,private authService : AuthService) {
+  constructor(private userService : AccountService,private authService : AuthService) {
     this.email = localStorage.getItem('userId');
-    this.userService.getUserByEmail(this.email).subscribe(response => {
+    this.userService.getAccountByEmail(this.email).subscribe(response => {
       if (response && response.date.length > 0 ) {
         this.CurrentUser = response.date[0];
       }

@@ -8,20 +8,23 @@ import { Topic } from '../model/topic';
 })
 export class TopicService {
 
-  private baseUrl ='http://localhost:3000/topics';
+  private baseUrl ='http://localhost:3000/sujets';
 
   constructor(private http: HttpClient ) { }
 
-  getTopics(): Observable<Topic[]> {
-    return this.http.get<Topic[]>(this.baseUrl);
+  getAllSubjects(): Observable<any>  {
+    return this.http.get(`${this.baseUrl}`);
   }
 
-  addTopic(topic: Topic): Observable<Topic> {
-    return this.http.post<Topic>(this.baseUrl, topic);
+  createSubject(subject: any): Observable<any>  {
+    return this.http.post(`${this.baseUrl}`, subject);
   }
 
-  saveTopics(topics: Topic[]): Observable<Topic[]> {
-    const options = { headers: { 'Content-Type': 'application/json' } };
-    return this.http.put<Topic[]>(`${this.baseUrl}/save`, topics, options);
+  updateSubject(id: string, subject: any): Observable<any>  {
+    return this.http.put(`${this.baseUrl}/${id}`, subject);
+  }
+
+  deleteSubject(id: string): Observable<any>  {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }

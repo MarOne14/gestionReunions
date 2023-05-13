@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, forkJoin, switchMap } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { Team } from '../model/team';
 import { User } from '../model/user';
 import { UserService } from './user.service';
@@ -9,14 +9,12 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class TeamService {
-  private baseUrl ='http://localhost:3000/team';
+  private baseUrl ='http://localhost:3000';
   allusers: User[];
   teams: Team[];
   teamTitle: string;
 
-  constructor(private http: HttpClient, private userService: UserService) { 
-
-  }
+  constructor(private http: HttpClient, private userService: UserService) { }
 
   setTeamTitle(title: string): void {
     this.teamTitle = title;
@@ -25,31 +23,38 @@ export class TeamService {
   getTeamTitle(): string {
     return this.teamTitle;
   }
-  
+
   getAllTeams(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`);
+    return this.http.get(`${this.baseUrl}/equipe`);
+  }
+
+  getAllTeamsWithMembers() {
+    return this.http.get(`${this.baseUrl}/equipe/membres`);
+  }
+
+  getTeamsForMember(email: string) {
+    return this.http.get(`${this.baseUrl}/membre/${email}/equipes`);
   }
   
 
   getTeamByTitle(title: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${title}`);
+    return this.http.get(`${this.baseUrl}/equipe/${title}`);
   }
 
   getTeamIdByTitle(teamTitle: string) {
-    const url = `${this.baseUrl}/${teamTitle}/id`;
+    const url = `${this.baseUrl}/equipe/${teamTitle}/id`;
     return this.http.get<{ message: string, data: number }>(url);
   }
 
 
   getTeamMembersByTeamId(teamId: number) {
-    const url = `${this.baseUrl}/${teamId}/members`;
+    const url = `${this.baseUrl}/equipe/${teamId}/members`;
     return this.http.get<{ message: string, data: string[] }>(url);
   }
 
-  getTeamMembers(title: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${title}/members`);
+  getTeamMembers(teamId: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/equipe/${teamId}/members`);
   }
-
 
   createTeam(team: Team): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}`, team).pipe(
@@ -71,7 +76,6 @@ export class TeamService {
     );
   }
   
-
   deleteTeam(teamId: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/${teamId}`).pipe(
       catchError((error) => {

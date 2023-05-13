@@ -26,19 +26,19 @@
             <form id="signup-form" [formGroup]="form" (ngSubmit)="update()" >
                 <div class="body">
                     <label> First Name : </label>
-                    <input type="text"  placeholder="{{CurrentUser?.prenom}}" formControlName="prenom">
+                    <input type="text"  placeholder="{{CurrentAccount?.prenom}}" formControlName="prenom">
                     <mat-error *ngIf="form.get('prenom').invalid && form.get('prenom').touched">
                         {{ getErrorMessage('prenom') }}
                       </mat-error>
                     <br>
                     <label> Last Name : </label>
-                    <input type="text" placeholder="{{CurrentUser?.nom}}" formControlName="nom">
+                    <input type="text" placeholder="{{CurrentAccount?.nom}}" formControlName="nom">
                     <mat-error *ngIf="form.get('nom').invalid && form.get('nom').touched">
                         {{ getErrorMessage('nom') }}
                       </mat-error>
                     <br>
                     <label> Email : </label>
-                    <input type="text" placeholder="{{CurrentUser?.email}}" formControlName="email">
+                    <input type="text" placeholder="{{CurrentAccount?.username}}" formControlName="email">
                     <mat-error *ngIf="form.get('email').invalid && form.get('email').touched">
                         {{ getErrorMessage('email') }}
                       </mat-error>
@@ -50,7 +50,7 @@
                       </mat-error>
                     <br *ngIf="!appear">
                     <label> Phone Number : </label>
-                    <input type="tel" placeholder="{{CurrentUser?.telephone}}" formControlName="telephone">
+                    <input type="tel" placeholder="{{CurrentAccount?.telephone}}" formControlName="telephone">
                     <mat-error *ngIf="form.get('telephone').invalid && form.get('telephone').touched">
                         {{ getErrorMessage('telephone') }}
                       </mat-error>

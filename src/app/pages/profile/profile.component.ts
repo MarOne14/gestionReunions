@@ -28,27 +28,24 @@ export class ProfileComponent implements OnInit {
   }
 
   /*********************Show and Update*****************/
-  
-  CurrentUser: User = null;
+
   CurrentAccount: Account = null;
   email : string ;
   role : RoleType;
   password : string ;
+  accountId : any;
   form: FormGroup ;
   showPopup : boolean = false;
 
   
-  constructor(private userService : UserService , private accountService : AccountService) {
+  constructor(private accountService: AccountService) {
     this.email = localStorage.getItem('userId');
-    this.userService.getUserByEmail(this.email).subscribe(response => {
-      if (response && response.date.length > 0 ) {
-        this.CurrentUser = response.date[0];
-      }
-    });
-    this.accountService.getAccountByUsername(this.email).subscribe(response => {
-      if (response && response.date.length > 0 ) {
-        this.role = response.date[0].role;
-        this.password = response.date[0].password;
+    this.accountService.getAccountByEmail(this.email).subscribe(response => {
+      if (response && response.data.length > 0) {
+        this.CurrentAccount = response.data[0];
+        this.role = this.CurrentAccount.role;
+        this.password = this.CurrentAccount.password;
+       // this.initializeForm();
       }
     });
   }
@@ -105,41 +102,54 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  update() {
+    if (this.form.valid) {
+      const prenom = this.form.get('prenom').value ? this.form.get('prenom').value : this.CurrentAccount.prenom;
+      const nom = this.form.get('nom').value ? this.form.get('nom').value : this.CurrentAccount.nom;
+      const telephone = this.form.get('telephone').value ? this.form.get('telephone').value : this.CurrentAccount.telephone;
+      const email = this.form.get('email').value;
 
+      if (email) {
+        this.accountService.getAccountByEmail(email).subscribe((user) => {
+          if (user !== null && user.username !== this.email) {
+            this.showPopup = true; // User already exists
+          } else {
+            this.accountService.getAccountIDByEmail(this.email).subscribe((response) => {
+              this.accountId = response.data;
+              const newAccount: Account = {
+                nom: nom,
+                prenom: prenom,
+                telephone: telephone,
+                username: email,
+                password: this.password,
+                role: this.role
+              };
 
-  update(){
-      const prenom = this.form.get('prenom').value ? this.form.get('prenom').value : this.CurrentUser.prenom;
-      const nom = this.form.get('nom').value ? this.form.get('nom').value : this.CurrentUser.nom; 
-      const telephone = this.form.get('telephone').value ? this.form.get('telephone').value : this.CurrentUser.telephone
-      const email = this.form.get('email').value ;
-
-    if(email) {
-      this.accountService.getAccountByUsername(email).subscribe((user) => {
-        if (user !== null && user.username !== this.email) 
-          this.showPopup = true; // User already exists
-        });
-        } else {
-          const email1 = this.CurrentUser.email;
-          const newUser: User = {
-            prenom: prenom,
-            nom: nom,
-            telephone: telephone,
-            email: email1,
-          };
-          this.userService.updateUser(newUser).subscribe(() => {
-            const newAccount: Account = {
-              username: email1,
-              password: this.password,
-              role : this.role
-            };
-  
-            this.accountService.updateAccount(newAccount).subscribe(() => {
-              localStorage.setItem('userId', email1);
-              this.appear = true;
+              this.accountService.updateAccount(this.accountId, newAccount).subscribe(() => {
+                localStorage.setItem('userId', email);
+                this.appear = true;
+              });
             });
-          });
-        }
-        
+          }
+        });
+      } else {
+        this.accountService.getAccountIDByEmail(this.email).subscribe((response) => {
+          this.accountId = response.data});
+        const newAccount: Account = {
+          nom: nom,
+          prenom: prenom,
+          telephone: telephone,
+          username: this.email,
+          password: this.password,
+          role: this.role
+        };
+
+        this.accountService.updateAccount(this.accountId, newAccount).subscribe(() => {
+          localStorage.setItem('userId', this.email);
+          this.appear = true;
+        });
+      }
+    }
   }
 
   cancel(){

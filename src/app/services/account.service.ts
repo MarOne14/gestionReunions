@@ -8,7 +8,7 @@ import { Account } from '../model/account';
 })
 export class AccountService {
 
-  private baseUrl ='http://localhost:3000/account';
+  private baseUrl ='http://localhost:3000/comptes';
 
   constructor(private http: HttpClient) { }
 
@@ -16,21 +16,29 @@ export class AccountService {
   getAllAccounts(): Observable<Account[]> {
     return this.http.get<Account[]>(`${this.baseUrl}`);
   }
+
+  getAccountById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${id}`);
+  }
+
+  getAccountByEmail(email: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/email/${email}`);
+  }
   
-  getAccountByUsername(email: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${email}`);
+  getAccountIDByEmail(email: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/email/id/${email}`);
   }
 
-  createAccount(user: Account): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, user );
+  createAccount(account: Account): Observable<any> {
+    return this.http.post(`${this.baseUrl}`, account);
   }
 
-  updateAccount(user: Account): Observable<Account> {
-    return this.http.put<Account>(`${this.baseUrl}`, user);
+  updateAccount(id: number, account: any): Observable<any> {
+    return this.http.put<Account>(`${this.baseUrl}/${id}`, account);
   }
 
-  deleteAccount(email : string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${email}`);
+  deleteAccount(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
 }

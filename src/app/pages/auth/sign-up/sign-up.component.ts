@@ -27,6 +27,8 @@ export class SignUpComponent implements OnInit {
   showPopup1 : boolean = false;
   passwordsMatch :boolean = false;
   showPassword : boolean = false;
+  accountId: number;
+  newAccount : any;
 
   constructor(private accountService: AccountService,private userService : UserService,private authService : AuthService ,private router: Router ) {
     this.form = new FormGroup({
@@ -92,29 +94,24 @@ export class SignUpComponent implements OnInit {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;
   
-      this.userService.getUserByEmail(email).subscribe((user) => {
-        if (user === null) {
-          this.showPopup = true; // User already exists
+      this.accountService.getAccountIDByEmail(email).subscribe((response) => {
+        this.accountId = response.data
+        if (this.accountId !== undefined) {
+          this.showPopup = true; // Account already exists
         } else {
-          const newUser: User = {
-            prenom: prenom,
+          this.newAccount = {
             nom: nom,
+            prenom: prenom,
             telephone: telephone,
-            email: email,
+            username: email,
+            password: password,
+            role: RoleType.ADM,
           };
-  
-          this.userService.createUser(newUser).subscribe(() => {
-            const newAccount: Account = {
-              username: email,
-              password: password,
-              role: RoleType.PART,
-            };
-  
-            this.accountService.createAccount(newAccount).subscribe(() => {
-              localStorage.setItem('userId', email);
-              this.authService.signup();
-              this.router.navigate(['/menu']);
-            });
+          console.log(this.newAccount);
+          this.accountService.createAccount(this.newAccount).subscribe((data) => {
+            localStorage.setItem('userId', data.username);
+            this.authService.signup();
+            this.router.navigate(['/menu']);
           });
         }
       });
@@ -122,6 +119,7 @@ export class SignUpComponent implements OnInit {
       this.showPopup1 = true; // Form validation error
     }
   }
+  
   
   
   

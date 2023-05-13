@@ -45,9 +45,9 @@ export class NewMeetUrgComponent implements OnInit {
   this.teamService.getAllTeams().subscribe(teams => {
     this.teams = teams;
   });
-  this.topicService.getTopics().subscribe((topics) => {
+ /* this.topicService.getTopics().subscribe((topics) => {
     this.topics = topics;
-  });
+  });*/
 }
 teamSelected(): void {
   console.log('Selected team:', this.selectedTeam);
@@ -165,9 +165,9 @@ addSlotItem() {
   }
 
   saveTopics() {
-    this.topicService.saveTopics(this.topics).subscribe((savedTopics) => {
+   /* this.topicService.saveTopics(this.topics).subscribe((savedTopics) => {
       this.topics = savedTopics;
-    });
+    });*/
   }
   
   

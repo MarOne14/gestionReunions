@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Team } from 'src/app/model/team';
-import { User } from 'src/app/model/user';
 import { SidebarService } from 'src/app/services/sidebar.service';
 import { TeamService } from 'src/app/services/team.service';
 

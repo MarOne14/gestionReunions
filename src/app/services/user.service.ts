@@ -7,32 +7,31 @@ import { User } from '../model/user';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl ='http://localhost:3000/personne';
+  private baseUrl ='http://localhost:3000/members';
 
   error: string;
 
   constructor(private http: HttpClient ) { }
   
 
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}`);
-  }
-  
-  getUserByEmail(email: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${email}`);
+  getAllMembers() {
+    return this.http.get(`${this.baseUrl}`);
   }
 
-
-  createUser(user: User): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, user );
+  getMemberById(id: number) {
+    return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}`, user);
+  createMember(member: any) {
+    return this.http.post(`${this.baseUrl}`, member);
   }
 
-  deleteUser(email : string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${email}`);
+  updateMember(id: number, member: any) {
+    return this.http.put(`${this.baseUrl}/${id}`, member);
+  }
+
+  deleteMember(id: number) {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
 }

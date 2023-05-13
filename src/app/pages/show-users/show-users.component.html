@@ -1,26 +1,26 @@
 <ul class="user-list">
-    <li *ngFor="let user of users" class="user-card" [class.selected]="user === selectedUser">
+    <li *ngFor="let user of accounts" class="user-card" [class.selected]="user === selectedAccount">
       <div class="avatar" [style.background-color]="getColor(user?.prenom + ' ' + user?.nom)"
-           (click)="selectUser(user)">
+           (click)="selectAccount(user)">
         {{ user.prenom.charAt(0)  + user?.nom.charAt(0) | titlecase }}
       </div>
       <div class="user-details">
         <div class="name">{{ user?.prenom | titlecase }} {{ user?.nom | titlecase }}</div>
-        <div class="role">{{ getUserAccount(user)?.role }}</div>
+        <div class="role">{{ user?.role }}</div>
       </div>
     </li>
   </ul>
   
-  <div *ngIf="selectedUser" class="selected-user">
-    <span class="close" (click)="selectedUser = null">&times;</span>
-    <h2>{{ selectedUser.prenom }} {{ selectedUser.nom }}</h2>
-    <div>{{ getUserAccount(selectedUser)?.email }}</div>
-    <div>{{ getUserAccount(selectedUser)?.role }}</div>
-    <button class="btnlft" (click)="modifyRole(selectedUser)">
-      {{ getRoleActionText(selectedUser) }}
+  <div *ngIf="selectedAccount" class="selected-user">
+    <span class="close" (click)="selectedAccount = null">&times;</span>
+    <h2>{{ selectedAccount.prenom }} {{ selectedAccount.nom }}</h2>
+    <div>{{ selectedAccount?.username }}</div>
+    <div>{{ selectedAccount?.role }}</div>
+    <button class="btnlft" (click)="modifyRole(selectedAccount)">
+      {{ getRoleActionText(selectedAccount) }}
     </button>
     <button class="btn">
-      <a  matTooltip="Delete User" (click)="deleteUser(getUserAccount(selectedUser)?.email)">
+      <a  matTooltip="Delete User" (click)="deleteAccount(accountId)">
           <i class="fa fa-fw fa-solid fa-trash"></i></a>
     </button>
   </div>

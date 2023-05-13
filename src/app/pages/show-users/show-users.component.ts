@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Account, RoleType } from 'src/app/model/account';
-import { User } from 'src/app/model/user';
 import { AccountService } from 'src/app/services/account.service';
-import { UserService } from 'src/app/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -12,60 +10,27 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ShowUsersComponent implements OnInit {
 
-  users: any[] = [];
-  accounts: any[] = [];
+  accounts: Account[] = [];
+  accountId : any;
 
   constructor(
-    private accountService : AccountService , 
-    private userService : UserService,
+    private accountService: AccountService,
     private snackBar: MatSnackBar
-    ){}
-
-  
+  ) {}
 
   ngOnInit() {
     this.fetchAllAccounts();
-    this.fetchAllUsers();
   }
 
   fetchAllAccounts(): void {
     this.accountService.getAllAccounts().subscribe(
-      (response: any) => {
-        this.accounts = response.data;
-      //  console.log(this.accounts);
+      (accounts: Account[]) => {
+        this.accounts = accounts;
       },
       (error) => {
         console.log(error);
       }
     );
-  }
-
-  fetchAllUsers(): void {
-    this.userService.getAllUsers().subscribe(
-      (response: any) => {
-        console.log(response); // Log the response here
-        this.users = response.data;
-        console.log(this.users);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-  
-
-  getUserAccount(user: User): { nom: string, prenom: string, email: string, role: string } {
-    const account = this.accounts.find(acc => acc.username === user.email);
-    if (account) {
-      return {
-        nom: user.nom,
-        prenom: user.prenom,
-        email: user.email,
-        role: account.role
-      };
-    } else {
-      return null;
-    }
   }
 
   getColor(str: string): string {
@@ -78,28 +43,23 @@ export class ShowUsersComponent implements OnInit {
     return '#' + '0'.repeat(6 - color.length) + color;
   }
 
-  selectedUser: User | null = null;
+  selectedAccount: Account | null = null;
 
-  selectUser(user: User): void {
-    this.selectedUser = user;
+  selectAccount(account: Account): void {
+    this.selectedAccount = account;
   }
 
-  deleteUser(email: string): void {
-    this.accountService.deleteAccount(email).subscribe(
+  deleteAccount(username: string): void {
+    this.accountService.getAccountIDByEmail(username).subscribe((response) => {
+      this.accountId = response.data});
+    this.accountService.deleteAccount(this.accountId).subscribe(
       () => {
-        this.userService.deleteUser(email).subscribe(
-          () => {
-            this.showSnackBar('User deleted successfully.');
-          },
-          error => {
-            console.log(error);
-            this.showSnackBar('Error deleting user from the personne table.');
-          }
-        );
+        this.showSnackBar('Account deleted successfully.');
+        this.fetchAllAccounts(); // Refresh the account list after deletion
       },
-      error => {
+      (error) => {
         console.log(error);
-        this.showSnackBar('Error deleting user from the account table.');
+        this.showSnackBar('Error deleting account.');
       }
     );
   }
@@ -108,12 +68,12 @@ export class ShowUsersComponent implements OnInit {
     this.snackBar.open(message, 'Close', { duration: 3000 });
   }
 
-  modifyRole(user: any): void {
-    // Add your logic here to modify the user's role
+  modifyRole(account: Account): void {
+    // Add your logic here to modify the account's role
   }
 
-  getRoleActionText(user: any): string {
-    switch (this.getUserAccount(user)?.role) {
+  getRoleActionText(account: Account): string {
+    switch (account.role) {
       case RoleType.ADM:
         return 'Demote';
       case RoleType.ORG:
