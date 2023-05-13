@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
-import { User } from 'src/app/model/user';
 import { Account, RoleType } from 'src/app/model/account';
 import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -30,7 +28,7 @@ export class SignUpComponent implements OnInit {
   accountId: number;
   newAccount : any;
 
-  constructor(private accountService: AccountService,private userService : UserService,private authService : AuthService ,private router: Router ) {
+  constructor(private accountService: AccountService,private authService : AuthService ,private router: Router ) {
     this.form = new FormGroup({
       nom: new FormControl(),
       prenom: new FormControl(),
@@ -105,13 +103,26 @@ export class SignUpComponent implements OnInit {
             telephone: telephone,
             username: email,
             password: password,
-            role: RoleType.ADM,
+            role: RoleType.PART,
           };
           console.log(this.newAccount);
           this.accountService.createAccount(this.newAccount).subscribe((data) => {
             localStorage.setItem('userId', data.username);
             this.authService.signup();
-            this.router.navigate(['/menu']);
+            this.authService.login(email, password).subscribe(
+              (response) => {
+                // Authentication successful
+                localStorage.setItem('userId', email);
+                // Redirect to the desired page or perform any necessary actions
+                this.router.navigate(['/menu']);
+              },
+              (error) => {
+                // Authentication failed
+                console.log(error);
+                // Display an error message or perform any necessary actions
+                this.showPopup = true;
+              }
+            );
           });
         }
       });

@@ -15,11 +15,7 @@ export class CalendarComponent implements OnInit {
 
   holidays: [];
 
-  constructor(private calendarService: CalendarService,private dayService : DayService) {
-    this.calendarService.getAllEvents().subscribe((events: []) => {
-      this.holidays = events;
-    });
-  }
+  constructor(private calendarService: CalendarService,private dayService : DayService) {}
   
   ngOnInit(): void {
     this.loadHolidays();
@@ -53,9 +49,9 @@ export class CalendarComponent implements OnInit {
     );
   }
 
-  private mapHolidaysToEvents(holidays: Holiday[]): EventInput[] {
+  private mapHolidaysToEvents(holidays:any[]): EventInput[] {
     return holidays.map(holiday => ({
-      title: holiday.title,
+      title: holiday.titre,
       start: holiday.date,
       allDay: true
     }));

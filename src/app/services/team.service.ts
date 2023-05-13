@@ -2,19 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { Team } from '../model/team';
-import { User } from '../model/user';
-import { UserService } from './user.service';
+import { Account } from '../model/account';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamService {
   private baseUrl ='http://localhost:3000';
-  allusers: User[];
+  allusers: Account[];
   teams: Team[];
   teamTitle: string;
 
-  constructor(private http: HttpClient, private userService: UserService) { }
+  constructor(private http: HttpClient) { }
 
   setTeamTitle(title: string): void {
     this.teamTitle = title;
@@ -46,14 +45,8 @@ export class TeamService {
     return this.http.get<{ message: string, data: number }>(url);
   }
 
-
-  getTeamMembersByTeamId(teamId: number) {
-    const url = `${this.baseUrl}/equipe/${teamId}/members`;
-    return this.http.get<{ message: string, data: string[] }>(url);
-  }
-
   getTeamMembers(teamId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/equipe/${teamId}/members`);
+    return this.http.get(`${this.baseUrl}/equipe/${teamId}/membres`);
   }
 
   createTeam(team: Team): Observable<any> {

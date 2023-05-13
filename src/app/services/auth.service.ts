@@ -64,7 +64,6 @@ export class AuthService {
   // Make an authenticated request
   authenticatedRequest(url: string, options: any = {}): Observable<any> {
     const token = this.getToken();
-    
     if (!options.headers) {
       options.headers = new HttpHeaders();
     }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router} from '@angular/router';
-import { Account } from 'src/app/model/account';
 import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
@@ -12,19 +11,20 @@ import { SidebarService } from 'src/app/services/sidebar.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  CurrentUser: Account = null;
+  CurrentUser: any = null;
   email : string ;
 
   
   constructor(private userService : AccountService, private authService : AuthService, private router: Router, public sideBar: SidebarService) {
     this.email = localStorage.getItem('userId');
     this.userService.getAccountByEmail(this.email).subscribe(response => {
-      if (response && response.date.length > 0 ) {
-        this.CurrentUser = response.date[0];
-      }
+      this.CurrentUser= response;
+    },
+    (error) => {
+      console.log(error);
     });
   }
-
+  
   toggleSidebar() {
     this.sideBar.toggle();
   }

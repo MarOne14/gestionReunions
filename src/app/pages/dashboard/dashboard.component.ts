@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { User } from 'src/app/model/user';
+import { Account } from 'src/app/model/account';
 import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -25,17 +25,18 @@ export class DashboardComponent {
   }
 
   state : boolean ;
-  CurrentUser: User = null;
+  CurrentUser: Account = null;
   email : string ;
 
-  constructor(private userService : AccountService,private authService : AuthService) {
+  constructor(private userService: AccountService, private authService: AuthService) {
     this.email = localStorage.getItem('userId');
     this.userService.getAccountByEmail(this.email).subscribe(response => {
-      if (response && response.date.length > 0 ) {
-        this.CurrentUser = response.date[0];
-      }
+      this.CurrentUser= response;
+    },
+    (error) => {
+      console.log(error);
     });
-   }
+  }  
 
   ngOnInit() {
     this.state = this.authService.isNewUserSignedUp;

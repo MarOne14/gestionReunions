@@ -38,7 +38,7 @@
                       </mat-error>
                     <br>
                     <label> Email : </label>
-                    <input type="text" placeholder="{{CurrentAccount?.username}}" formControlName="email">
+                    <input type="text" placeholder="{{CurrentAccount?.nom_utilisateur}}" formControlName="email">
                     <mat-error *ngIf="form.get('email').invalid && form.get('email').touched">
                         {{ getErrorMessage('email') }}
                       </mat-error>

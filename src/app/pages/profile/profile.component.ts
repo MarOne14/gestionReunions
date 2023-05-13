@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Account, RoleType } from 'src/app/model/account';
-import { User } from 'src/app/model/user';
 import { AccountService } from 'src/app/services/account.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -29,7 +27,7 @@ export class ProfileComponent implements OnInit {
 
   /*********************Show and Update*****************/
 
-  CurrentAccount: Account = null;
+  CurrentAccount: any = null;
   email : string ;
   role : RoleType;
   password : string ;
@@ -39,14 +37,17 @@ export class ProfileComponent implements OnInit {
 
   
   constructor(private accountService: AccountService) {
-    this.email = localStorage.getItem('userId');
-    this.accountService.getAccountByEmail(this.email).subscribe(response => {
-      if (response && response.data.length > 0) {
-        this.CurrentAccount = response.data[0];
-        this.role = this.CurrentAccount.role;
-        this.password = this.CurrentAccount.password;
-       // this.initializeForm();
-      }
+      this.email = localStorage.getItem('userId');
+      this.accountService.getAccountByEmail(this.email).subscribe(response => {
+      this.CurrentAccount= response;
+      this.role = this.CurrentAccount.role;
+      this.password = this.CurrentAccount.mot_de_passe;
+      console.log(this.CurrentAccount);
+      
+      // this.initializeForm();
+    },
+    (error) => {
+      console.log(error);
     });
   }
   ngOnInit() {

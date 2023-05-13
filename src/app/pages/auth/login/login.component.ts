@@ -47,10 +47,10 @@ export class LoginComponent {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;
   
-      localStorage.setItem('userId', email);
       this.authService.login(email, password).subscribe(
         (response) => {
           // Authentication successful
+          localStorage.setItem('userId', email);
           // Redirect to the desired page or perform any necessary actions
           this.router.navigate(['/menu']);
         },

@@ -27,7 +27,7 @@
           <div class="team-list">
             <div class="team-card" *ngFor="let team of teams">
               <h2>
-                <a routerLink="/teams/{{ team.title }}">{{ team.title }}</a>
+                <a routerLink="/teams/{{ team.titre }}">{{ team.titre }}</a>
               </h2>
                 <a class="user" matTooltip="Delete this Team" >
                     <i class="fa fa-trash-alt" (click)="deleteTeamConfirmation(team.title)"></i>

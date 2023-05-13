@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ShowUsersComponent implements OnInit {
 
-  accounts: Account[] = [];
+  accounts: any[] = [];
   accountId : any;
 
   constructor(

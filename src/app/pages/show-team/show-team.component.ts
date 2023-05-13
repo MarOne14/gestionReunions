@@ -11,7 +11,7 @@ import { TeamService } from 'src/app/services/team.service';
 export class ShowTeamComponent {
   
   teamFound: Team;
-  members: string[] = [];
+  members: any[] = [];
   teamTitle: string;
   teams : Team[] = [];
   teamMembers: any;
@@ -40,14 +40,11 @@ export class ShowTeamComponent {
       }
     );
   }
-  
 
   fetchTeamMembers(teamId: number): void {
-    this.teamService.getTeamMembersByTeamId(teamId).subscribe(
-      (response: { message: string, data: string[] }) => {
-        this.members = response.data; // Assign the team members to the members array
-        //console.log(this.members);
-        // Do something with the team members (e.g., display them in the template)
+    this.teamService.getTeamMembers(teamId).subscribe(
+      (response) => {
+        this.members = response.data;
       },
       (error) => {
         // Handle the error
@@ -66,9 +63,6 @@ export class ShowTeamComponent {
     return '#' + '0'.repeat(6 - color.length) + color;
   }
   
-
-  
-
   showPopup = false;
 
   showForm() {
