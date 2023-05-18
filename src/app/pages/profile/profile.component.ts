@@ -125,7 +125,6 @@ export class ProfileComponent implements OnInit {
                 password: this.password,
                 role: this.role
               };
-
               this.accountService.updateAccount(this.accountId, newAccount).subscribe(() => {
                 localStorage.setItem('userId', email);
                 this.appear = true;

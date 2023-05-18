@@ -13,14 +13,14 @@ import { TeamService } from 'src/app/services/team.service';
 })
 export class NewMeetOrgComponent {
 /*********************************team selection***************** */
-  teams : Team[] = [];
+  teams : any[] = [];
   selectedTeam: Team;
 
   constructor(private teamService: TeamService) {}
 
  ngOnInit() {
-  this.teamService.getAllTeams().subscribe(teams => {
-    this.teams = teams;
+  this.teamService.getAllTeams().subscribe(Response=> {
+    this.teams = Response.data;
   });
 }
 teamSelected(): void {

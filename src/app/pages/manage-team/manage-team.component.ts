@@ -35,7 +35,7 @@ export class ManageTeamComponent {
         if (response.data) {
           const teamId = response.data;
           // Call the method to update the team with the retrieved team ID
-          this.updateTeamTitle(teamId, this.newTitle,this.newSpeciality);
+          this.updateTeamTitle(teamId, this.newTitle);
         } else {
           console.log('Team not found');
         }
@@ -46,10 +46,10 @@ export class ManageTeamComponent {
     );
   }
 
-  updateTeamTitle(teamId: number, newTitle: string, newSpeciality: string): void {
+  updateTeamTitle(teamId: number, newTitle: string): void {
     
   
-    this.teamService.updateTeam(teamId, newTitle, newSpeciality).subscribe(
+    this.teamService.updateTeam(teamId, newTitle).subscribe(
       (response: any) => {
         console.log(response.message);
         // Handle success or perform any necessary actions

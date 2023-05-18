@@ -16,6 +16,10 @@ export class TopicService {
     return this.http.get(`${this.baseUrl}`);
   }
 
+  getSujetsByTitle(titre: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/titre/${titre}`);
+  }
+
   createSubject(subject: any): Observable<any>  {
     return this.http.post(`${this.baseUrl}`, subject);
   }

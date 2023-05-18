@@ -207,6 +207,11 @@ label {
     margin-bottom: 15px;
 }
 
+.user-button[disabled],
+button[type="submit"][disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
 
 /*****************Submit button******************/
 

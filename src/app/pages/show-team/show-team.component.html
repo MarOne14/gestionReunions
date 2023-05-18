@@ -36,9 +36,9 @@
                     </h1>
                 </div>
                 <div class="modal-body">
-                    <div><input type="text" placeholder="Enter Name or Email"></div>
+                    <div><input type="text" placeholder="Enter Name or Email" [(ngModel)]="newMemberEmail"></div>
                     <button class="btnlft" (click)="hideForm()">Close</button>
-                    <button class="btn">Invite</button>
+                    <button class="btn" (click)="inviteMember()">Invite</button>
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Team } from 'src/app/model/team';
+import { AccountService } from 'src/app/services/account.service';
 import { TeamService } from 'src/app/services/team.service';
 
 @Component({
@@ -16,8 +17,9 @@ export class ShowTeamComponent {
   teams : Team[] = [];
   teamMembers: any;
   id : number;
+  newMemberEmail: string;
 
-  constructor(private route: ActivatedRoute, private teamService: TeamService) { }
+  constructor(private route: ActivatedRoute, private teamService: TeamService,private accountService : AccountService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -70,5 +72,38 @@ export class ShowTeamComponent {
   }
   hideForm() {
     this.showPopup = false;
+  }
+
+
+
+  inviteMember() {
+    if (this.newMemberEmail) {
+      this.teamService.getTeamIdByTitle(this.teamTitle).subscribe(
+        (response: { message: string, data: number }) => {
+          const equipeId = response.data; // Get the team ID from the response
+          // Get the account ID based on the email
+          this.accountService.getAccountIDByEmail(this.newMemberEmail).subscribe(
+            (accountIdResponse) => {
+              const membreId = accountIdResponse.data[0].id;
+              this.hideForm();
+              this.teamService.addMemberToEquipe(equipeId, membreId).subscribe(
+                () => {
+                  console.log('Member added to team successfully');
+                },
+                (error) => {
+                  console.error('Error adding member to team:', error);
+                }
+              );
+            },
+            (error) => {
+              console.error('Error getting account ID:', error);
+            }
+          );
+        },
+        (error) => {
+          console.error('Error getting team ID:', error);
+        }
+      );
+    }
   }
 }

@@ -1,15 +1,16 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Event } from 'src/app/model/event';
-import { Meeting, MeetingState, MeetingType } from 'src/app/model/meeting';
+import { Meeting, MeetingState, MeetingType } from 'src/app/model/organisedMeet';
 import { Team } from 'src/app/model/team';
 import { Topic } from 'src/app/model/topic';
 import { MeetService } from 'src/app/services/meet.service';
 import { TeamService } from 'src/app/services/team.service';
 import { TopicService } from 'src/app/services/topic.service';
+import { TopicComponent } from '../topic/topic.component';
 
 
 
@@ -32,7 +33,7 @@ export class NewMeetUrgComponent implements OnInit {
 
 
   /*************************team selection**************** */
-  teams : Team[] = [];
+  teams : any[] = [];
   selectedTeam: Team;
 
   constructor(
@@ -42,8 +43,8 @@ export class NewMeetUrgComponent implements OnInit {
     ) {}
 
  ngOnInit() {
-  this.teamService.getAllTeams().subscribe(teams => {
-    this.teams = teams;
+  this.teamService.getAllTeams().subscribe(Response=> {
+    this.teams = Response.data;
   });
  /* this.topicService.getTopics().subscribe((topics) => {
     this.topics = topics;
@@ -59,12 +60,10 @@ message : string ="";
 
 events : Event[];
 
-
-  
-  selectedDate: string;
-  selectedStartTime: string;
-  selectedDuration: number;
-  selectedSlots: any[] = [];
+selectedDate: string;
+selectedStartTime: string;
+selectedDuration: number;
+selectedSlots: any[] = [];
 
 getSelectedSlotEventSource() {
   if (this.selectedSlot) {
@@ -120,9 +119,6 @@ addSlotItem() {
 }
 
 
-
-
-
 /*************************************popup calendar **********/
   showPopup = false;
 
@@ -134,6 +130,9 @@ addSlotItem() {
   }
 
   /*******************************manage Agendaa*******************/
+
+  @ViewChild('topicComponent', { static: false })
+  topicComponent: TopicComponent;
 
   topics = [];
 
@@ -164,16 +163,24 @@ addSlotItem() {
     moveItemInArray(this.topics, event.previousIndex, event.currentIndex);
   }
 
+  deleteTopic(topic: Topic) {
+    this.topics = this.topics.filter((t) => t !== topic);
+  }
+
+  areAllTopicsFilled(): boolean {
+    return this.topics.every((topic) => topic.title && topic.presenter && topic.duration && topic.details);
+  }
+  
+
   saveTopics() {
+    
    /* this.topicService.saveTopics(this.topics).subscribe((savedTopics) => {
       this.topics = savedTopics;
     });*/
   }
   
   
-  deleteTopic(topic: Topic) {
-    this.topics = this.topics.filter((t) => t !== topic);
-  }
+  
 
   saveMeeting() {
     // sort the topics by order

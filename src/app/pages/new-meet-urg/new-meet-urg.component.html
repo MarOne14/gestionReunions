@@ -22,7 +22,7 @@
                         <mat-label>Choose a team</mat-label>
                         <mat-select [(value)]="selectedTeam" (selectionChange)="teamSelected()">
                           <mat-option *ngFor="let team of teams" [value]="team">
-                            {{ team.title }}
+                            {{ team.titre }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>    
@@ -48,7 +48,7 @@
                 <div class="popup" *ngIf="showPopup1">
                     <div class="popup-content">
                     <p>{{message}}</p>
-                    <span class="close"  (click)="hideForm1()">&times;</span>
+                    <span class="close" (click)="hideForm1()">&times;</span>
                     </div>
                 </div>               
                 <div>
@@ -69,7 +69,7 @@
                             <i class="fa fa-fw-solid fa-calendar-plus"></i>
                         </a>
                     </button>
-                    <button class="user-button" (click)="saveTopics()">
+                    <button class="user-button" (click)="saveTopics()" [disabled]="!areAllTopicsFilled()">
                     <a class="user" matTooltip="Save Topics">
                          <i class="fa fa-fw-solid fa-save"></i>
                     </a>

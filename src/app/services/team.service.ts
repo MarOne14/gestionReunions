@@ -49,6 +49,11 @@ export class TeamService {
     return this.http.get(`${this.baseUrl}/equipe/${teamId}/membres`);
   }
 
+  addMemberToEquipe(equipeId: number, membreId: number): Observable<any> {
+    const url = `${this.baseUrl}/equipe/${equipeId}/membre/${membreId}`;
+    return this.http.post<any>(url, null);
+  }
+
   createTeam(team: Team): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}`, team).pipe(
       catchError((error) => {
@@ -58,8 +63,8 @@ export class TeamService {
     );
   }  
 
-  updateTeam(teamId: number, title: string, speciality: string): Observable<any> {
-    const body = { title, speciality };
+  updateTeam(teamId: number, title: string): Observable<any> {
+    const body = { title };
   
     return this.http.put<any>(`${this.baseUrl}/${teamId}`, body).pipe(
       catchError((error) => {
