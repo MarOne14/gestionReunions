@@ -4,10 +4,10 @@ import { FormGroup } from '@angular/forms';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Event } from 'src/app/model/event';
-import { Meeting, MeetingState, MeetingType } from 'src/app/model/organisedMeet';
+import { UrgentMeet, MeetingState } from 'src/app/model/urgentMeet';
 import { Team } from 'src/app/model/team';
 import { Topic } from 'src/app/model/topic';
-import { MeetService } from 'src/app/services/meet.service';
+import { UrgentMeetService } from 'src/app/services/urgentMeet.service';
 import { TeamService } from 'src/app/services/team.service';
 import { TopicService } from 'src/app/services/topic.service';
 import { TopicComponent } from '../topic/topic.component';
@@ -26,7 +26,6 @@ export class NewMeetUrgComponent implements OnInit {
   selectedTeam1: Team;
   teams1: Team[];
   etat : MeetingState;
-  type : MeetingType;
   form: FormGroup;
   passwordsMatch :boolean = false;
 
@@ -39,7 +38,7 @@ export class NewMeetUrgComponent implements OnInit {
   constructor(
     private teamService: TeamService ,
     private topicService: TopicService,
-    private meetService: MeetService
+    private meetService: UrgentMeetService
     ) {}
 
  ngOnInit() {

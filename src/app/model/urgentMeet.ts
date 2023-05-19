@@ -9,7 +9,7 @@ export enum MeetingState {
     accomplished = 'réalisé'
 }
 
-export class UrgenteMeet {
+export class UrgentMeet {
     title: string;
     objective : string;
     team: Team;
