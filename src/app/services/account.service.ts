@@ -24,6 +24,10 @@ export class AccountService {
   getAccountByEmail(email: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/email/${email}`);
   }
+
+  getAccountRoleByEmail(email: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/email/role/${email}`);
+  }
   
   getAccountIDByEmail(email: string): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/email/id/${email}`);

@@ -17,6 +17,7 @@ export class LoginComponent {
   showPopup : boolean = false;
   showPopup1 : boolean = false;
   showPassword: boolean = false;
+  currentRole : string;
   form: FormGroup;
   user : Account;
 
@@ -46,11 +47,20 @@ export class LoginComponent {
     if (this.form.valid) {
       const email = this.form.get('email').value;
       const password = this.form.get('password').value;
+      this.accountService.getAccountRoleByEmail(email).subscribe(
+        (response: any) => {
+          this.currentRole = response.data; // Assign the value from the response to the 'role' variable
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
   
       this.authService.login(email, password).subscribe(
         (response) => {
           // Authentication successful
           localStorage.setItem('userId', email);
+          localStorage.setItem('role', this.currentRole);
           // Redirect to the desired page or perform any necessary actions
           this.router.navigate(['/menu']);
         },

@@ -31,7 +31,7 @@
                             <span class="word">My Profile</span>
                         </a>
                     </button>
-                    <button mat-menu-item>
+                    <button mat-menu-item *ngIf="hide2()">
                         <a class="user-button" routerLink="/Settings">
                             <i class="fa fa-fw fa-cog"></i>
                             <span class="word">Settings</span>

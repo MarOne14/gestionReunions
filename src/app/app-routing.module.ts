@@ -9,18 +9,19 @@ import { ManageMeetComponent } from './pages/manage-meet/manage-meet.component';
 import { ManageTeamComponent } from './pages/manage-team/manage-team.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { AuthGuard } from './helpers/auth.guard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'sign-up', component: SignUpComponent },
-  { path: 'menu', component: DashboardComponent },
-  { path: 'plan/urgent', component: NewMeetUrgComponent },
-  { path: 'plan/schedule', component: NewMeetOrgComponent },
-  { path: 'menu3', component: ManageMeetComponent },
-  { path: 'teams/:title', component: ManageTeamComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'Settings', component: SettingsComponent },
+  { path: 'menu', component: DashboardComponent , canActivate: [AuthGuard]},
+  { path: 'plan/urgent', component: NewMeetUrgComponent , canActivate: [AuthGuard] },
+  { path: 'plan/schedule', component: NewMeetOrgComponent , canActivate: [AuthGuard] },
+  { path: 'menu3', component: ManageMeetComponent , canActivate: [AuthGuard] },
+  { path: 'teams/:title', component: ManageTeamComponent , canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent , canActivate: [AuthGuard] },
+  { path: 'Settings', component: SettingsComponent , canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
 

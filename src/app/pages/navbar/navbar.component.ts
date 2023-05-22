@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router} from '@angular/router';
+import { RoleType } from 'src/app/model/account';
 import { AccountService } from 'src/app/services/account.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
@@ -13,10 +14,13 @@ import { SidebarService } from 'src/app/services/sidebar.service';
 export class NavbarComponent {
   CurrentUser: any = null;
   email : string ;
+  currentRole : string;
+  role : RoleType;
 
   
   constructor(private userService : AccountService, private authService : AuthService, private router: Router, public sideBar: SidebarService) {
     this.email = localStorage.getItem('userId');
+    this.currentRole= localStorage.getItem('role');
     this.userService.getAccountByEmail(this.email).subscribe(response => {
       this.CurrentUser= response;
     },
@@ -35,6 +39,10 @@ export class NavbarComponent {
   hide1(): boolean {
     const currentRoute = this.router.url;
     return currentRoute === '/menu3';
+  }
+
+  hide2() : boolean{
+    return this.currentRole == RoleType.ADM
   }
 
   /*******************New Meeting*************/
