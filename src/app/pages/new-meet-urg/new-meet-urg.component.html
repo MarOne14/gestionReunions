@@ -16,18 +16,9 @@
             <form class="newMeet">
                 <div>
                     <label class="titl">Title :</label>
-                    <label class="team">Team :</label><br>
+                    <label class="team">Objective :</label><br>
                     <input type="text" class="title1" placeholder="Meeting Title" required>
-                    <mat-form-field class="title2" appearance="fill">
-                        <mat-label>Choose a team</mat-label>
-                        <mat-select [(value)]="selectedTeam" (selectionChange)="teamSelected()">
-                          <mat-option *ngFor="let team of teams" [value]="team">
-                            {{ team.titre }}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>    
-                    <button class="calend" matTooltip="Working Agenda" (click)="showForm()">
-                        <i class="fa fa-fw fa-calendar-day"></i></button>
+                    <input type="text" class="title1" placeholder="Objective of the Meeting" required>
                             
                 </div>
                 <div class="modal" *ngIf="showPopup" (click)="hideForm()">
@@ -37,6 +28,19 @@
                             </div>
                     </div>
                 </div>
+                <div>
+                    <label>Team :</label><br>
+                    <mat-form-field class="title2" appearance="fill">
+                        <mat-label>Choose a team</mat-label>
+                        <mat-select [(value)]="selectedTeam" (selectionChange)="teamSelected()">
+                          <mat-option *ngFor="let team of teams" [value]="team">
+                            {{ team.titre }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <button class="calend" matTooltip="Working Agenda" (click)="showForm()">
+                        <i class="fa fa-fw fa-calendar-day"></i></button>
+                </div> 
                 <div #allSlots>
                     <div class="slot">
                         <label class="slotlabel">Time Slot :</label>
@@ -50,11 +54,7 @@
                     <p>{{message}}</p>
                     <span class="close" (click)="hideForm1()">&times;</span>
                     </div>
-                </div>               
-                <div>
-                    <label>Objective :</label><br>
-                    <input type="text" class="title1" placeholder="Objective of the Meeting" required>
-                </div>              
+                </div>                            
                <br>
                 <div class="agenda">
                     <h2>Agenda</h2>
