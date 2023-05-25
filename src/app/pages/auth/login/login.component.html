@@ -10,7 +10,7 @@
     <div class="container">
         <div class="form-container">
             <form id="login-form" [formGroup]="form" (ngSubmit)="onSubmit()">
-                <h2>Login here</h2>
+                <h2 class="title">Login</h2>
                 <div class="emaa">
                     <input (keyup)="onKeyUp($event)" type="email" name="email" formControlName="email"
                         placeholder="Email">
@@ -32,8 +32,6 @@
                 <br><br>
                 <h2>Don't have an account? <a class="link" routerLink="/sign-up">sign-up here</a></h2>
             </form>
-        </div>
-        <div class="image-container">
         </div>
         <!-- Alert message -->
         <div class="popup" *ngIf="showPopup">

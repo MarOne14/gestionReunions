@@ -1,5 +1,6 @@
 import { Time } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { TeamService } from 'src/app/services/team.service';
@@ -10,12 +11,25 @@ import { TeamService } from 'src/app/services/team.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit{
   /*********************************team selection*****************/
   teams: any[]=[];
   id : number;
 
-  constructor(private teamService: TeamService) {}
+  constructor(private teamService: TeamService,private formBuilder: FormBuilder) {
+    this.workingDaysForm = this.formBuilder.group({
+      monday: [false, Validators.required],
+      tuesday: [false, Validators.required],
+      wednesday: [false, Validators.required],
+      thursday: [false, Validators.required],
+      friday: [false, Validators.required],
+      saturday: [false],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      startTime: ['', Validators.required],
+      endTime: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.loadTeams();
@@ -103,7 +117,25 @@ export class SettingsComponent {
   startTime : Time;
   endTime : Time;
   startDate : Date;
-  endDate : Date;
+  endDate : Date; 
+  workingDays: {
+  monday: boolean;
+  tuesday: boolean;
+  wednesday: boolean,
+  thursday: boolean,
+  friday: boolean,
+  saturday: boolean
+};
+
+
+workingDaysForm: FormGroup;
+
+
+isAtLeastOneDaySelected(): boolean {
+  // Check if at least one weekday is selected
+  return Object.values(this.workingDays).some(day => day);
+}
+
 
 
   showForm() {
@@ -123,10 +155,7 @@ export class SettingsComponent {
 
   cancel(){
     this.hideForm();
-    this.startDate=null;
-    this.endDate=null;
-    this.startTime = null;
-    this.endTime=null;
+    this.selectedOffer =null;
   }
   
 

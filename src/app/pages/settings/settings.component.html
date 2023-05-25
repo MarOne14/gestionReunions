@@ -65,6 +65,36 @@
         <input type="text" [(ngModel)]="title"  placeholder="Event title" required>
       </div>
       <div class="modal-body" *ngIf="selectedOffer === 'offer1'">
+        <label>Working Days:</label>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.monday" name="monday">Monday
+            </label>
+          </div>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.tuesday" name="tuesday">Tuesday
+            </label>
+          </div>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.wednesday" name="wednesday">Wednesday
+            </label>
+          </div>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.thursday" name="thursday">Thursday
+            </label>
+          </div>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.friday" name="friday">Friday
+            </label>
+          </div>
+          <div class="day-checkbox">
+            <label>
+              <input type="checkbox" [(ngModel)]="workingDays.saturday" name="saturday">Saturday
+            </label>
          <div class="date-inputs">
           <label>From:</label>
           <input type="date" [(ngModel)]="startDate" name="startDate" required>
@@ -81,9 +111,9 @@
       </div>
       </div>
       <div class="modal-footer">
-        <button class="btnlft" (click)="cancel()">Cancel</button>
-        <button class="btn" *ngIf="selectedOffer === 'offer1'" [disabled]="!startDate || !endDate || !startTime || !endTime" (click)="update()">Update</button>
-        <button class="btn" *ngIf="selectedOffer === 'offer2'"  [disabled]="!selectedDate || !title " (click)="add()">Update</button>
+        <button class="btnlft" *ngIf="selectedOffer === 'offer1' || selectedOffer === 'offer2' " (click)="cancel()">Cancel</button>
+        <button class="btn" *ngIf="selectedOffer === 'offer1'" [disabled]="!workingDaysForm?.valid" (click)="update()">Update</button>
+        <button class="btn" *ngIf="selectedOffer === 'offer2'" [disabled]="!selectedDate || !title " (click)="add()">Update</button>
       </div>
     </div>
   </div>

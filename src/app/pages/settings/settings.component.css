@@ -348,6 +348,36 @@ full-calendar{
   left: 5px;
   background-color: #03A9B0;
 }
+.day-checkbox input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  position: relative;
+  background-color: #f1f1f1;
+  color: #666;
+  top: 5px;
+  height: 20px;
+  width: 20px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: none;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.day-checkbox input[type="checkbox"]:checked::before {
+  position: absolute;
+  content: "";
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  top: 5px;
+  left: 5px;
+  background-color: #03A9B0;
+}
+
+
 .date-inputs {
   margin-top: 20px;
 }

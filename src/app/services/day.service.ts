@@ -23,10 +23,6 @@ export class DayService {
     return this.http.get(`${this.baseUrl}/feries`);
   }
 
-  getAllWorkingDays(): Observable<any>  {
-    return this.http.get(`${this.baseUrl}/travail`);
-  }
-
   insertDay(date: string, year: number): Observable<any> {
     const body = { date, year };
     return this.http.post(`${this.baseUrl}/jours`, body);
@@ -37,9 +33,17 @@ export class DayService {
     return this.http.post(`${this.baseUrl}/feriers`, body);
   }
 
+  getAllWorkingDays(): Observable<any>  {
+    return this.http.get(`${this.baseUrl}/travail`);
+  }
+
   insertWorkingDay(date: string, startTime: string, endTime: string): Observable<any> {
     const body = { date, startTime, endTime };
     return this.http.post(`${this.baseUrl}/travail`, body);
+  }
+
+  deleteWorkingDay(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/travail/${id}`);
   }
 
 }

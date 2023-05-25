@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BusinessHoursInput, CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { Holiday } from 'src/app/model/holiday';
 import { CalendarService } from 'src/app/services/calendar.service';
 import { DayService } from 'src/app/services/day.service';
 
