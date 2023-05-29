@@ -11,16 +11,16 @@ export class NotificationService {
 
   constructor(private http: HttpClient) { }
 
-  getAllNotifications(): Observable<Notification[]> {
-    return this.http.get<Notification[]>(this.baseUrl);
+  getAllNotifications(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}`);
   }
 
-  getNotificationById(id: number): Observable<Notification> {
-    return this.http.get<Notification>(`${this.baseUrl}/${id}`);
+  getNotificationById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
   createNotification(notification: Notification): Observable<any> {
-    return this.http.post(this.baseUrl, notification);
+    return this.http.post(`${this.baseUrl}`, notification);
   }
 
   updateNotification(id: number, notification: Notification): Observable<any> {
@@ -31,16 +31,16 @@ export class NotificationService {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
-  getNotificationsByReunionId(idReunion: number): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.baseUrl}/reunion/${idReunion}`);
+  getNotificationsByReunionId(idReunion: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/reunion/${idReunion}`);
   }
 
-  getNotificationsByCompteId(idCompte: number): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.baseUrl}/compte/${idCompte}`);
+  getNotificationsByAccountId(idCompte: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/compte/${idCompte}`);
   }
 
-  getNotificationsByReunionAndCompteId(idReunion: number, idCompte: number): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.baseUrl}/reunion/${idReunion}/compte/${idCompte}`);
+  getNotificationsByReunionAndAccountIds(idReunion: number, idCompte: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/reunion/${idReunion}/compte/${idCompte}`);
   }
   
 }

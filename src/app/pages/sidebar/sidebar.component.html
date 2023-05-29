@@ -18,28 +18,38 @@
       </div>
 </div>
 
-<div class="modal" *ngIf="showPopup" >
+
+<div class="modal" *ngIf="showPopup">
     <div class="modal-dialog" (click)="$event.stopPropagation()">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>New Team</h2>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="form">
-                    <div class="row">
-                        <input type="text" placeholder="Team Title" formControlName="title">
-                        <input type="text" placeholder="Speciality" formControlName="specia">
-                    </div>
-                    <div class="row row-1">
-                        <label>Invite Teammates</label>
-                        <input type="email" placeholder="Enter an Email" formControlName="email">
-                    </div>
-                    <div class="row">
-                        <button class="btnlft" (click)="hideForm()">Cancel</button>
-                        <button class="btn" type="submit" (click)="onSubmit()">Create</button>
-                    </div>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1>New Team</h1>
         </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="title">Team Title</label>
+            <input type="text" id="title" class="form-control" [(ngModel)]="title">
+          </div>
+          <div class="form-group">
+            <label for="email">Invite Teammates</label>
+            <input type="email" id="email" class="form-control" [(ngModel)]="member">
+            <a (click)="saveMember()"><i class="fa fa-plus-circle" matTooltip="Add another member"></i></a>
+          </div>
+          <div *ngIf="members.length > 0">
+            <label>Added Members:</label>
+            <ul>
+              <li *ngFor="let member of members">{{ member }}</li>
+            </ul>
+          </div>
+          <div *ngIf="showPopup1">
+            <p> {{message}} </p>
+          </div>
+          <div class="form-group row">
+            <button class="btnlft" (click)="hideForm()">Cancel</button>
+            <button class="btn" type="submit" (click)="onSubmit()">Create</button>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+  

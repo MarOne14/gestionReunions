@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { DayService } from 'src/app/services/day.service';
+import { HoraireService } from 'src/app/services/horaire.service';
+import { PeriodeService } from 'src/app/services/periode.service';
 import { TeamService } from 'src/app/services/team.service';
 
 
@@ -16,7 +19,7 @@ export class SettingsComponent implements OnInit{
   teams: any[]=[];
   id : number;
 
-  constructor(private teamService: TeamService,private formBuilder: FormBuilder) {
+  constructor(private teamService: TeamService,private formBuilder: FormBuilder,private dayService : DayService,private periodeService : PeriodeService,private horaireService : HoraireService) {
     this.workingDaysForm = this.formBuilder.group({
       monday: [false, Validators.required],
       tuesday: [false, Validators.required],
@@ -28,6 +31,9 @@ export class SettingsComponent implements OnInit{
       endDate: ['', Validators.required],
       startTime: ['', Validators.required],
       endTime: ['', Validators.required]
+    });
+    this.dayService.getAllHolidays().subscribe((response) => {
+      this.holidays = response;
     });
   }
 
@@ -117,7 +123,9 @@ export class SettingsComponent implements OnInit{
   startTime : Time;
   endTime : Time;
   startDate : Date;
-  endDate : Date; 
+  endDate : Date;
+  holidays: any[] = [];
+  errorMessage: string = '';
   workingDays: {
   monday: boolean;
   tuesday: boolean;
@@ -126,17 +134,12 @@ export class SettingsComponent implements OnInit{
   friday: boolean,
   saturday: boolean
 };
-
-
 workingDaysForm: FormGroup;
-
 
 isAtLeastOneDaySelected(): boolean {
   // Check if at least one weekday is selected
   return Object.values(this.workingDays).some(day => day);
 }
-
-
 
   showForm() {
     this.showPopup = true;
@@ -149,15 +152,158 @@ isAtLeastOneDaySelected(): boolean {
     
   }
 
-  update(){
-
-  }
-
   cancel(){
     this.hideForm();
     this.selectedOffer =null;
   }
+  update(){
+    const startDateString = this.startDate;
+    const endDateString = this.endDate;
+
+    // Check if the selected period exists
+    this.periodeService.getIdByDates(startDateString, endDateString).subscribe(
+      (response: any) => {
+        if (response && response.id) {
+          const idHoraire = response.idHoraire;
+          this.updateHoraire(idHoraire);
+        } else {
+          this.createHoraire();
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
   
+  updateHoraire(idHoraire: string) {
+    const heureDebut = this.startTime;
+    const heureFin = this.endTime;
+
+    this.horaireService.updateHoraireTravail(idHoraire, heureDebut, heureFin).subscribe(
+      (response: any) => {
+        console.log('Horaire updated successfully');
+        this.createPeriode(idHoraire);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  createHoraire() {
+    const heureDebut = this.startTime;
+    const heureFin = this.endTime;
+
+    this.horaireService.createHoraireTravail(heureDebut, heureFin).subscribe(
+      (response: any) => {
+        const idHoraire = response.id;
+        console.log('Horaire created successfully');
+        this.createPeriode(idHoraire);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  createPeriode(idHoraire: string) {
+    const startDateString = this.startDate;
+    const endDateString = this.endDate;
+
+    // Check if any day in the selected period is a holiday
+    const isHolidayExist = this.checkIfHolidayExist(startDateString, endDateString);
+
+    if (isHolidayExist) {
+      console.log('Cannot insert the period due to holidays');
+      return;
+    }
+
+    this.periodeService.createPeriodeTravail(startDateString, endDateString, idHoraire).subscribe(
+      (response: any) => {
+        const idPeriode = response.id;
+        console.log('Periode created successfully');
+        this.insertWorkingDays(startDateString, endDateString, idPeriode);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  checkIfHolidayExist(startDateString: Date, endDateString: Date): boolean {
+    const startDate = new Date(startDateString);
+    const endDate = new Date(endDateString);
+
+    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+      const formattedDate = this.formatDate(date);
+      const isHoliday = this.holidays.some((holiday) => holiday.date === formattedDate);
+
+      if (isHoliday) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+
+    return formattedDate;
+  }
+
+  insertWorkingDays(startDateString: Date, endDateString: Date, idPeriode: string) {
+    const startDate = new Date(startDateString);
+    const endDate = new Date(endDateString);
+
+    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+      const dayOfWeek = date.getDay();
+      const isWorkingDay = this.workingDays[this.getWeekdayKey(dayOfWeek)];
+
+      if (isWorkingDay) {
+        const formattedDate = this.formatDate(date);
+        this.dayService.createWorkingDay(formattedDate, idPeriode).subscribe(
+          (response: any) => {
+            console.log(`Working day (${formattedDate}) inserted successfully`);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    }
+
+    this.hideForm();
+    this.selectedOffer = null;
+  }
+
+  getWeekdayKey(dayOfWeek: number): string {
+    switch (dayOfWeek) {
+      case 0:
+        return 'sunday';
+      case 1:
+        return 'monday';
+      case 2:
+        return 'tuesday';
+      case 3:
+        return 'wednesday';
+      case 4:
+        return 'thursday';
+      case 5:
+        return 'friday';
+      case 6:
+        return 'saturday';
+      default:
+        return '';
+    }
+  }
+  
+
 
 }
 

@@ -1,8 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CalendarOptions } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { Event } from 'src/app/model/event';
 import { UrgentMeet, MeetingState } from 'src/app/model/urgentMeet';
 import { Team } from 'src/app/model/team';
@@ -33,7 +31,7 @@ export class NewMeetUrgComponent implements OnInit {
 
   /*************************team selection**************** */
   teams : any[] = [];
-  selectedTeam: Team;
+  selectedTeam: any;
 
   constructor(
     private teamService: TeamService ,
@@ -45,12 +43,10 @@ export class NewMeetUrgComponent implements OnInit {
   this.teamService.getAllTeams().subscribe(Response=> {
     this.teams = Response.data;
   });
- /* this.topicService.getTopics().subscribe((topics) => {
-    this.topics = topics;
-  });*/
 }
 teamSelected(): void {
   console.log('Selected team:', this.selectedTeam);
+  this.teamService.setTeamID(this.selectedTeam.id);
 }
 
 /**************************************Slots choice ******************/

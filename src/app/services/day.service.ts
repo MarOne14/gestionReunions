@@ -15,35 +15,35 @@ export class DayService {
     return this.http.get(`${this.baseUrl}/jours`);
   }
 
-  getDayByYear(year: string): Observable<any>  {
+  getDaysByYear(year: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/jours/${year}`);
   }
 
-  getAllHolidays(): Observable<any>  {
-    return this.http.get(`${this.baseUrl}/feries`);
-  }
-
-  insertDay(date: string, year: number): Observable<any> {
+  createDay(date: string, year: string): Observable<any> {
     const body = { date, year };
     return this.http.post(`${this.baseUrl}/jours`, body);
   }
 
-  insertHoliday(date: string, title: string): Observable<any> {
-    const body = { date, title };
-    return this.http.post(`${this.baseUrl}/feriers`, body);
+  getAllHolidays(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/feries`);
   }
 
-  getAllWorkingDays(): Observable<any>  {
+  createHoliday(date: string, title: string): Observable<any> {
+    const body = { date, title };
+    return this.http.post(`${this.baseUrl}/feries`, body);
+  }
+
+  getAllWorkingDays(): Observable<any> {
     return this.http.get(`${this.baseUrl}/travail`);
   }
 
-  insertWorkingDay(date: string, startTime: string, endTime: string): Observable<any> {
-    const body = { date, startTime, endTime };
+  createWorkingDay(date: string, idPeriod: string): Observable<any> {
+    const body = { date, idPeriod };
     return this.http.post(`${this.baseUrl}/travail`, body);
   }
 
-  deleteWorkingDay(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/travail/${id}`);
+  deleteWorkingDay(day: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/travail/${day}`);
   }
 
 }

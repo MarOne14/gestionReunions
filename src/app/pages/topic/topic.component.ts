@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Topic } from 'src/app/model/topic';
+import { TeamService } from 'src/app/services/team.service';
 import { TopicService } from 'src/app/services/topic.service';
 
 @Component({
@@ -19,18 +20,31 @@ export class TopicComponent implements OnInit {
   }
   
   title: string;
-  email: string;
+  email: any;
   dur: number;
   det: string;
   form: FormGroup;
+  members: any[];
+  id : number;
+  selectedMember : any;
   
-  constructor(private topicService: TopicService, private router: Router, private fb: FormBuilder ) {
+  constructor(private topicService: TopicService, private router: Router, private fb: FormBuilder, private teamService : TeamService ) {
     this.form = new FormGroup({
       title: new FormControl(),
-      email: new FormControl(),
       dur: new FormControl(),
       det: new FormControl()
     });
+    this.email=localStorage.getItem("userId");
+    this.id = this.teamService.getTeamId();
+    this.teamService.getTeamMembers(this.id).subscribe(
+      (Response)=>{
+        this.members = Response.data;
+      }
+    );
+  }
+
+  memberSelected(): void {
+    console.log('Selected team:', this.selectedMember.nom_utilisateur);
   }
 
   ngOnInit() {
@@ -39,10 +53,6 @@ export class TopicComponent implements OnInit {
         Validators.required,
         Validators.minLength(4),
         Validators.pattern('[a-zA-Z]*')
-      ]),
-      email : new FormControl('',[
-        Validators.required,
-        Validators.email
       ]),
       dur : new FormControl('',[
         Validators.required,
@@ -80,10 +90,6 @@ export class TopicComponent implements OnInit {
 
     if (formControl.hasError('pattern')) {
       return 'Invalid input';
-    }
-
-    if (formControl.hasError('email')) {
-      return 'Invalid email';
     }
 
     return '';

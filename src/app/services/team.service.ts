@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError } from 'rxjs';
+import { Observable, catchError, map } from 'rxjs';
 import { Team } from '../model/team';
 import { Account } from '../model/account';
 
@@ -12,6 +12,7 @@ export class TeamService {
   allusers: Account[];
   teams: Team[];
   teamTitle: string;
+  id : number;
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +22,13 @@ export class TeamService {
 
   getTeamTitle(): string {
     return this.teamTitle;
+  }
+
+  setTeamID(id:number):void{
+    this.id=id;
+  }
+  getTeamId(): number {
+    return this.id;
   }
 
   getAllTeams(): Observable<any> {
@@ -54,14 +62,17 @@ export class TeamService {
     return this.http.post<any>(url, null);
   }
 
-  createTeam(team: Team): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}`, team).pipe(
+  createTeam(title: string): Observable<any> {
+    const url = `${this.baseUrl}/equipe/${title}`;
+    return this.http.post<any>(url, null).pipe(
+      map((response: any) => response.data),
       catchError((error) => {
         console.log(error);
         return [];
       })
     );
-  }  
+  }
+  
 
   updateTeam(teamId: number, title: string): Observable<any> {
     const body = { title };

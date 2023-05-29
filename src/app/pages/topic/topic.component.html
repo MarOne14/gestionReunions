@@ -8,8 +8,14 @@
         <input (keyup)="onKeyUp($event)" type="text" class="aged" name="title" formControlName="title" placeholder="Topic title" [(ngModel)]="topic.title">
         <mat-error *ngIf="form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)">  {{ getErrorMessage('title') }}  </mat-error>
 
-        <input (keyup)="onKeyUp($event)" type="email" class="aged" name="email" formControlName="email" placeholder="Enter Presenter" [(ngModel)]="topic.presenter">
-        <mat-error *ngIf="form.get('email').invalid && (form.get('email').dirty || form.get('email').touched)">  {{ getErrorMessage('email') }} </mat-error>
+        <mat-form-field class="title2" appearance="fill">
+            <mat-label>Choose a presenter</mat-label>
+            <mat-select [(value)]="selectedMember" (selectionChange)="memberSelected()">
+              <mat-option *ngFor="let member of members" [value]="member">
+                {{ member.nom_utilisateur }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
         <input (keyup)="onKeyUp($event)" type="number" class="dur" name="dur" formControlName="dur"  placeholder="Duration (in minutes)" required [(ngModel)]="topic.duration">
         <mat-error *ngIf="form.get('dur').invalid && (form.get('dur').dirty || form.get('dur').touched)"> {{ getErrorMessage('dur') }} </mat-error>
