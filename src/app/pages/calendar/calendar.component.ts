@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BusinessHoursInput, CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { CalendarService } from 'src/app/services/calendar.service';
 import { DayService } from 'src/app/services/day.service';
-
+import { HoraireService } from 'src/app/services/horaire.service';
+import { PeriodeService } from 'src/app/services/periode.service';
 
 @Component({
   selector: 'app-calendar',
@@ -13,87 +13,134 @@ import { DayService } from 'src/app/services/day.service';
 export class CalendarComponent implements OnInit {
 
   holidays: [];
+  startTime: string = "08:00";
+  finishTime: string = "17:00";
+  calendarOptions: CalendarOptions;
 
-  constructor(private calendarService: CalendarService,private dayService : DayService) {}
-  
+  constructor(
+    private dayService: DayService,
+    private periodeService: PeriodeService,
+    private horaireService: HoraireService
+  ) {}
+
   ngOnInit(): void {
-    this.loadHolidays();
+    this.calendarOptions = this.initializeCalendarOptions();
+    this.loadWorkingDay();
   }
 
-  calendarOptions: CalendarOptions = {
-    initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin],
-    businessHours: this.getBusinessHours(),
-    events: []
-  }
-
-
-  private getBusinessHours(): BusinessHoursInput {
+  private initializeCalendarOptions(): CalendarOptions {
     return {
-      daysOfWeek: [1, 2, 3, 4, 5], // Working days (Monday to Friday)
-      startTime: '8:00', // Start time
-      endTime: '18:00', // End time
+      initialView: 'dayGridMonth',
+      plugins: [dayGridPlugin],
+      businessHours: this.getBusinessHours(),
+      events: []
     };
   }
 
+  private loadWorkingDay(): void {
+    // Get today's date
+    const today = new Date();
+    const formattedDate = this.formatDate(today);
+
+    // Search for the working day based on today's date
+    this.dayService.getPeriodIdWorkingdayByDate(formattedDate).subscribe(
+      (response: any) => {
+        if (response.length > 0) {
+          const idPeriode = response[0].idPeriodeTravail;
+
+          // Search for the periodeTravail based on the idPeriode
+          this.periodeService.getPeriodeTravailById(idPeriode).subscribe(
+            (periodeTravail: any) => {
+              if (periodeTravail) {
+                const idHoraire = periodeTravail.idHoraire;
+
+                // Search for the horaire based on the idHoraire
+                this.horaireService.getHoraireTravailById(idHoraire).subscribe(
+                  (horaire: any) => {
+                    if (horaire) {
+                      this.startTime = horaire.heureDebut;
+                      this.finishTime = horaire.heureFin;
+                      this.updateBusinessHours();
+                      this.loadHolidays(); // Load holidays after updating business hours
+                    } else {
+                      this.setDefaultBusinessHours();
+                      this.loadHolidays(); // Load holidays with default business hours
+                    }
+                  },
+                  (error) => {
+                    console.log(error);
+                    this.setDefaultBusinessHours();
+                    this.loadHolidays(); // Load holidays with default business hours
+                  }
+                );
+              } else {
+                this.setDefaultBusinessHours();
+                this.loadHolidays(); // Load holidays with default business hours
+              }
+            },
+            (error) => {
+              console.log(error);
+              this.setDefaultBusinessHours();
+              this.loadHolidays(); // Load holidays with default business hours
+            }
+          );
+        } else {
+          this.setDefaultBusinessHours();
+          this.loadHolidays(); // Load holidays with default business hours
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.setDefaultBusinessHours();
+        this.loadHolidays(); // Load holidays with default business hours
+      }
+    );
+  }
 
   private loadHolidays(): void {
     this.dayService.getAllHolidays().subscribe(
-      holidays => {
+      (holidays) => {
         this.calendarOptions.events = this.mapHolidaysToEvents(holidays);
       },
-      error => {
+      (error) => {
         console.log(error);
       }
     );
   }
 
-  private mapHolidaysToEvents(holidays:any[]): EventInput[] {
-    return holidays.map(holiday => ({
+  private getBusinessHours(): BusinessHoursInput {
+    return {
+      daysOfWeek: [1, 2, 3, 4, 5, 6], // Working days (Monday to Saturday)
+      startTime: this.startTime, // Start time
+      endTime: this.finishTime, // End time
+    };
+  }
+
+  private updateBusinessHours(): void {
+    this.calendarOptions.businessHours = this.getBusinessHours();
+  }
+
+  private setDefaultBusinessHours(): void {
+    this.startTime = '08:00';
+    this.finishTime = '17:00';
+    this.updateBusinessHours();
+  }
+
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+
+    return formattedDate;
+  }
+
+  private mapHolidaysToEvents(holidays: any[]): EventInput[] {
+    return holidays.map((holiday) => ({
       title: holiday.titre,
       start: holiday.date,
       allDay: true
     }));
   }
-
-  /*
-  handleEventDrop(event: any): void {
-    // Update the date of the event in the database
-    const updatedEvent = new Event(event.event.start, event.event.title, event.event.extendedProps.type);
-    this.calendarService.saveEvent(updatedEvent).subscribe();
-  }
-
-  ngOnInit(): void {
-    // Update the events array in the calendar config with the latest events
-    this.updateCalendarEvents();
-  }
-
-   // Function to update the events array in the calendar config
-   updateCalendarEvents(): void {
-    this.calendarService.getAllEvents().subscribe((events) => {
-      this.calendarOptions.events = events.map((event) => {
-        return {
-          title: event.title,
-          start: event.dateFr,
-          allDay: true,
-          backgroundColor: '#5bc0de'
-        };
-      });
-    });
-  }
-
-  // Function to get the background color for an event based on its type
-  getEventBackgroundColor(type: EventType): string {
-    switch (type) {
-      case EventType.JF:
-        return '#d9534f'; // Red color for Jour Ferier
-      case EventType.Meet:
-        return '#5bc0de'; // Blue color for Meeting
-      default:
-        return '#777'; // Gray color for other events
-    }
-  }
-  
-*/
-
 }

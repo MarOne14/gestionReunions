@@ -19,24 +19,30 @@ export class PeriodeService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  getIdByDates(startDate: Date, finishDate: Date): Observable<any> {
-    const url = `${this.baseUrl}/${startDate}/${finishDate}/id`;
+  getLastPeriodeTravailItemId(): Observable<any> {
+    const url = `${this.baseUrl}/id/last`;
     return this.http.get<any>(url);
   }
 
-  getLastItemId(): Observable<any> {
-    const url = `${this.baseUrl}/last-item-id`;
+  getIdByDates(startDate: Date, finishDate: Date): Observable<any> {
+    const startDateString = startDate.toISOString().split('T')[0];
+    const finishDateString = finishDate.toISOString().split('T')[0];
+    const url = `${this.baseUrl}/${startDateString}/${finishDateString}/id`;
     return this.http.get<any>(url);
-  }  
+  }
 
   createPeriodeTravail(dateDebut: Date, dateFin: Date, idHoraire: string): Observable<any> {
-    const body = { dateDebut, dateFin, idHoraire };
-    return this.http.post(`${this.baseUrl}`, body);
+    const dateDebutString = dateDebut.toISOString().split('T')[0];
+    const dateFinString = dateFin.toISOString().split('T')[0];
+    const url = `${this.baseUrl}/${dateDebutString}/${dateFinString}/${idHoraire}`;
+    return this.http.post(url, {}, { responseType: 'text' });
   }
 
   updatePeriodeTravail(id: string, dateDebut: Date, dateFin: Date, idHoraire: string): Observable<any> {
-    const body = { dateDebut, dateFin, idHoraire };
-    return this.http.put(`${this.baseUrl}/${id}`, body);
+    const dateDebutString = dateDebut.toISOString().split('T')[0];
+    const dateFinString = dateFin.toISOString().split('T')[0];
+    const url = `${this.baseUrl}/${id}/${dateDebutString}/${dateFinString}/${idHoraire}`;
+    return this.http.put(url, {});
   }
 
   deletePeriodeTravail(id: string): Observable<any> {

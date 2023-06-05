@@ -1,7 +1,7 @@
 import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
+import {FormGroup } from '@angular/forms';
+import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { DayService } from 'src/app/services/day.service';
 import { HoraireService } from 'src/app/services/horaire.service';
@@ -18,23 +18,17 @@ export class SettingsComponent implements OnInit{
   /*********************************team selection*****************/
   teams: any[]=[];
   id : number;
+  verif : boolean;
 
-  constructor(private teamService: TeamService,private formBuilder: FormBuilder,private dayService : DayService,private periodeService : PeriodeService,private horaireService : HoraireService) {
-    this.workingDaysForm = this.formBuilder.group({
-      monday: [false, Validators.required],
-      tuesday: [false, Validators.required],
-      wednesday: [false, Validators.required],
-      thursday: [false, Validators.required],
-      friday: [false, Validators.required],
-      saturday: [false],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      startTime: ['', Validators.required],
-      endTime: ['', Validators.required]
-    });
+  constructor(private teamService: TeamService,
+    private dayService : DayService,
+    private periodeService : PeriodeService,
+    private horaireService : HoraireService
+    ) {
     this.dayService.getAllHolidays().subscribe((response) => {
       this.holidays = response;
     });
+
   }
 
   ngOnInit(): void {
@@ -81,9 +75,7 @@ export class SettingsComponent implements OnInit{
         // Handle error or display an error message
       }
     );
-  }  
-
-
+  } 
 
 /*****************************Calendar *************************/
   calendarOptions: CalendarOptions = {
@@ -115,6 +107,8 @@ export class SettingsComponent implements OnInit{
   /*********************************************popup calendar**********************/
   
   showPopup = false;
+  showPopup1 = false;
+  message : string = "";
   offshow : boolean = true;
   show : boolean = true;
   selectedOffer: string;
@@ -126,19 +120,17 @@ export class SettingsComponent implements OnInit{
   endDate : Date;
   holidays: any[] = [];
   errorMessage: string = '';
-  workingDays: {
-  monday: boolean;
-  tuesday: boolean;
-  wednesday: boolean,
-  thursday: boolean,
-  friday: boolean,
-  saturday: boolean
-};
+
 workingDaysForm: FormGroup;
 
-isAtLeastOneDaySelected(): boolean {
-  // Check if at least one weekday is selected
-  return Object.values(this.workingDays).some(day => day);
+
+
+showForm1() {
+  this.showPopup1 = true;
+}
+hideForm1() {
+  this.showPopup1 = false;
+  this.message="";
 }
 
   showForm() {
@@ -148,23 +140,75 @@ isAtLeastOneDaySelected(): boolean {
     this.showPopup = false;
   }
 
-  add(){
-    
+  onStartDateChange(event: any) {
+    this.startDate = event.target.value;
+    console.log('Start Date:', this.startDate);
+  }
+  
+  onEndDateChange(event: any) {
+    this.endDate = event.target.value;
+    console.log('End Date:', this.endDate);
+  }
+  
+  onStartTimeChange(event: any) {
+    this.startTime = event.target.value;
+    console.log('Start Time:', this.startTime);
+  }
+  
+  onEndTimeChange(event: any) {
+    this.endTime = event.target.value;
+    console.log('End Time:', this.endTime);
   }
 
   cancel(){
     this.hideForm();
+    this.hideForm1();
     this.selectedOffer =null;
+    this.startDate = null;
+    this.endDate = null;
+    this.startTime = null;
+    this.endTime = null;
+    this.ngOnInit();
   }
-  update(){
-    const startDateString = this.startDate;
-    const endDateString = this.endDate;
+  /*****************************************************Working Days*********************************************/
+  update() {
 
+    if (!this.startTime && !this.endTime && !this.startDate && !this.endDate) {
+      this.message = 'insert the dates with their time periodes please';
+      this.showForm1();
+      return;
+    }
+    const startDate = new Date(this.startDate);
+    const endDate = new Date(this.endDate);
+    const currentTime = new Date(); // Get current date and time
+    const currentDate = currentTime.toISOString().split('T')[0];
+    const chekDate = startDate.toISOString().split('T')[0];
+    // Check if start date is before end date
+  if (startDate >= endDate) {
+    this.message = 'Start date must be before end date';
+    this.showForm1();
+    return;
+  }
+
+  // Check if start time is before end time
+  if (this.startTime >= this.endTime) {
+    this.message = 'Start time must be before end time';
+    this.showForm1();
+    return;
+  }
+
+  // Check if the selected date is after the current date
+  if (chekDate < currentDate) {
+    this.message = 'Start date must be after the current date';
+    this.showForm1();
+    return;
+  }
+  
     // Check if the selected period exists
-    this.periodeService.getIdByDates(startDateString, endDateString).subscribe(
+    this.periodeService.getIdByDates(startDate, endDate).subscribe(
       (response: any) => {
-        if (response && response.id) {
-          const idHoraire = response.idHoraire;
+        if (response) {
+          const idHoraire = response.id;
           this.updateHoraire(idHoraire);
         } else {
           this.createHoraire();
@@ -174,31 +218,44 @@ isAtLeastOneDaySelected(): boolean {
         console.log(error);
       }
     );
+  
+    this.hideForm();
   }
   
   updateHoraire(idHoraire: string) {
     const heureDebut = this.startTime;
     const heureFin = this.endTime;
-
+  
     this.horaireService.updateHoraireTravail(idHoraire, heureDebut, heureFin).subscribe(
       (response: any) => {
         console.log('Horaire updated successfully');
-        this.createPeriode(idHoraire);
       },
       (error) => {
         console.log(error);
       }
     );
   }
-
+  
   createHoraire() {
     const heureDebut = this.startTime;
     const heureFin = this.endTime;
-
+  
     this.horaireService.createHoraireTravail(heureDebut, heureFin).subscribe(
-      (response: any) => {
-        const idHoraire = response.id;
+      (response) => {
         console.log('Horaire created successfully');
+        this.getLastHoraireTravailItemId();
+      },
+      (error) => {
+        console.log('Error creating horaire:', error);
+      }
+    );
+  }  
+  
+  getLastHoraireTravailItemId() {
+    this.horaireService.getLastHoraireTravailItemId().subscribe(
+      (response: any) => {
+        const idHoraire = response[0]['MAX(id)'];
+        console.log('Last Horaire ID retrieved successfully:', idHoraire);
         this.createPeriode(idHoraire);
       },
       (error) => {
@@ -206,24 +263,32 @@ isAtLeastOneDaySelected(): boolean {
       }
     );
   }
-
+  
   createPeriode(idHoraire: string) {
-    const startDateString = this.startDate;
-    const endDateString = this.endDate;
-
-    // Check if any day in the selected period is a holiday
-    const isHolidayExist = this.checkIfHolidayExist(startDateString, endDateString);
-
-    if (isHolidayExist) {
-      console.log('Cannot insert the period due to holidays');
-      return;
-    }
-
-    this.periodeService.createPeriodeTravail(startDateString, endDateString, idHoraire).subscribe(
+    const startDate = new Date(this.startDate);
+    const endDate = new Date(this.endDate);
+  
+    this.periodeService.createPeriodeTravail(startDate, endDate, idHoraire).subscribe(
       (response: any) => {
         const idPeriode = response.id;
         console.log('Periode created successfully');
-        this.insertWorkingDays(startDateString, endDateString, idPeriode);
+        this.getLastPeriodeTravailItemId();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  
+  getLastPeriodeTravailItemId() {
+    const startDate = new Date(this.startDate);
+    const endDate = new Date(this.endDate);
+
+    this.periodeService.getLastPeriodeTravailItemId().subscribe(
+      (response: any) => {
+        const lastIdPeriode = response[0]['MAX(id)'];
+        console.log('Last Periode ID retrieved successfully:', lastIdPeriode);
+        this.insertWorkingDays(startDate, endDate, lastIdPeriode);
       },
       (error) => {
         console.log(error);
@@ -231,45 +296,38 @@ isAtLeastOneDaySelected(): boolean {
     );
   }
 
-  checkIfHolidayExist(startDateString: Date, endDateString: Date): boolean {
-    const startDate = new Date(startDateString);
-    const endDate = new Date(endDateString);
-
-    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-      const formattedDate = this.formatDate(date);
-      const isHoliday = this.holidays.some((holiday) => holiday.date === formattedDate);
-
-      if (isHoliday) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-
-    const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-
-    return formattedDate;
-  }
-
-  insertWorkingDays(startDateString: Date, endDateString: Date, idPeriode: string) {
-    const startDate = new Date(startDateString);
-    const endDate = new Date(endDateString);
-
-    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+  insertWorkingDays(startDate: Date, endDate: Date, idPeriode: string) {
+    for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
       const dayOfWeek = date.getDay();
-      const isWorkingDay = this.workingDays[this.getWeekdayKey(dayOfWeek)];
-
-      if (isWorkingDay) {
+  
+      if (dayOfWeek !== 0) { // Skip Sundays (0 represents Sunday)
         const formattedDate = this.formatDate(date);
-        this.dayService.createWorkingDay(formattedDate, idPeriode).subscribe(
+  
+        // Check if the day is a jourFerier
+        this.dayService.getHolidayByDate(formattedDate).subscribe(
           (response: any) => {
-            console.log(`Working day (${formattedDate}) inserted successfully`);
+            if (response.length > 0) {
+              console.log(`Skipping holiday (${formattedDate})`);
+            } else {
+              // Day is not a holiday, insert it as a working day
+              this.dayService.createDay(formattedDate, date.getFullYear()).subscribe(
+                (response: any) => {
+                  console.log(`Day (${formattedDate}) inserted successfully`);
+  
+                  this.dayService.createWorkingDay(formattedDate, idPeriode).subscribe(
+                    (response: any) => {
+                      console.log(`Working day (${formattedDate}) inserted successfully`);
+                    },
+                    (error) => {
+                      console.log(error);
+                    }
+                  );
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+            }
           },
           (error) => {
             console.log(error);
@@ -277,11 +335,20 @@ isAtLeastOneDaySelected(): boolean {
         );
       }
     }
-
     this.hideForm();
     this.selectedOffer = null;
   }
-
+  
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+  
+    const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+  
+    return formattedDate;
+  }
+  
   getWeekdayKey(dayOfWeek: number): string {
     switch (dayOfWeek) {
       case 0:
@@ -302,8 +369,51 @@ isAtLeastOneDaySelected(): boolean {
         return '';
     }
   }
+/************************************************Holidays*****************************************/
   
+add() {
+  // Check if the selected date is a holiday
+  const formattedDate = this.formatDate(this.selectedDate);
+  this.dayService.getHolidayByDate(formattedDate).subscribe(
+    (response: any) => {
+      if (response.length > 0) {
+        const existingHoliday = response[0];
+        const existingTitle = existingHoliday.title;
+        this.message = `Holiday '${existingTitle}' already exists on ${formattedDate}`;
+        this.showForm1();
+      } else {
+        // Date is not a holiday, insert it
+        this.dayService.createDay(formattedDate, this.selectedDate.getFullYear()).subscribe(
+          (response: any) => {
+            console.log(`Day (${formattedDate}) inserted successfully`);
+            this.createHoliday(formattedDate, this.title);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
 
+createHoliday(date: string, title: string) {
+  this.dayService.createHoliday(date, title).subscribe(
+    (response: any) => {
+      console.log(`Holiday (${title}) created successfully on ${date}`);
+      this.hideForm();
+      this.selectedOffer = null;
+      this.selectedDate = null;
+      this.title = null;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
 
 }
 

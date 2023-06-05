@@ -20,14 +20,20 @@ export class HoraireService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  createHoraireTravail(heureDebut: Time, heureFin: Time): Observable<any> {
-    const body = { heureDebut, heureFin };
-    return this.http.post(`${this.baseUrl}`, body);
+  getLastHoraireTravailItemId(): Observable<any> {
+    const url = `${this.baseUrl}/id/last`;
+    return this.http.get<any>(url);
   }
 
+  createHoraireTravail(heureDebut: Time, heureFin: Time): Observable<any> {
+    const body = { heureDebut: heureDebut, heureFin: heureFin };
+    return this.http.post(`${this.baseUrl}/${heureDebut}/${heureFin}`, body, { responseType: 'json' });
+  }
+  
+
   updateHoraireTravail(id: string, heureDebut: Time, heureFin: Time): Observable<any> {
-    const body = { heureDebut, heureFin };
-    return this.http.put(`${this.baseUrl}/${id}`, body);
+    const body = { heureDebut: heureDebut, heureFin: heureFin};
+    return this.http.put(`${this.baseUrl}/${id}/${heureDebut}/${heureFin}`, body);
   }
 
   deleteHoraireTravail(id: string): Observable<any> {

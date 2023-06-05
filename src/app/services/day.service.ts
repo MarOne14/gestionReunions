@@ -10,40 +10,44 @@ export class DayService {
 
   constructor(private http: HttpClient) { }
 
-
   getAllDays(): Observable<any> {
     return this.http.get(`${this.baseUrl}/jours`);
   }
 
-  getDaysByYear(year: string): Observable<any> {
+  getDaysByYear(year: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/jours/${year}`);
   }
 
-  createDay(date: string, year: string): Observable<any> {
-    const body = { date, year };
-    return this.http.post(`${this.baseUrl}/jours`, body);
+  createDay(date: string, year: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/jours/${date}/${year}`, null);
   }
 
   getAllHolidays(): Observable<any> {
     return this.http.get(`${this.baseUrl}/feries`);
   }
 
+  getHolidayByDate(date: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/feries/${date}`);
+  }
+
   createHoliday(date: string, title: string): Observable<any> {
-    const body = { date, title };
-    return this.http.post(`${this.baseUrl}/feries`, body);
+    return this.http.post(`${this.baseUrl}/feries/${date}/${title}`, null);
   }
 
   getAllWorkingDays(): Observable<any> {
     return this.http.get(`${this.baseUrl}/travail`);
   }
 
+  getPeriodIdWorkingdayByDate(date: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/travail/id/${date}`);
+  }
+
   createWorkingDay(date: string, idPeriod: string): Observable<any> {
-    const body = { date, idPeriod };
-    return this.http.post(`${this.baseUrl}/travail`, body);
+    return this.http.post(`${this.baseUrl}/travail/${date}/${idPeriod}`, null);
   }
 
-  deleteWorkingDay(day: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/travail/${day}`);
+  deleteWorkingDay(day: Date): Observable<any> {
+    const formattedDate = day.toISOString().substring(0, 10);
+    return this.http.delete(`${this.baseUrl}/travail/${formattedDate}`);
   }
-
 }
