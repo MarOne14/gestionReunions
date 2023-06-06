@@ -236,6 +236,8 @@ button[type="submit"]:hover {
 }
 
 /*****************error message***************/
+
+
 .popup {
     display: flex;
     justify-content: center;

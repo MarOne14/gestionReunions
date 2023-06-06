@@ -62,26 +62,16 @@ export class CalendarComponent implements OnInit {
                       this.finishTime = horaire.heureFin;
                       this.updateBusinessHours();
                       this.loadHolidays(); // Load holidays after updating business hours
-                    } else {
-                      this.setDefaultBusinessHours();
-                      this.loadHolidays(); // Load holidays with default business hours
                     }
                   },
                   (error) => {
                     console.log(error);
-                    this.setDefaultBusinessHours();
-                    this.loadHolidays(); // Load holidays with default business hours
                   }
                 );
-              } else {
-                this.setDefaultBusinessHours();
-                this.loadHolidays(); // Load holidays with default business hours
               }
             },
             (error) => {
               console.log(error);
-              this.setDefaultBusinessHours();
-              this.loadHolidays(); // Load holidays with default business hours
             }
           );
         } else {

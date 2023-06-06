@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Topic } from 'src/app/model/topic';
 import { TeamService } from 'src/app/services/team.service';
 import { TopicService } from 'src/app/services/topic.service';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-topic',
@@ -13,7 +15,8 @@ import { TopicService } from 'src/app/services/topic.service';
 export class TopicComponent implements OnInit {
   @Input() topic: Topic;
   @Output() onDelete: EventEmitter<Topic> = new EventEmitter<Topic>();
-
+  topics: Topic[] = [];
+  selectedTopic: Topic; 
 
   deleteTopic() {
     this.onDelete.emit(this.topic);
@@ -27,8 +30,13 @@ export class TopicComponent implements OnInit {
   members: any[];
   id : number;
   selectedMember : any;
+  idPresenter : number;
   
-  constructor(private topicService: TopicService, private router: Router, private fb: FormBuilder, private teamService : TeamService ) {
+  constructor(private topicService: TopicService, 
+    private fb: FormBuilder, 
+    private teamService : TeamService,
+    private accountService : AccountService 
+    ) {
     this.form = new FormGroup({
       title: new FormControl(),
       dur: new FormControl(),
@@ -44,25 +52,42 @@ export class TopicComponent implements OnInit {
   }
 
   memberSelected(): void {
-    console.log('Selected team:', this.selectedMember.nom_utilisateur);
+    this.topic.presenter=this.selectedMember.nom_utilisateur;
   }
 
+  private searchTitleSubject = new Subject<string>();
+
   ngOnInit() {
-    this.form = new FormGroup({
-      title : new FormControl('',[
-        Validators.required,
-        Validators.minLength(4),
-        Validators.pattern('[a-zA-Z]*')
-      ]),
-      dur : new FormControl('',[
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(2)
-      ]),
-      det : new FormControl('',[
-        Validators.required
-      ]),
-    })
+    this.searchTitleSubject
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((title: string) => this.topicService.getSujetsByTitle(title))
+      )
+      .subscribe((topics: any[]) => {
+        this.topics = topics;
+      });
+  }  
+
+  onTitleInput(title: string) {
+    this.topicService.getSujetsByTitle(this.topic.title).subscribe((response: Topic[]) => {
+      if(response.length>0){
+      this.topics = response;
+      this.topic.details=this.topics[0].details;
+      this.topic.id=this.topics[0].id;
+      }
+      else{
+        this.topic.details="";
+        this.topic.id=0;
+      }
+    });
+  }    
+
+  selectTopic(topic: Topic) {
+    this.selectedTopic = topic;
+    this.topic.title = topic.title;
+    this.topic.details = topic.details;
+    this.topic.presenter = this.selectedMember.nom_utilisateur;
   }
 
   capsLockWarning: boolean = false;

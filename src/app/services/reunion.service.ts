@@ -31,6 +31,11 @@ export class ReunionService {
     return this.http.get<number>(`${this.baseUrl}/${title}`);
   }
 
+  getLastReunionItemId(): Observable<any> {
+    const url = `${this.baseUrl}/id/last`;
+    return this.http.get<any>(url);
+  }
+
   createReunion(reunion: any): Observable<any> {
     return this.http.post(`${this.baseUrl}`, reunion);
   }
@@ -42,5 +47,32 @@ export class ReunionService {
   deleteReunion(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
-  
+
+  /* ReunionPlanifie endpoints */
+
+  createReunionPlanifie(reunionPlanifie: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/planifie`, reunionPlanifie);
+  }
+
+  updateReunionPlanifie(id: number, reunionPlanifie: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/planifie/${id}`, reunionPlanifie);
+  }
+
+  deleteReunionPlanifie(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/planifie/${id}`);
+  }
+
+  /* ReunionUrgente endpoints */
+
+  createReunionUrgente(reunionUrgente: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/urgente`, reunionUrgente);
+  }
+
+  updateReunionUrgente(id: number, reunionUrgente: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/urgente/${id}`, reunionUrgente);
+  }
+
+  deleteReunionUrgente(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/urgente/${id}`);
+  }
 }

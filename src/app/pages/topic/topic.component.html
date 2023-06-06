@@ -5,7 +5,7 @@
     <label >Topic :</label>
     </div>
     <div>
-        <input (keyup)="onKeyUp($event)" type="text" class="aged" name="title" formControlName="title" placeholder="Topic title" [(ngModel)]="topic.title">
+      <input (input)="onTitleInput(topic.title)" type="text" class="aged" name="title" formControlName="title" placeholder="Topic title" [(ngModel)]="topic.title">
         <mat-error *ngIf="form.get('title').invalid && (form.get('title').dirty || form.get('title').touched)">  {{ getErrorMessage('title') }}  </mat-error>
 
         <mat-form-field class="title2" appearance="fill">

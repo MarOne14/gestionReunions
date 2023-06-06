@@ -20,8 +20,13 @@ export class TopicService {
     return this.http.get<any[]>(`${this.baseUrl}/titre/${titre}`);
   }
 
+  getLastSujetItemId(): Observable<any> {
+    const url = `${this.baseUrl}/id/last`;
+    return this.http.get<any>(url);
+  }
+  
   createSubject(subject: any): Observable<any>  {
-    return this.http.post(`${this.baseUrl}`, subject);
+    return this.http.post(`${this.baseUrl}`, subject , { responseType: 'text' });
   }
 
   updateSubject(id: string, subject: any): Observable<any>  {
