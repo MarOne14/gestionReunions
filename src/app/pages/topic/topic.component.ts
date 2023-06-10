@@ -5,7 +5,6 @@ import { TeamService } from 'src/app/services/team.service';
 import { TopicService } from 'src/app/services/topic.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-topic',
@@ -35,7 +34,6 @@ export class TopicComponent implements OnInit {
   constructor(private topicService: TopicService, 
     private fb: FormBuilder, 
     private teamService : TeamService,
-    private accountService : AccountService 
     ) {
     this.form = new FormGroup({
       title: new FormControl(),

@@ -34,7 +34,7 @@ export class ParticipationService {
   }
 
   createParticipation(participation: any) {
-    return this.http.post(this.baseUrl, participation);
+    return this.http.post(this.baseUrl, participation,{ responseType: 'text' });
   }
 
   updateParticipation(id: number, participation: any) {

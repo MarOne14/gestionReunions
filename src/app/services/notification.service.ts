@@ -36,11 +36,11 @@ export class NotificationService {
     return this.http.get<any>(url);
   }
   
-  createNotification(notification: Notification): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, notification);
+  createNotification(notification: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}`, notification ,{ responseType: 'text' });
   }
 
-  updateNotification(id: number, notification: Notification): Observable<any> {
+  updateNotification(id: number, notification: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/${id}`, notification);
   }
 

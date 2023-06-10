@@ -42,7 +42,7 @@ export class InvitationService {
   }
 
   createNotificationParticipation(notificationParticipation: any) {
-    return this.http.post(`${this.baseUrl}/notificationparticipations`, notificationParticipation);
+    return this.http.post(`${this.baseUrl}/notificationparticipations`, notificationParticipation , { responseType: 'text' });
   }
 
   updateNotificationParticipation(id: number, notificationParticipation: any) {

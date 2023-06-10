@@ -37,7 +37,7 @@ export class ReunionService {
   }
 
   createReunion(reunion: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, reunion);
+    return this.http.post(`${this.baseUrl}`, reunion ,{ responseType: 'text' });
   }
 
   updateReunion(id: number, reunion: any): Observable<any> {
@@ -51,7 +51,7 @@ export class ReunionService {
   /* ReunionPlanifie endpoints */
 
   createReunionPlanifie(reunionPlanifie: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/planifie`, reunionPlanifie);
+    return this.http.post(`${this.baseUrl}/planifie`, reunionPlanifie,{ responseType: 'text' });
   }
 
   updateReunionPlanifie(id: number, reunionPlanifie: any): Observable<any> {
@@ -65,7 +65,7 @@ export class ReunionService {
   /* ReunionUrgente endpoints */
 
   createReunionUrgente(reunionUrgente: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/urgente`, reunionUrgente);
+    return this.http.post(`${this.baseUrl}/urgente`, reunionUrgente,{ responseType: 'text' });
   }
 
   updateReunionUrgente(id: number, reunionUrgente: any): Observable<any> {

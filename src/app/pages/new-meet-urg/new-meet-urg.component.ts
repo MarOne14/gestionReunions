@@ -13,6 +13,10 @@ import { PeriodeService } from 'src/app/services/periode.service';
 import { AccountService } from 'src/app/services/account.service';
 import { Meet, MeetingState } from 'src/app/model/meet';
 import { Participation } from 'src/app/model/participation';
+import { ReunionService } from 'src/app/services/reunion.service';
+import { ParticipationService } from 'src/app/services/participation.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { InvitationService } from 'src/app/services/invitation.service';
 
 
 
@@ -29,6 +33,24 @@ export class NewMeetUrgComponent implements OnInit {
   teams1: Team[];
   etat : MeetingState;
   form: FormGroup;
+  selectedSlot: any = null;
+  message : string ="";
+  events : Event[];
+  selectedDate: Date;
+  selectedStartTime: string='';
+  selectedDuration: string;
+  finishHours :number;
+  finishMinutes :number;
+  finishTime:string;
+  duree : number ;
+  reunion:Meet;
+  participation : Participation;
+  state : MeetingState;
+  accountId: any;
+  email : string;
+  members: any[];
+  participations : any[];
+  idReunion : number;
 
 
   /*************************team selection**************** */
@@ -41,31 +63,34 @@ export class NewMeetUrgComponent implements OnInit {
     private dayService: DayService,
     private periodeService: PeriodeService,
     private horaireService: HoraireService,
-    private accountService : AccountService 
+    private accountService : AccountService,
+    private reunionService : ReunionService,
+    private participationService : ParticipationService,
+    private notificationService : NotificationService,
+    private invitationService : InvitationService
     ) {}
 
- ngOnInit() {
-  this.teamService.getAllTeams().subscribe(Response=> {
-    this.teams = Response.data;
-  });
-}
+    ngOnInit() {
+      this.teamService.getAllTeams().subscribe(response => {
+        this.teams = response.data;
+      });
+    
+      this.email = localStorage.getItem('userId');
+      this.accountService.getAccountIDByEmail(this.email).subscribe(response => {
+        this.accountId = response.data[0].id;
+    
+      });
+    }
+    
 teamSelected(): void {
   this.teamService.setTeamID(this.selectedTeam.id);
+  
 }
 
+
 /**************************************Slots choice ******************/
-selectedSlot: any = null;
-message : string ="";
-events : Event[];
-selectedDate: Date;
-selectedStartTime: string='';
-selectedDuration: string;
-finishHours :number;
-finishMinutes :number;
-finishTime:string;
-duree : number ;
-reunion:Meet;
-participation : Participation;
+
+CurrentAccount: any = null;
 
 showPopup1 = false;
 
@@ -92,7 +117,7 @@ showPopup1 = false;
     const currentDate = currentTime.toISOString().split('T')[0];
     
     if (selectedDate < currentDate) {
-      this.message = 'Meeting Date must bethe current day or over';
+      this.message = 'Meeting Date must be the current day or over';
       this.showForm1(this.message);
       return;
     }
@@ -336,13 +361,18 @@ showPopup1 = false;
                   return {
                     id: topic.id,
                     ordre: topic.order,
+                    presenter:topic.presenterId,
                     duree: topic.duration
                   };
                 });
+                this.participations = topicsWithIds;
                 console.log("topics inputed :");
                 console.log(topicsToSave);
                 console.log("table lil participation");
                 console.log(topicsWithIds);
+                console.log("haadher");
+                console.log(this.participations);
+                
                 console.log('Total Duration:', this.duree, 'minutes');
                 console.log('Whole Duration:', wholeDuration);
                 console.log('Start Time:', this.selectedStartTime);
@@ -362,16 +392,133 @@ showPopup1 = false;
       });
   }
   saveMeeting() {
-    // sort the topics by order
-    const sortedTopics = this.topics.sort((a, b) => a.order - b.order);
-    // create the meeting with the sorted topics
-    this.reunion.title = this.title;
-    this.reunion.objective = this.objective;
-    this.reunion.idEquipe = this.selectedTeam.id;
-    this.reunion.state = this.etat;
-    this.reunion.duration = this.duree;
-    
+    this.teamService.getTeamMembers(this.selectedTeam.id).subscribe(
+      (response) => {
+        this.members = response.data;
+      }
+    );
+    this.state = MeetingState.planned;
+  
+    // Create the reunion object
+    const reunion = {
+      titre: this.title,
+      etat: this.state,
+      objective: this.objective,
+      duree: this.duree,
+      type: "urgente",
+      idOrganisateur: this.accountId,
+      idEquipe: this.selectedTeam.id 
+    };
+  
+    // Create the reunion in the database
+    this.reunionService.createReunion(reunion).toPromise()
+      .then((reunionResponse) => {
+        console.log('Reunion response:', reunionResponse);
+  
+        // Retrieve the ID for the last reunion item
+        this.reunionService.getLastReunionItemId().toPromise()
+          .then((lastReunionItemId) => {
+            this.idReunion = lastReunionItemId[0]['MAX(id)'];
+  
+            // Create the reunionurgente object
+            const reunionUrgente = {
+              id: this.idReunion,
+              date: this.selectedDate,
+              heureDebut: this.selectedStartTime,
+              heureFin: this.finishTime
+            };
+  
+            // Create the reunionurgente in the database
+            this.reunionService.createReunionUrgente(reunionUrgente).toPromise()
+              .then(() => {
+                // Create notifications for each invited team
+                const notificationPromises = this.members.map((member) => {
+                  const notification = {
+                    lire: 0, // Assuming the default value is 0 (not read)
+                    idReunion: this.idReunion,
+                    idCompte: member.id // Assuming you have the ID of the team account
+                  };
+                  return this.notificationService.createNotification(notification).toPromise();
+                });
+                
 
-    
+                // Create participations for each topic
+                const participationPromises = this.participations.map((topic) => {
+                  const participation = {
+                    idCompte: topic.presenter,
+                    idReunion: this.idReunion,
+                    idSujet: topic.id,
+                    heureDebut: this.selectedStartTime,
+                    heureFin: this.finishTime,
+                    ordre: topic.ordre,
+                    duree: topic.duree
+                  };
+                  return this.participationService.createParticipation(participation).toPromise();
+                });
+  
+                // Execute the promises to create participations
+                Promise.all(participationPromises)
+                  .then(() => {
+                    // Meeting, reunionurgente, and participations are created successfully
+                    console.log('Meeting created successfully');
+  
+                    // Retrieve the participations for this reunion
+                    this.participationService.getParticipationsByReunionId(this.idReunion).toPromise()
+                      .then((participationsResponse: any[]) => {
+                        const participations = participationsResponse;
+  
+                        // Retrieve the notifications for this reunion
+                        this.notificationService.getNotificationsByReunionId(this.idReunion).toPromise()
+                          .then((notificationsResponse: any[]) => {
+                            const notifications = notificationsResponse;
+  
+                            // Compare participation and notification based on idCompte
+                            participations.forEach((participation) => {
+                              const correspondingNotification = notifications.find((notification) => notification.idCompte === participation.idCompte);
+                              const msg = "vous avez une participation du sujet dans la reunion :   " + this.title + "  veuilez consulter votre listes des réunions prévenus";
+  
+                              if (correspondingNotification) {
+                                // Create the notificationparticipation object
+                                const notificationParticipation = {
+                                  id: correspondingNotification.id,
+                                  text: msg
+                                };
+  
+                                // Create the notificationparticipation in the database
+                                this.invitationService.createNotificationParticipation(notificationParticipation).toPromise()
+                                  .then(() => {
+                                    console.log('NotificationParticipation created successfully');
+                                  })
+                                  .catch((error) => {
+                                    console.log('Error creating NotificationParticipation:', error);
+                                  });
+                              }
+                            });
+                          })
+                          .catch((error) => {
+                            console.log('Error retrieving notifications:', error);
+                          });
+                      })
+                      .catch((error) => {
+                        console.log('Error retrieving participations:', error);
+                      });
+                  })
+                  .catch((error) => {
+                    console.log('Error creating participations:', error);
+                  });
+              })
+              .catch((error) => {
+                console.log('Error creating reunionurgente:', error);
+              });
+          })
+          .catch((error) => {
+            console.log('Error retrieving last reunion item ID:', error);
+          });
+      })
+      .catch((error) => {
+        console.log('Error creating reunion:', error);
+      });
   }
+  
+  
 }

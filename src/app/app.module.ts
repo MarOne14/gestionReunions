@@ -34,6 +34,7 @@ import { CalendarComponent } from './pages/calendar/calendar.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ShowUsersComponent } from './pages/show-users/show-users.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { VoteComponent } from './pages/vote/vote.component';
 
 
 
@@ -58,6 +59,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     TopicComponent,
     CalendarComponent,
     ShowUsersComponent,
+    VoteComponent,
   ],
   imports: [
     BrowserModule,

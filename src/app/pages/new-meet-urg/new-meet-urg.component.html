@@ -17,8 +17,8 @@
                 <div>
                     <label class="titl">Title :</label>
                     <label class="team">Objective :</label><br>
-                    <input type="text" class="title1" placeholder="Meeting Title" required>
-                    <input type="text" class="title1" placeholder="Objective of the Meeting" required>
+                    <input type="text" class="title1" placeholder="Meeting Title" [(ngModel)]="title" name="title" required>
+                    <input type="text" class="title1" placeholder="Objective of the Meeting" [(ngModel)]="objective" name="objective" required>
                             
                 </div>
                 <div class="modal" *ngIf="showPopup" (click)="hideForm()">
