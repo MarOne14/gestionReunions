@@ -72,6 +72,7 @@ export class ShowTeamComponent {
   }
   hideForm() {
     this.showPopup = false;
+    this.newMemberEmail = "";
   }
 
 
@@ -80,14 +81,16 @@ export class ShowTeamComponent {
     if (this.newMemberEmail) {
       this.teamService.getTeamIdByTitle(this.teamTitle).subscribe(
         (response: { message: string, data: number }) => {
-          const equipeId = response.data; // Get the team ID from the response
+          const equipeId = response.data; 
           // Get the account ID based on the email
           this.accountService.getAccountIDByEmail(this.newMemberEmail).subscribe(
             (accountIdResponse) => {
               const membreId = accountIdResponse.data[0].id;
               this.hideForm();
+              this.fetchTeamData(this.teamTitle);
               this.teamService.addMemberToEquipe(equipeId, membreId).subscribe(
                 () => {
+                  
                   console.log('Member added to team successfully');
                 },
                 (error) => {

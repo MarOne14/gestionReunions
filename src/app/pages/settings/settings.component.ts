@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormGroup } from '@angular/forms';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { RoleType } from 'src/app/model/account';
 import { DayService } from 'src/app/services/day.service';
 import { HoraireService } from 'src/app/services/horaire.service';
 import { PeriodeService } from 'src/app/services/periode.service';
@@ -19,6 +20,7 @@ export class SettingsComponent implements OnInit{
   teams: any[]=[];
   id : number;
   verif : boolean;
+  currentRole : string;
 
   constructor(private teamService: TeamService,
     private dayService : DayService,
@@ -28,11 +30,15 @@ export class SettingsComponent implements OnInit{
     this.dayService.getAllHolidays().subscribe((response) => {
       this.holidays = response;
     });
-
+    this.currentRole= localStorage.getItem('role');
   }
 
   ngOnInit(): void {
     this.loadTeams();
+  }
+
+  hide2() : boolean{
+    return this.currentRole == RoleType.ADM
   }
 
   loadTeams(): void {

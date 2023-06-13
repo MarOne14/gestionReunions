@@ -20,7 +20,7 @@ export class VoteService {
   }
 
   createVote(vote: any): Observable<any> {
-    return this.http.post(this.baseUrl, vote);
+    return this.http.post(this.baseUrl, vote,{ responseType: 'text' });
   }
 
   updateVote(id: number, vote: any): Observable<any> {

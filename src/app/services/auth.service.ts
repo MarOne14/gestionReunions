@@ -59,6 +59,7 @@ export class AuthService {
   logout(): void {
     this.clearToken();
     localStorage.setItem('userId', null);
+    this.isNewUserSignedUp = false;
   }
 
   // Make an authenticated request

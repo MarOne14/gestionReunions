@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RoleType } from 'src/app/model/account';
 import { AccountService } from 'src/app/services/account.service';
 import { SidebarService } from 'src/app/services/sidebar.service';
 import { TeamService } from 'src/app/services/team.service';
@@ -18,17 +19,19 @@ export class SidebarComponent {
   member : string;
   members: string[] = [];
   teamId : number;
+  currentRole : string;
 
 
   constructor(
     private router: Router, 
     private sideBar: SidebarService,
     private teamService: TeamService,
-    private accountService : AccountService
+    private accountService : AccountService,
     ) { 
     sideBar.toggleSidebar.subscribe(() => {
       this.isOpen = !this.isOpen;
     });
+    this.currentRole= localStorage.getItem('role');
   }
 
   ngOnInit(): void {
@@ -56,6 +59,10 @@ export class SidebarComponent {
     const currentRoute = this.router.url;
     if (currentRoute === '/menu3')
       this.isOpen = false;
+  }
+
+  hide3() : boolean{
+    return this.currentRole == RoleType.ADM || this.currentRole == RoleType.ORG
   }
 
   /**********************error******/

@@ -20,7 +20,7 @@ export class CreneauService {
   }
 
   createCreneau(creneau: any): Observable<any> {
-    return this.http.post(this.baseUrl, creneau);
+    return this.http.post(this.baseUrl, creneau,{ responseType: 'text' });
   }
 
   updateCreneau(id: number, creneau: any): Observable<any> {

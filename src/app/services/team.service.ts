@@ -53,13 +53,18 @@ export class TeamService {
     return this.http.get<{ message: string, data: number }>(url);
   }
 
+  getTeamTitleById(id: any) {
+    const url = `${this.baseUrl}/equipe/id/${id}`;
+    return this.http.get<{ message: string, data: any }>(url);
+  }
+
   getTeamMembers(teamId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/equipe/${teamId}/membres`);
   }
 
   addMemberToEquipe(equipeId: number, membreId: number): Observable<any> {
     const url = `${this.baseUrl}/equipe/${equipeId}/membre/${membreId}`;
-    return this.http.post<any>(url, null);
+    return this.http.post<any>(url,null);
   }
 
   createTeam(title: string): Observable<any> {

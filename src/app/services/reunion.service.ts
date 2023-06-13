@@ -26,6 +26,10 @@ export class ReunionService {
   getReunionsByType(type: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/type/${type}`);
   }
+  
+  getReunionsByEtat(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/etat/cree`);
+  }
 
   getReunionIdByTitle(title: string): Observable<number> {
     return this.http.get<number>(`${this.baseUrl}/${title}`);

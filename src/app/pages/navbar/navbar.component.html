@@ -9,7 +9,7 @@
             <p class="logo1">Meet</p>
             <p class="logo2">Wise</p>
     </a>
-    <div class="topnav-middle" *ngIf="!hide()">
+    <div class="topnav-middle" *ngIf="hide3()">
         <button class="button" (click)="showForm()">New Meeting</button>
     </div>
 
@@ -31,7 +31,7 @@
                             <span class="word">My Profile</span>
                         </a>
                     </button>
-                    <button mat-menu-item *ngIf="hide2()">
+                    <button mat-menu-item *ngIf="hide3()">
                         <a class="user-button" routerLink="/Settings">
                             <i class="fa fa-fw fa-cog"></i>
                             <span class="word">Settings</span>

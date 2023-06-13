@@ -43,7 +43,7 @@ export class ProfileComponent implements OnInit {
       this.role = this.CurrentAccount.role;
       this.password = this.CurrentAccount.mot_de_passe;
       console.log(this.CurrentAccount);
-      
+     
       // this.initializeForm();
     },
     (error) => {
@@ -108,15 +108,17 @@ export class ProfileComponent implements OnInit {
       const prenom = this.form.get('prenom').value ? this.form.get('prenom').value : this.CurrentAccount.prenom;
       const nom = this.form.get('nom').value ? this.form.get('nom').value : this.CurrentAccount.nom;
       const telephone = this.form.get('telephone').value ? this.form.get('telephone').value : this.CurrentAccount.telephone;
-      const email = this.form.get('email').value;
-
+      const email = this.form.get('email').value ? this.form.get('email').value : null;
+      console.log('email:', email);
+      console.log(this.email);
+      
       if (email) {
-        this.accountService.getAccountByEmail(email).subscribe((user) => {
-          if (user !== null && user.username !== this.email) {
-            this.showPopup = true; // User already exists
-          } else {
+        this.accountService.getAccountByEmail(email).subscribe((response) => {
+          console.log('response:', response);
+          if(response == "Account not found")
+          {
             this.accountService.getAccountIDByEmail(this.email).subscribe((response) => {
-              this.accountId = response.data;
+              this.accountId = response.data[0].id;
               const newAccount: Account = {
                 nom: nom,
                 prenom: prenom,
@@ -131,10 +133,15 @@ export class ProfileComponent implements OnInit {
               });
             });
           }
+          if (response !== "Account not found" && response.nom_utilisateur!=this.email ) {
+            console.log('response:', response);
+            console.log('email:', email);
+            this.showPopup = true; // User already exists
+          }
         });
       } else {
         this.accountService.getAccountIDByEmail(this.email).subscribe((response) => {
-          this.accountId = response.data});
+          this.accountId = response.data[0].id
         const newAccount: Account = {
           nom: nom,
           prenom: prenom,
@@ -148,6 +155,7 @@ export class ProfileComponent implements OnInit {
           localStorage.setItem('userId', this.email);
           this.appear = true;
         });
+      });
       }
     }
   }

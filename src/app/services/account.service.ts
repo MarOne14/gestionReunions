@@ -21,7 +21,7 @@ export class AccountService {
     return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
-  getAccountByEmail(email: string): Observable<any> {
+  getAccountByEmail(email: any): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/email/${email}`);
   }
 
@@ -37,7 +37,7 @@ export class AccountService {
     return this.http.post(`${this.baseUrl}`, account);
   }
 
-  updateAccount(id: number, account: any): Observable<any> {
+  updateAccount(id: any, account: any): Observable<any> {
     return this.http.put<Account>(`${this.baseUrl}/${id}`, account);
   }
 

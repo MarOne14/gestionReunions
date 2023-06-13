@@ -1,6 +1,6 @@
 export enum RoleType {
     PART = 'participant',
-    ORG = 'organisatuer',
+    ORG = 'organisateur',
     ADM = 'administrateur'
   }
 

@@ -6,7 +6,7 @@
     <div class="team">
         <i class="fa fa-fw fa-group"></i>
         Teams
-        <a (click)="showForm()"><i class="fa fa-plus-circle" matTooltip="Add Team"></i></a>
+        <a (click)="showForm()" *ngIf="hide3()"><i class="fa fa-plus-circle" matTooltip="Add Team"></i></a>
     </div>
     <hr>
     <div class="allteams">

@@ -12,6 +12,8 @@ export class ShowUsersComponent implements OnInit {
 
   accounts: any[] = [];
   accountId : any;
+  idRole : any ;
+  organisateur : string = "organisateur";
 
   constructor(
     private accountService: AccountService,
@@ -43,34 +45,100 @@ export class ShowUsersComponent implements OnInit {
     return '#' + '0'.repeat(6 - color.length) + color;
   }
 
-  selectedAccount: Account | null = null;
+  selectedAccount: any | null = null;
+  username : string;
 
-  selectAccount(account: Account): void {
+  selectAccount(account: any): void {
     this.selectedAccount = account;
+    this.username = account.nom_utilisateur;
   }
 
-  deleteAccount(username: string): void {
-    this.accountService.getAccountIDByEmail(username).subscribe((response) => {
-      this.accountId = response.data});
+  deleteAccount(): void {
+    console.log(this.username);
+    
+    this.accountService.getAccountIDByEmail(this.username).subscribe((response) => {
+      this.accountId = response.data[0].id
+      console.log(this.accountId);
     this.accountService.deleteAccount(this.accountId).subscribe(
       () => {
         this.showSnackBar('Account deleted successfully.');
-        this.fetchAllAccounts(); // Refresh the account list after deletion
+        this.fetchAllAccounts();
       },
       (error) => {
         console.log(error);
         this.showSnackBar('Error deleting account.');
       }
     );
+  });
   }
 
   private showSnackBar(message: string): void {
     this.snackBar.open(message, 'Close', { duration: 3000 });
   }
 
-  modifyRole(account: Account): void {
-    // Add your logic here to modify the account's role
+  modifyRole1(account: Account): void {
+    console.log(this.selectAccount);
+    
   }
+  modifyRole(account: any): void {
+    console.log(account);
+    this.idRole=account.id;
+   
+    if (account.role === RoleType.PART) {
+      // Promote the account from Participant to Organisateur
+      account.role = RoleType.ORG;
+    } else {
+      // Demote the account from Organisateur to Participant
+      account.role = RoleType.PART;
+    }
+  
+    // Update the account in the database
+    this.accountService.updateAccount(this.idRole, account).subscribe(
+      () => {
+        this.showSnackBar('Role updated successfully.');
+      },
+      (error) => {
+        console.log(error);
+        this.showSnackBar('Error updating role.');
+      }
+    );
+  }
+  
+  
+  promoteAccount(account: Account): void {
+    // Promote the account from Organisateur to Administrateur
+    account.role = RoleType.ADM;
+  
+    // Update the account in the database
+    this.accountService.updateAccount(this.idRole, account).subscribe(
+      () => {
+        this.showSnackBar('Account promoted successfully.');
+      },
+      (error) => {
+        console.log(error);
+        this.showSnackBar('Error promoting account.');
+      }
+    );
+  }
+  
+  demoteAccount(account: Account): void {
+    // Demote the account from Organisateur to Participant
+    account.role = RoleType.PART;
+  
+    // Update the account in the database
+    this.accountService.updateAccount(this.idRole, account).subscribe(
+      () => {
+        this.showSnackBar('Account demoted successfully.');
+      },
+      (error) => {
+        console.log(error);
+        this.showSnackBar('Error demoting account.');
+      }
+    );
+  }
+  
+  
+
 
   getRoleActionText(account: Account): string {
     switch (account.role) {

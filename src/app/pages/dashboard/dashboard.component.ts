@@ -45,8 +45,5 @@ export class DashboardComponent {
   hideForm() {
     this.state = false;
   }
-  hidecForm() {
-    this.state = true;
-  }
 
 }

@@ -20,7 +20,7 @@ export class InvitationService {
   }
 
   createInvitation(invitation: any) {
-    return this.http.post(`${this.baseUrl}/invitations`, invitation);
+    return this.http.post(`${this.baseUrl}/invitations/${invitation.id}`, invitation, { responseType: 'text' });
   }
 
   updateInvitation(id: number, invitation: any) {

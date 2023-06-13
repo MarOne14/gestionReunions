@@ -17,6 +17,7 @@ import { ReunionService } from 'src/app/services/reunion.service';
 import { ParticipationService } from 'src/app/services/participation.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { InvitationService } from 'src/app/services/invitation.service';
+import { Router } from '@angular/router';
 
 
 
@@ -67,7 +68,8 @@ export class NewMeetUrgComponent implements OnInit {
     private reunionService : ReunionService,
     private participationService : ParticipationService,
     private notificationService : NotificationService,
-    private invitationService : InvitationService
+    private invitationService : InvitationService,
+    private router: Router, 
     ) {}
 
     ngOnInit() {
@@ -264,11 +266,19 @@ showPopup1 = false;
   saveTopics() {
     // Check if all topics have valid inputs
     const areInputsValid = this.topics.every((topic) => {
-      return topic.title && topic.presenter && topic.duration && topic.details && this.selectedDate && this.selectedStartTime;
+      return (
+        topic.title &&
+        topic.presenter &&
+        topic.duration &&
+        topic.details &&
+        this.selectedDate &&
+        this.selectedStartTime
+      );
     });
   
     if (!areInputsValid) {
-      this.message = "Please choose the timing schedule and fill in all the inputs for each topic first";
+      this.message =
+        "Please choose the timing schedule and fill in all the inputs for each topic first";
       this.showForm1(this.message);
       return;
     }
@@ -285,7 +295,9 @@ showPopup1 = false;
         details: topic.details,
         order: index + 1,
         presenterId: null,
-        presenterEmail: topic.presenter
+        presenterEmail: topic.presenter,
+        startTime: null,
+        finishTime: null,
       };
     });
   
@@ -301,7 +313,12 @@ showPopup1 = false;
     Promise.all(createPromises)
       .then((createResponses) => {
         createResponses.forEach((response, index) => {
-          const topic = topicsToSave.find((t) => t.id === 0 && t.title === response.titre && t.details === response.details);
+          const topic = topicsToSave.find(
+            (t) =>
+              t.id === 0 &&
+              t.title === response.titre &&
+              t.details === response.details
+          );
           if (topic) {
             topic.id = response.id;
             console.log(`Topic with id ${response.id} created successfully`);
@@ -309,21 +326,27 @@ showPopup1 = false;
         });
   
         // Use getLastSujetItemId to get the last Sujet ID
-        this.topicService.getLastSujetItemId().toPromise()
+        this.topicService
+          .getLastSujetItemId()
+          .toPromise()
           .then((lastIdResponse) => {
-            const idSujet = lastIdResponse[0]['MAX(id)'];
+            const idSujet = lastIdResponse[0]["MAX(id)"];
   
-            // Update the new topic's ID with the last retrieved ID
-            const newTopic = topicsToSave.find((topic) => topic.id === 0);
-            if (newTopic) {
-              newTopic.id = idSujet;
-              console.log(`Last Sujet ID retrieved successfully for the new topic: ${idSujet}`);
-            }
+            // Update the new topic IDs with the last retrieved ID
+            let newTopicsCount = 0;
+            topicsToSave.forEach((topic) => {
+              if (topic.id === 0) {
+                topic.id = idSujet + newTopicsCount;
+                newTopicsCount++;
+              }
+            });
   
             // Use Promise.all to execute getPresenterId for each topic and update the presenterId property
             Promise.all(
               topicsToSave.map((topic) => {
-                return this.accountService.getAccountIDByEmail(topic.presenterEmail).toPromise();
+                return this.accountService
+                  .getAccountIDByEmail(topic.presenterEmail)
+                  .toPromise();
               })
             )
               .then((presenterIds) => {
@@ -332,39 +355,53 @@ showPopup1 = false;
                   topic.presenterId = presenterIds[index].data[0].id;
                 });
   
-                const totalDuration = topicsToSave.reduce((sum, topic) => sum + topic.duration, 0);
+                const totalDuration = topicsToSave.reduce(
+                  (sum, topic) => sum + topic.duration,
+                  0
+                );
                 this.duree = totalDuration;
   
-                const startHours = Number(this.selectedStartTime.split(':')[0]);
-                const startMinutes = Number(this.selectedStartTime.split(':')[1]);
+                const startHours = Number(this.selectedStartTime.split(":")[0]);
+                const startMinutes = Number(
+                  this.selectedStartTime.split(":")[1]
+                );
   
-                if (((totalDuration % 60) + startMinutes) >= 60) {
-                  this.finishMinutes = ((totalDuration % 60) + startMinutes) - 60;
-                } else {
-                  this.finishMinutes = (totalDuration % 60) + startMinutes;
-                }
-                if (totalDuration / 60 < 1) {
-                  this.finishHours = startHours;
-                  if (((totalDuration % 60) + startMinutes) >= 60) {
-                    this.finishHours++;
-                  }
-                } else {
-                  this.finishHours = startHours + totalDuration / 60;
-                  if (((totalDuration % 60) + startMinutes) >= 60) {
-                    this.finishHours++;
-                  }
-                }
-                const wholeDuration = Math.floor(totalDuration / 60) + 'h ' + (totalDuration % 60) + 'm';
-                this.finishTime = this.finishHours.toString().padStart(2, '0') + ':' + this.finishMinutes.toString().padStart(2, '0') + ':00';
-                // Create a new array with topics' IDs, orders, and durations
+                let accumulatedMinutes = 0;
+  
                 const topicsWithIds = topicsToSave.map((topic) => {
+                  const startTime = this.calculateStartTime(
+                    startHours,
+                    startMinutes,
+                    accumulatedMinutes
+                  );
+                  const finishTime = this.calculateFinishTime(
+                    startHours,
+                    startMinutes,
+                    accumulatedMinutes,
+                    topic.duration
+                  );
+                  accumulatedMinutes += topic.duration;
+  
+                  topic.startTime = startTime;
+                  topic.finishTime = finishTime;
+  
                   return {
                     id: topic.id,
                     ordre: topic.order,
-                    presenter:topic.presenterId,
-                    duree: topic.duration
+                    presenter: topic.presenterId,
+                    duree: topic.duration,
+                    startTime: startTime,
+                    finishTime: finishTime,
                   };
                 });
+  
+                const wholeDuration =
+                  Math.floor(totalDuration / 60) +
+                  "h " +
+                  (totalDuration % 60) +
+                  "m";
+                this.finishTime = topicsWithIds[topicsWithIds.length - 1].finishTime;
+  
                 this.participations = topicsWithIds;
                 console.log("topics inputed :");
                 console.log(topicsToSave);
@@ -372,25 +409,43 @@ showPopup1 = false;
                 console.log(topicsWithIds);
                 console.log("haadher");
                 console.log(this.participations);
-                
-                console.log('Total Duration:', this.duree, 'minutes');
-                console.log('Whole Duration:', wholeDuration);
-                console.log('Start Time:', this.selectedStartTime);
-                console.log('End Time:', this.finishTime);
+  
+                console.log("Total Duration:", this.duree, "minutes");
+                console.log("Whole Duration:", wholeDuration);
+                console.log("Start Time:", this.selectedStartTime);
+                console.log("End Time:", this.finishTime);
                 this.selectedDuration = wholeDuration;
               })
               .catch((error) => {
-                console.log('Error retrieving presenter IDs:', error);
+                console.log("Error retrieving presenter IDs:", error);
               });
           })
           .catch((error) => {
-            console.log('Error retrieving last Sujet IDs:', error);
+            console.log("Error retrieving last Sujet IDs:", error);
           });
       })
       .catch((error) => {
-        console.log('Error creating topics:', error);
+        console.log("Error creating topics:", error);
       });
   }
+  
+  
+  calculateStartTime(startHours, startMinutes, accumulatedMinutes) {
+    const totalMinutes = startHours * 60 + startMinutes + accumulatedMinutes;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return hours.toString().padStart(2, "0") + ":" + minutes.toString().padStart(2, "0");
+  }
+  
+  calculateFinishTime(startHours, startMinutes, accumulatedMinutes, duration) {
+    const totalMinutes = startHours * 60 + startMinutes + accumulatedMinutes + duration;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return hours.toString().padStart(2, "0") + ":" + minutes.toString().padStart(2, "0");
+  }
+  
+
+
   saveMeeting() {
     this.teamService.getTeamMembers(this.selectedTeam.id).subscribe(
       (response) => {
@@ -448,8 +503,8 @@ showPopup1 = false;
                     idCompte: topic.presenter,
                     idReunion: this.idReunion,
                     idSujet: topic.id,
-                    heureDebut: this.selectedStartTime,
-                    heureFin: this.finishTime,
+                    heureDebut: topic.startTime,
+                    heureFin: topic.finishTime,
                     ordre: topic.ordre,
                     duree: topic.duree
                   };
@@ -518,6 +573,8 @@ showPopup1 = false;
       .catch((error) => {
         console.log('Error creating reunion:', error);
       });
+
+      this.router.navigate(['/menu']);
   }
   
   

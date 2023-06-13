@@ -1,66 +1,66 @@
 .page {
     padding: 20px;
-}
-
-.head {
+  }
+  
+  .head {
     margin-bottom: 20px;
-}
-
-.head {
+  }
+  
+  .head {
     padding: 10px;
     padding-bottom: 12px;
     margin-bottom: 0;
     padding-bottom: 0;
     background-color: #f8e4e4;
-}
-
-h2 {
+  }
+  
+  h2 {
     margin-right: 20px;
     margin-left: 20px;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bolder;
-}
-
-.filters {
+  }
+  
+  .filters {
     display: flex;
     align-items: center;
     float: right;
-}
-
-h2,
-.filters {
+  }
+  
+  h2,
+  .filters {
     display: inline-block;
-}
-
-.filters label {
+  }
+  
+  .filters label {
     margin-right: 5px;
-}
-
-.filters select {
+  }
+  
+  .filters select {
     margin-right: 20px;
     padding: 5px;
     border-radius: 5px;
     border: none;
     box-shadow: 1px 1px 2px #ccc;
-}
-
-.main {
+  }
+  
+  .main {
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f9f9f9;
     margin-bottom: 10px;
-}
-
-a,
-h3 {
+  }
+  
+  a,
+  h3 {
     display: inline-block;
-}
-
-h3 {
+  }
+  
+  h3 {
     margin-left: 15px;
-}
-
-button {
+  }
+  
+  button {
     float: right;
     margin-right: 20px;
     font-size: 23px;
@@ -69,11 +69,11 @@ button {
     background-color: transparent;
     padding: 0;
     cursor: pointer;
-}
-
-/*****************Popup Menu********************/
-
-.calend {
+  }
+  
+  /*****************Popup Menu********************/
+  
+  .calend {
     background-color: transparent;
     justify-content: center;
     color: #03A9B0;
@@ -82,52 +82,115 @@ button {
     cursor: pointer;
     margin-left: 40px;
     font-size: xx-large;
-}
-
-.modal {
+  }
+  
+  .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    /* ajouter un fond semi-transparent */
+    /* add a semi-transparent background */
     z-index: 100;
-    /* assurer que la popup est en premier plan */
+    /* ensure the popup is on top */
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.modal-dialog {
+  }
+  
+  .modal-dialog {
     width: 70%;
-    /* modifier la largeur de la popup selon vos besoins */
+    /* modify the width of the popup as needed */
     max-width: 600px;
-    /* ajouter une largeur maximale pour les petits écrans */
+    /* add a maximum width for smaller screens */
     background-color: #fff;
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: #aaa;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-.modal-content {
+  }
+  
+  .modal-content {
     position: relative;
-}
-
-.modal-header {
+  }
+  
+  .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-}
+  }
+  
+  .modal-body button {
+    float: right;
+    font-size: 18px;
+    color: #fff;
+    border: none;
+    background-color: #03A9B0;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .modal-body button:hover {
+    background-color: #049190;
+  }
+  
+  .modal-body button:focus {
+    outline: none;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+  
+  .modal-body p {
+    margin-bottom: 10px;
+  }
+  
+  .modal-body button {
+    margin-top: 20px;
+  }
+  
+  .modal-body p:first-child {
+    font-weight: bold;
+  }
+  
+  .modal-body p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .modal-header h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .modal-header h2::first-letter {
+    text-transform: uppercase;
+  }
+  
+  .modal-header hr {
+    margin: 15px 0;
+    border: none;
+    border-top: 1px solid #ccc;
+  }
+  
+  .modal-body button {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+  
+  .modal-body button:hover {
+    background-color: #038b8f;
+  }
+  
+  .modal-body button:focus {
+    outline: none;
+  }
+  
+  .modal-content {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  

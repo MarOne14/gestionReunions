@@ -6,74 +6,46 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <div class="page">
-    <div class="main">
-        <div class="head">
-            <h2> Upcoming meetings</h2>
-            <div class="filters">
-                <label for="date">Date:</label>
-                <select id="date">
-                    <option value="all">All</option>
-                    <option value="today">Today</option>
-                    <option value="tomorrow">Tomorrow</option>
-                    <option value="this_week">This week</option>
-                    <option value="next_week">Next week</option>
-                </select>
-                <label for="location">Location:</label>
-                <select id="location">
-                    <option value="all">All</option>
-                    <option value="office">Office</option>
-                    <option value="online">Online</option>
-                </select>
-            </div>
-        </div><br>
-        <div class="affichage">
-            <h3>Meeting Title</h3>
-            <button><a class="user" matTooltip="Delete Meeting"><i class="fa fa-fw fa-solid fa-trash"></i></a></button>
-            <button><a class="user" matTooltip="Edit Meeting"><i class="fa fa-fw fa-solid fa-pen"></i></a></button>
-            <button><a class="user" matTooltip="Meeting Agenda" (click)="showForm()">
-                    <i class="fa fa-fw fa-solid fa-clipboard-list"></i></a></button>
-            <button><a class="user" matTooltip="More Info"><i class="fa fa-fw fa-solid fa-info-circle"></i></a></button>
-        </div>
-        <br>
-        <div class="affichage">
-            <h3>Meeting Title</h3>
-            <button><a class="user" matTooltip="Delete Meeting"><i class="fa fa-fw fa-solid fa-trash"></i></a></button>
-            <button><a class="user" matTooltip="Edit Meeting"><i class="fa fa-fw fa-solid fa-pen"></i></a></button>
-            <button><a class="user" matTooltip="Meeting Agenda" (click)="showForm()">
-                    <i class="fa fa-fw fa-solid fa-clipboard-list"></i></a></button>
-            <button><a class="user" matTooltip="More Info"><i class="fa fa-fw fa-solid fa-info-circle"></i></a></button>
-        </div>
-        <br>
-        <div class="affichage">
-            <h3>Meeting Title</h3>
-            <button><a class="user" matTooltip="Delete Meeting"><i class="fa fa-fw fa-solid fa-trash"></i></a></button>
-            <button><a class="user" matTooltip="Edit Meeting"><i class="fa fa-fw fa-solid fa-pen"></i></a></button>
-            <button><a class="user" matTooltip="Meeting Agenda" (click)="showForm()">
-                    <i class="fa fa-fw fa-solid fa-clipboard-list"></i></a></button>
-            <button><a class="user" matTooltip="More Info"><i class="fa fa-fw fa-solid fa-info-circle"></i></a></button>
-        </div>
+  <div class="main">
+    <div class="head">
+      <h2>Upcoming meetings</h2>
+      <div class="filters">
+        <label for="date">Date:</label>
+        <select id="date">
+          <option value="all">All</option>
+          <option value="today">Today</option>
+          <option value="tomorrow">Tomorrow</option>
+          <option value="this_week">This week</option>
+          <option value="next_week">Next week</option>
+        </select>
+      </div>
     </div>
-
+    <br>
+    <div *ngFor="let meeting of meetings" class="affichage">
+      <h3>{{ meeting.titre }}</h3>
+      <button><a class="user" matTooltip="Delete Meeting"><i class="fa fa-fw fa-solid fa-trash"></i></a></button>
+      <button><a class="user" matTooltip="Edit Meeting"><i class="fa fa-fw fa-solid fa-pen"></i></a></button>
+      <button (click)="getMeetingDetails(meeting)"><a class="user" matTooltip="Meeting Agenda" (click)="showForm()">
+          <i class="fa fa-fw fa-solid fa-clipboard-list"></i></a></button>
+      <button><a class="user" matTooltip="More Info"><i class="fa fa-fw fa-solid fa-info-circle"></i></a></button>
+    </div>
+  </div>
 </div>
 
 <div class="modal" *ngIf="showPopup" (click)="hideForm()">
-    <div class="modal-dialog" (click)="$event.stopPropagation()">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1>
-                    Meeting Agenda
-                </h1>
-            </div>
-            <hr>
-            <div class="modal-body">
-                <h1>Title</h1>
-                <div>Date : taw9iiit</div>
-                <div>Time : waaa9t</div>
-                <div>Leader : chkoounooo</div>
-                <div>Attendees : chkooun jeeey</div>
-                <div>Topics : bch nahkiiiiw ala</div>
-                <button (click)="hideForm()">Close</button>
-            </div>
-        </div>
+  <div class="modal-dialog" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>{{ selectedMeeting?.titre }}</h2>
+      </div>
+      <hr>
+      <div class="modal-body">
+        <p>Objective: {{ selectedMeeting?.objective }}</p>
+        <p>Duration: {{ selectedMeeting?.duree }} minutes</p>
+        <p>Organizer: {{ organizer?.nom_utilisateur }}</p>
+        <p>Team invited: {{ team?.titre }}</p>
+        <button (click)="hideForm()">Close</button>
+      </div>
     </div>
+  </div>
 </div>

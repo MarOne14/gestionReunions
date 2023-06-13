@@ -16,12 +16,24 @@
     <h2>{{ selectedAccount.prenom }} {{ selectedAccount.nom }}</h2>
     <div>{{ selectedAccount?.username }}</div>
     <div>{{ selectedAccount?.role }}</div>
-    <button class="btnlft" (click)="modifyRole(selectedAccount)">
-      {{ getRoleActionText(selectedAccount) }}
-    </button>
+    <ng-container *ngIf="selectedAccount.role === organisateur">
+      <button class="btnlft" (click)="promoteAccount(selectedAccount)">
+        Promote
+      </button>
+      <button class="btnlft" (click)="demoteAccount(selectedAccount)">
+        Demote
+      </button>
+    </ng-container>
+    <ng-container *ngIf="selectedAccount.role !== organisateur">
+      <button class="btnlft" (click)="modifyRole(selectedAccount)">
+        {{ getRoleActionText(selectedAccount) }}
+      </button>
+    </ng-container>
     <button class="btn">
-      <a  matTooltip="Delete User" (click)="deleteAccount(accountId)">
-          <i class="fa fa-fw fa-solid fa-trash"></i></a>
+      <a  matTooltip="Delete User" (click)="deleteAccount()">
+        <i class="fa fa-fw fa-solid fa-trash"></i>
+      </a>
     </button>
   </div>
+  
   

@@ -15,7 +15,6 @@ export class NavbarComponent {
   CurrentUser: any = null;
   email : string ;
   currentRole : string;
-  role : RoleType;
 
   
   constructor(private userService : AccountService, private authService : AuthService, private router: Router, public sideBar: SidebarService) {
@@ -32,10 +31,7 @@ export class NavbarComponent {
   toggleSidebar() {
     this.sideBar.toggle();
   }
-  hide(): boolean {
-    const currentRoute = this.router.url;
-    return currentRoute === '/menu2' || currentRoute === '/menu1';
-  }
+
   hide1(): boolean {
     const currentRoute = this.router.url;
     return currentRoute === '/menu3';
@@ -43,6 +39,10 @@ export class NavbarComponent {
 
   hide2() : boolean{
     return this.currentRole == RoleType.ADM
+  }
+
+  hide3() : boolean{
+    return this.currentRole == RoleType.ADM || this.currentRole == RoleType.ORG
   }
 
   /*******************New Meeting*************/

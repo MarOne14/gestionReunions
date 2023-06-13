@@ -15,8 +15,8 @@
         <div class="showbar">
           <div class="meet-task">
             <button class="team" (click)="showInfo()" [class.active]="list">Teams</button>
-            <button class="team" (click)="showusers()" [class.active]="pers">Users</button>
-            <button class="team" (click)="hideInfo()" [class.active]="calend">Calendrier</button>
+            <button class="team" *ngIf="hide2()" (click)="showusers()" [class.active]="pers">Users</button>
+            <button class="team" *ngIf="hide2()" (click)="hideInfo()" [class.active]="calend">Calendrier</button>
             <button (click)="showForm()" *ngIf="calend" matTooltip="Manage Calendrier" >
               <i class="fa fa-fw fa-cog"></i>
           </button>
