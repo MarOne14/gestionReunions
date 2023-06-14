@@ -14,6 +14,8 @@ export class ShowMeetComponent implements OnInit {
   selectedMeeting: any;
   organizer: any;
   team: any;
+  search : boolean;
+  idSearch : number;
 
   constructor(
     private reunionService: ReunionService,
@@ -23,17 +25,32 @@ export class ShowMeetComponent implements OnInit {
 
   ngOnInit() {
     this.getUpcomingMeetings();
+    this.searchMeeting();
+  }
+
+  searchMeeting(){
+    this.search = this.reunionService.getEtat();
+    console.log(this.search);
+    
+    if(this.search){
+    this.reunionService.getReunionByTitle().subscribe(
+      (idReunion) => {
+        this.idSearch = idReunion;
+        console.log(idReunion);
+      }
+    );
+    }
   }
 
   getUpcomingMeetings() {
-    this.reunionService.getReunionsByEtat().subscribe(
-      (meetings) => {
-        this.meetings = meetings;
-      },
-      (error) => {
-        console.log('Error fetching meetings:', error);
-      }
-    );
+      this.reunionService.getReunionsByEtat().subscribe(
+        (meetings) => {
+          this.meetings = meetings;
+        },
+        (error) => {
+          console.log('Error fetching meetings:', error);
+        }
+      );
   }
 
   showForm() {

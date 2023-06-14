@@ -8,8 +8,24 @@ import { Observable } from 'rxjs';
 export class ReunionService {
 
   private baseUrl = 'http://localhost:3000/reunions';
+  title : string;
+  etat : boolean;
 
   constructor(private http: HttpClient) {}
+
+  setTitle(titre : string){
+    this.title = titre;
+    this.etat = false;
+  }
+  getTitle():string{
+    return this.title;
+  }
+  getEtat():boolean{
+    return this.etat;
+  }
+  setEtat(){
+    this.etat = false;
+  }
 
   getAllReunions(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}`);
@@ -31,8 +47,8 @@ export class ReunionService {
     return this.http.get<any[]>(`${this.baseUrl}/etat/cree`);
   }
 
-  getReunionIdByTitle(title: string): Observable<number> {
-    return this.http.get<number>(`${this.baseUrl}/${title}`);
+  getReunionByTitle(): Observable<any> {
+    return this.http.get<number>(`${this.baseUrl}/title/${this.title}`);
   }
 
   getLastReunionItemId(): Observable<any> {

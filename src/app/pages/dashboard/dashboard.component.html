@@ -16,8 +16,8 @@
                 <button class="calendar" (click)="showCalendar()" [class.active]="Calendar">Calendar</button>
             </div>
             <div class="search-bar" >
-                <input type="text" (click)="showMeet()" placeholder="Search meetings...">
-                <button><i class="fa fa-search"></i></button>
+                <input type="text" (click)="showMeet()" placeholder="Search meetings..." name="title" [(ngModel)]="title" >
+                <button  ><i (click)="search()" class="fa fa-search"></i></button>
             </div>
         </div>
         <br><br><br><br><br><br><br>
